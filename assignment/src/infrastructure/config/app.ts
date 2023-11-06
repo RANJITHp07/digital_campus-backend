@@ -1,0 +1,28 @@
+import express from "express";
+import cors from "cors";
+import morgan from "morgan";
+import dotenv from "dotenv";
+
+
+
+
+export const  createServer = async() => {
+  
+    // Config
+    const app:any= express();
+
+    await server.start();
+
+    server.applyMiddleware({ app });
+
+    dotenv.config()
+    app.use(express.json());
+    app.use(cors());
+    app.use(morgan("dev"));
+   
+
+
+
+    return app;
+  
+};
