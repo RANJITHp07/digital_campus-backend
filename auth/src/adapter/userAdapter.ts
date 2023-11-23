@@ -1,6 +1,7 @@
 import { Next, Req, Res } from "../infrastructure/types/expressTypes";
 import { Userusecase } from "../usecase/userusecase";
 
+
 export class  UserAdapter{
    
     private readonly userusecase: Userusecase
@@ -13,6 +14,7 @@ export class  UserAdapter{
           try{
              const {firstName,lastName,username,password,email,}=req.body
              const newUser= await this.userusecase.createUser(firstName,lastName,username,email,password)
+             console.log(newUser)
              res.status(newUser.status).json({
                 success:newUser.success,
                 message:newUser.message
@@ -53,14 +55,27 @@ export class  UserAdapter{
     async getUser(req:Req,res:Res,next:Next){
        try{
           const getUser=await this.userusecase.getUser(req.params.email);
-          res.status(200).json({
+          res.status(getUser.status).json({
             success: getUser.success,
             data:getUser.data,
             message:getUser.message
           })
        }catch(err){
-        throw err
+        next(err)
        }
+    }
+
+    async updateUser(req:Req,res:Res,next:Next){
+      try{
+         const {id,update}=req.body
+         const updateUser=await this.userusecase.updateUser(id,update)
+         res.status(updateUser.status).json({
+          success: updateUser.success,
+          message: updateUser.message
+        })
+      }catch(err){
+        next(err)
+      }
     }
 
     async sendEmail(req:Req,res:Res,next:Next){
@@ -82,6 +97,18 @@ export class  UserAdapter{
         res.status(user.status).json({
           success:user.success,
           data:user.data
+        }
+        )
+     }catch(err){
+         next(err)
+     }
+    }
+
+    async resetPassword(req:Req,res:Res,next:Next){
+      try{
+        const user=await this.userusecase.checkPassword(req.body.id,req.body.password)
+        res.status(user.status).json({
+          message:user.message
         }
         )
      }catch(err){

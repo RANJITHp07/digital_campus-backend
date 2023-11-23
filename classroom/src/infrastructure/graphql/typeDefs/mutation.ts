@@ -6,12 +6,12 @@ export const classRoomMutation=gql`
      className:String!,
     classSection:String!,
     classSubject:String!,
+    creator:String!
     students_enrolled:[String!],
     admins:[String]!
    }
 
    type Output{
-     success:Boolean!,
      message:String!
    }
 
@@ -22,7 +22,7 @@ export const classRoomMutation=gql`
 
 
    type  Mutation{
-     createClass(classroom:Classroom): Output!
+     createClass(classroom:Classroom): ClassRoom!
      deleteClass(id:String!):Output!
      updateClass(id:String!):Output!
      addStudent(addstudent:AddStudent):Output!

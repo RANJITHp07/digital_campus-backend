@@ -1,89 +1,97 @@
-import { UserInputError } from "apollo-server-express";
 import { IClassroom } from "../entities/classroom";
 import { ErrorHandler } from "../infrastructure/middleware/error/userErrorhandler";
 import { ClassRoomRepository } from "../infrastructure/repository/classroomRepository";
 import { RandomNumber } from "../infrastructure/repository/uniqueNumberRepository";
+import Publisher from "../infrastructure/repository/publishrepository";
+import Listener from "../infrastructure/repository/listenrepository";
 
 export class Classroomusecase{
  
      private readonly classroomrepository:ClassRoomRepository
      private readonly randomGenerator: RandomNumber
      private readonly errorHandler:ErrorHandler
+     private readonly publish:Publisher
+     private readonly listen:Listener
 
-     constructor(classroomrepository:ClassRoomRepository,randomGenerator:RandomNumber,errorHandler:ErrorHandler) {
+     constructor(classroomrepository:ClassRoomRepository,randomGenerator:RandomNumber,errorHandler:ErrorHandler,publish:Publisher,listen:Listener) {
          this.classroomrepository = classroomrepository;
          this.randomGenerator = randomGenerator;
          this.errorHandler=errorHandler;
+         this.publish=publish;
+         this.listen=listen;
      }
 
+     //to create the classroom
      async create(classroom:IClassroom):Promise<unknown>{
         try{
           const code=await this.randomGenerator.generateUniqueRandomCode()
            const newClasroom={...classroom,classCode:code}
             const newclassroom= await this.classroomrepository.create(newClasroom)
-            return {
-               success:true,
-               message:newclassroom
-            }
+
+          //   await this.publish.publish("")
+            return newclassroom
+            
         }catch(err){
-          this.errorHandler.graphqlError("INTERNAL_SERVER",err,"internal server error occured")
+          this.errorHandler.apolloError(err)
         }
      }
 
+
+     //to update the classroom
      async update(id:string,update:Partial<IClassroom>):Promise<unknown>{
           try{
                const updateClassroom=await this.classroomrepository.update(id,update);
-               return {
-                    success:true,
-                    messsage:updateClassroom
-               }
+               return updateClassroom ? {
+                    message:"Sucessfully updated"
+               } : this.errorHandler.userInputerror("Wrong clasroom id")
           }catch(err){
-                 this.errorHandler.graphqlError("INTERNAL_SERVER",err,"internal server error occured")
+                 this.errorHandler.apolloError(err)
           }
      }
 
+     // to delete the existing classroom
      async delete(id:string){
           try{
                const deleteClassroom=await this.classroomrepository.delete(id);
-               return {
-                    success:true,
-                    messsage:deleteClassroom
-               }
+               // if id exist delete or else return an error
+               return deleteClassroom ? {
+                    message:"Successfully deleted"
+               } : this.errorHandler.userInputerror("Wrong clasroom id")
           }catch(err){
-               return this.errorHandler.graphqlError("INTERNAL_SERVER",err,"internal server error occured")
+               this.errorHandler.apolloError(err)
           }
      }
 
+
+
+    //to add a student into
      async addUser(code:string,userId:string,type:boolean):Promise<unknown>{
           try{
               const classroom=await this.classroomrepository.getClassroom(code)
-              let adduser:string;
               if(classroom?.students_enrolled){
               if(type){
                 if(classroom.students_enrolled.includes(userId)){
-                    return {
-                         success:false,
-                         message:"Already inside classroom"
-                        }
+                    //if student is already inside the classroom
+                    this.errorHandler.graphqlError("Already inside the classroom",'')
                 }
                classroom.students_enrolled.push(userId);
               }else{
                classroom.students_enrolled = classroom.students_enrolled.filter(studentId => studentId !== userId);
               }
-              adduser=await this.classroomrepository.create(classroom)
+              let adduser=await this.classroomrepository.create(classroom);
+
+              // publishing the added student into the assignment service
+              await this.publish.publish("exchange4","addStudentrouting",{id:adduser._id,admin:adduser.admins,student_enrollment:adduser.students_enrolled})
+              
               return {
-                  success:true,
-                  message:adduser
+                  message:"Added to the classroom"
               }
           }else{
-              return {
-               success:true,
-               message:"No such  classroom"
-              }
+               //if code does not exist
+              this.errorHandler.userInputerror("No such classroom")
           }
           }catch(err){
-               
-               this.errorHandler.graphqlError("INTERNAL_SERVER",err,"internal server error occured")
+               this.errorHandler.apolloError(err)
           }
      }
 
@@ -93,9 +101,9 @@ export class Classroomusecase{
                if(classroom){
                     return classroom;
                }
-               return null
+               this.errorHandler.userInputerror("No such code")
           }catch(err){
-               this.errorHandler.graphqlError("INTERNAL_SERVER",err,"internal server error occured")
+               this.errorHandler.apolloError(err)
           }
      }
 
@@ -104,7 +112,7 @@ export class Classroomusecase{
              const classroom:IClassroom[]=await this.classroomrepository.getAllClassroom(id)
              return classroom
           }catch(err){
-               this.errorHandler.graphqlError("INTERNAL_SERVER",err,"internal server error occured")
+               this.errorHandler.apolloError(err)
           }
      }
 
@@ -113,9 +121,36 @@ export class Classroomusecase{
              const classroom:IClassroom[]=await this.classroomrepository.getCreatorClassrooms(id)
              return classroom
           }catch(err){
-               this.errorHandler.graphqlError("INTERNAL_SERVER",err,"internal server error occured")
+               this.errorHandler.apolloError(err)
+          }
+     }
+
+     async getAllClassroomparticipants(id:string){
+          try{
+            const classroom=await this.classroomrepository.getAllparticipants(id);
+            await this.publish.publish("exchange4","details",{adminId:classroom?.admins, studentId:classroom?.students_enrolled});
+            const details = await new Promise((resolve) => {
+               this.listen.listen("exchange7", "Jobs", (data) => {
+                    console.log(data)
+                 const mergedData:any =[]
+               
+                 resolve(mergedData);
+               });
+             });
+          }catch(err){
+               this.errorHandler.apolloError(err)
+          }
+          }
+
+          async getClassroomDetail(id:string){
+               try{
+                    const classroom=await this.classroomrepository.getAllparticipants(id);
+                    return classroom
+               }catch(err){
+                    this.errorHandler.apolloError(err)
+               }
           }
      }
 
 
-}
+

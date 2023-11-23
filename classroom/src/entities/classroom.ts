@@ -4,6 +4,7 @@ export interface IClassroom{
     className:string,
     classSection:string,
     classSubject:string,
+    creator:string,
     students_enrolled:string[],
     admins:[string],
     classCode:string,

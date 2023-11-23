@@ -17,7 +17,7 @@ export class ClassroomController{
             const newClassroom=await this.classroomusecase.create(args.classroom)
             return newClassroom
         }catch(err){
-            this.errorHandler.apolloError("INTERNAL_ERROR",err)
+            this.errorHandler.apolloError(err)
         }
     }
 
@@ -26,7 +26,7 @@ export class ClassroomController{
            const updatedClassroom = await this.classroomusecase.update(args.id,args.update)
            return updatedClassroom
         }catch(err){
-            this.errorHandler.apolloError("INTERNAL_ERROR",err)
+            this.errorHandler.apolloError(err)
         }
     }
 
@@ -35,16 +35,16 @@ export class ClassroomController{
             const deletedClass=await this.classroomusecase.delete(args.id)
             return deletedClass
         }catch(err){
-            this.errorHandler.apolloError("INTERNAL_ERROR",err)
+            this.errorHandler.apolloError(err)
         }
     }
 
     async getClass(_:unknown,args:{code:string}){
         try{
-             const classroom=await this.classroomusecase.getClassroom(args.code)
+            const classroom=await this.classroomusecase.getClassroom(args.code)
              return classroom
         }catch(err){
-            this.errorHandler.apolloError("INTERNAL_ERROR",err)
+            this.errorHandler.apolloError(err)
         }
     }
 
@@ -54,7 +54,7 @@ export class ClassroomController{
             const adduser=await this.classroomusecase.addUser(code,userId,true)
             return adduser
         }catch(err){
-            this.errorHandler.apolloError("INTERNAL_ERROR",err)
+            this.errorHandler.apolloError(err)
         }
     }
 
@@ -64,7 +64,7 @@ export class ClassroomController{
             const deletedStudent=await this.classroomusecase.addUser(code,userId,false)
             return deletedStudent
         }catch(err){
-            this.errorHandler.apolloError("INTERNAL_ERROR",err)
+            this.errorHandler.apolloError(err)
         }
     }
 
@@ -74,7 +74,7 @@ export class ClassroomController{
            const classrooms=await this.classroomusecase.getAllclassroom(args.id)
            return classrooms
         }catch(err){
-            this.errorHandler.apolloError("INTERNAL_ERROR",err)
+            this.errorHandler.apolloError(err)
         }
     }
 
@@ -83,8 +83,26 @@ export class ClassroomController{
         const classrooms=await this.classroomusecase.getCreatorclassroom(args.id)
         return classrooms
     }catch(err){
-        this.errorHandler.apolloError("INTERNAL_ERROR",err)
+        this.errorHandler.apolloError(err)
     }
+   }
+
+   async getAllparticipants(_:unknown,args:{id:string}){
+    try{
+        const classrooms=await this.classroomusecase.getAllClassroomparticipants(args.id)
+        return classrooms
+    }catch(err){
+        this.errorHandler.apolloError(err)
+    }
+   }
+
+   async getClassroomDetails(_:unknown,args:{id:string}){
+      try{
+          const classroom = await this.classroomusecase.getClassroomDetail(args.id);
+          return classroom
+      }catch(err){
+        this.errorHandler.apolloError(err)
+      }
    }
 
     

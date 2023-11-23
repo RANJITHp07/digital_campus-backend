@@ -5,6 +5,7 @@ interface IClassroom extends Document {
     className:string,
     classSection:string,
     classSubject:string,
+    creator:string,
     students_enrolled:[string],
     admins:[string],
     classCode:string,
@@ -23,6 +24,10 @@ const classroomSchema = new Schema<IClassroom>({
     classSubject: {
       type: String,
       required: true
+    },
+    creator:{
+      type:String,
+      required:true
     },
     students_enrolled: [{
       type: String

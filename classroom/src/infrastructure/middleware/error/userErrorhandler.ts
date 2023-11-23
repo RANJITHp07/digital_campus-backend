@@ -3,8 +3,8 @@ import { ApolloError } from "apollo-server";
 import { UserInputError } from "apollo-server";
 
 export class ErrorHandler {
-  graphqlError(message: string, err: any, code: string) {
-    throw new GraphQLError(message + err, {
+  graphqlError(message: string, code: string) {
+    throw new GraphQLError(message, {
       extensions: {
         code: code,
         
@@ -12,9 +12,13 @@ export class ErrorHandler {
     });
   }
 
+  userInputerror(message:string){
+    throw new UserInputError(message);
+  }
 
-  apolloError(message: string, err: any) {
-    throw new ApolloError(message + ' ' + err);
+
+  apolloError(err: any) {
+    throw new ApolloError(err);
   }
 
 

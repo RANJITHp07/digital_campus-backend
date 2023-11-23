@@ -2,11 +2,16 @@ import IJWT from "../../usecase/interface/jwt";
 import jwt from "jsonwebtoken"
 
 class jwtPassword implements IJWT{
-    createJWT(userId:number): string {
+    createJWT(userId:number,email:string,role:string,name:string): string {
         const jwtKey=process.env.JWT_KEY
         if (jwtKey) {
             const token:string = jwt.sign(
-              { id: userId},
+              { id: userId,
+                email:email,
+                role:role,
+                name:name,
+              
+              },
               jwtKey
             );
             return token

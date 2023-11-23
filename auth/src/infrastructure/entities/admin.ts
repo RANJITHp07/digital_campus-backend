@@ -4,8 +4,8 @@ import { Auth } from './utils/auth';
 @Entity()
 export class Admin extends Auth {
     @Column({
-        type:'varchar'
+        default: 'admin',
+        nullable: false,
     })
-    admin_id:string
-
+    role: string;
 }
