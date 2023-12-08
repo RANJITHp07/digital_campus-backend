@@ -26,10 +26,13 @@ const router= express.Router();
 //routes of user 
 router.post("/signup",validateMiddleware,(req:Request, res:Response,next:NextFunction)=>useradapter.createUser(req,res,next));
 router.post("/login",(req:Request, res:Response,next:NextFunction)=>useradapter.loginUser(req,res,next));
-router.get("/getAllusers",(req:Request, res:Response,next:NextFunction)=>useradapter.getAllusers(req,res,next));
 router.put("/updateUser",(req:Request, res:Response,next:NextFunction)=>useradapter.updateUser(req,res,next))
 router.get("/:email",(req:Request, res:Response,next:NextFunction)=>useradapter.getUser(req,res,next));
-router.put("/restPassword",(req:Request, res:Response,next:NextFunction)=>useradapter.resetPassword(req,res,next))
+router.patch("/resetPassword",(req:Request, res:Response,next:NextFunction)=>useradapter.resetPassword(req,res,next))
+router.get("/pagination/page",(req:Request, res:Response,next:NextFunction)=>useradapter.paginateUsers(req,res,next))
+router.get("/searchUser/page",(req:Request, res:Response,next:NextFunction)=>useradapter.searchUser(req,res,next))
+router.get("/get/getAllusers",(req:Request, res:Response,next:NextFunction)=>useradapter.getAllusers(req,res,next))
+
 
 //routes for email verification
 router.post("/sendEmail",(req:Request, res:Response,next:NextFunction)=>useradapter.sendEmail(req,res,next));

@@ -21,6 +21,10 @@ export const  createServer = () => {
     //routes
     app.use("/v1/api/auth/user",userRoute)
     app.use("/v1/api/auth/admin",adminRoute)
+
+
+
+    //error handling middleware
     app.use(errorMiddleware)
    
 

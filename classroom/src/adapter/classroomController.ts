@@ -105,5 +105,61 @@ export class ClassroomController{
       }
    }
 
+   async getAllTheClasroom(_:unknown,args:{id:string}){
+    try{
+        const classroom = await this.classroomusecase.getAllTheClassroom(args.id);
+        return classroom
+    }catch(err){
+      this.errorHandler.apolloError(err)
+    }
+ }
+
+   async getclassroom(_:unknown,args:unknown){
+      try{
+           const classroom=await this.classroomusecase.getclassroom()
+           return classroom
+      }catch(err){
+        this.errorHandler.apolloError(err)
+      }
+   }
+
+   async getFilteredclassroom(_:unknown,args:{id:string,category:string[]}){
+      try{
+         const classrooms=await this.classroomusecase.getFilteredclassroom(args.id,args.category)
+         return classrooms
+      }catch(err){
+        this.errorHandler.apolloError(err)
+      }
+   }
+
+   async addToAdmin(_:unknown,args:{id:string,classroomId:string}){
+    try{
+        const addedAdmin=await this.classroomusecase.addToAdmin(args.id,args.classroomId)
+        return addedAdmin
+    }catch(err){
+        this.errorHandler.apolloError(err)
+    }
+   }
+
+   async removeFromAdmin(_:unknown,args:{id:string,classroomId:string}){
+    try{
+        const addedAdmin=await this.classroomusecase.removeFromAdmin(args.id,args.classroomId)
+        return addedAdmin
+    }catch(err){
+        this.errorHandler.apolloError(err)
+    }
+   }
+
+   async emailInviation(_:unknown,args:{invitation:{
+    fromEmail:string,toEmail: string, username: string,creator:string,code:string}}){
+        try{
+            const {fromEmail,toEmail,username,creator,code}=args.invitation
+            const inivitation=await this.classroomusecase.emailInvitation(fromEmail,toEmail,username,creator,code)
+            return inivitation
+            
+        }catch(err){
+            this.errorHandler.apolloError(err)
+        }
+    }
     
 }

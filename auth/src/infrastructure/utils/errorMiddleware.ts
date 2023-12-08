@@ -1,5 +1,5 @@
 import { createLogger, format, transports, Logger } from 'winston';
-import { ErrorRequestHandler, Request, Response } from 'express';
+import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 
 // Create a logger instance
 const logger: Logger = createLogger({
@@ -17,10 +17,11 @@ function logError(error: Error): void {
   logger.error(error.message, { error: error.stack });
 }
 
-const errorMiddleware: ErrorRequestHandler = (
+const  errorMiddleware: ErrorRequestHandler = (
   err: Error,
   req: Request,
   res: Response,
+  next: NextFunction
 ) => {
   // Log the error
   logError(err);
@@ -28,7 +29,7 @@ const errorMiddleware: ErrorRequestHandler = (
   if (err.name === 'ValidationError') {
     res.status(400).json({ error: err.message });
   } else {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: err.message });
   }
 };
 

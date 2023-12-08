@@ -1,12 +1,12 @@
 import { createServer } from "./infrastructure/config/app";
 import { db } from "./infrastructure/config/db"
-import { RabbitmquserDetails } from "./infrastructure/middleware/rabbitmqMiddleware";
+import { RabbitmquserDetails } from "./infrastructure/utils/rabbitmqMiddleware";
 
 
 const app=createServer();
 
-const rabbitmq =async()=>{
-    await RabbitmquserDetails()
+const rabbitmq=async()=>{
+   await RabbitmquserDetails()
 }
 
 rabbitmq()

@@ -39,17 +39,6 @@ export class  UserAdapter{
     }
 
 
-    async getAllusers(req:Req,res:Res,next:Next){
-      try{
-          const allUsers=await this.userusecase.getAllUsers();
-          res.status(allUsers.status).json({
-            success:allUsers.success,
-            data:allUsers.data
-          })
-      }catch(err){
-        next(err)
-      }
-    }
 
 
     async getUser(req:Req,res:Res,next:Next){
@@ -106,13 +95,49 @@ export class  UserAdapter{
 
     async resetPassword(req:Req,res:Res,next:Next){
       try{
-        const user=await this.userusecase.checkPassword(req.body.id,req.body.password)
+        const user=await this.userusecase.checkPassword(req.body.bcryptPassword,req.body.oldpassword,req.body.update.password,req.body.id)
         res.status(user.status).json({
-          message:user.message
+          message:user.message,
+          success:user.success
         }
         )
      }catch(err){
          next(err)
      }
     }
+
+    //to paginate user
+    async paginateUsers(req:Req,res:Res,next:Next){
+      try{
+        let paginateNumber = parseInt(req.query.page as string);
+         const users=await this.userusecase.paginateUser(paginateNumber)
+         res.status(users.status).json({
+          data:users.data
+        })
+      }catch(err){
+        console.log(err)
+        next(err)
+      }
+    }
+
+
+    async searchUser(req:Req,res:Res,next:Next){
+      try{
+         let query=req.query.search as string
+          let users=await this.userusecase.searchUser(query,1)
+          res.status(users.status).json({
+            data:users.data
+          })
+      }catch(err){
+        next(err)
+      }
+    }
+
+    async getAllusers(req:Req,res:Res,next:Next){
+       const users=await this.userusecase.getAllusers();
+       res.status(users.status).json({
+        data:users.data
+      })
+    }
+
 }

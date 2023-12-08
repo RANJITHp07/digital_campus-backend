@@ -14,7 +14,8 @@ export class Adminusecase{
      this.jwt = jwt
   }
 
-
+  //to check whether a admin is created if not create a admin and also to check whether the 
+  //credentials entered is true or not
   async createAdmin(email:string, password:string){
     try{
        const admin= await this.adminRepository.findAdmin(email);

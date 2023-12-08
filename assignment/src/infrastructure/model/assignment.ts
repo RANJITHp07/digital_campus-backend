@@ -1,50 +1,90 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-
-interface IAssigment extends Document {
-    assigmentType: "Assignment" | "Quiz" | "Announcement" | "Question" | "Material" | "Others";
+interface IAssignment extends Document {
+    assignmentType: "Assignment" | "Quiz" | "Announcement" | "Question" | "Material" | "Polling";
     mainTopic: string;
     dueDate: {
         day: string;
         time: string;
     };
-    class_id: Schema.Types.ObjectId;
+    title: string;
+    class_id: string[];
     students: string[];
+    instruction?: string;
+    points:number;
+    attachment?: {
+        type: string;
+        content: string;
+    };
+    creator:string
+    polling:{
+    answers:string[],
+    polling:number[]
+    }
 }
 
-
-const assignmentSchema = new Schema<IAssigment>({
-    assigmentType: {
+const assignmentSchema = new Schema<IAssignment>({
+    assignmentType: {
         type: String,
-        enum: ["Assignment", "Quiz", "Announcement", "Question", "Material", "Others"],
-        required: true
+        enum: ["Assignment", "Quiz", "Announcement", "Question", "Material", "Polling"],
+        required: true,
     },
     mainTopic: {
         type: String,
     },
+    title: {
+        type: String,
+        required: true,
+    },
     dueDate: {
         day: {
             type: String,
-           
+            
         },
         time: {
             type: String,
-           
-        }
+            
+        },
     },
-    
     class_id: {
-        type: Schema.Types.ObjectId,
-        required: true
+        type: [String],
+        required: true,
     },
-
-    students: [
-        {
-            type: String
+    students: {
+        type: [String],
+        required: true,
+    },
+    points:{
+        type:Number
+    },
+    instruction: {
+        type: String,
+    },
+    attachment: {
+        type: {
+            type: String,
+        },
+        content: {
+            type: String,
+        },
+    },
+    creator:{
+        type:String,
+        required:true
+    },
+    polling:{
+        answers: {
+            type: [String],
+        },
+        polling: {
+            type: [Number],
+        },
         }
-    ]
-});
+},{
+    timestamps:true
+}
+);
 
-const Assignment = mongoose.model<IAssigment>('Assignment', assignmentSchema);
+const Assignment = mongoose.model<IAssignment>('Assignment', assignmentSchema);
 
 export default Assignment;

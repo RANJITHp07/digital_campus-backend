@@ -10,6 +10,9 @@ interface IClassroom extends Document {
     admins:[string],
     classCode:string,
     backgroundPicture:string,
+    themeColor:string,
+    category:string,
+    block:boolean
 }
 
 const classroomSchema = new Schema<IClassroom>({
@@ -42,6 +45,17 @@ const classroomSchema = new Schema<IClassroom>({
       backgroundPicture: {
         type: String,
       },
+      themeColor:{
+        type: String,
+        default:'#3b6a87'
+      },
+      category:{
+        type:String
+      },
+      block:{
+        type:Boolean,
+        deafult:false
+      }
     });     
 
 const classroomModel = mongoose.model<IClassroom>('Classroom', classroomSchema);

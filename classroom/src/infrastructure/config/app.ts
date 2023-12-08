@@ -1,4 +1,4 @@
-import express,{Application, Express} from "express";
+import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
@@ -13,7 +13,7 @@ export const  createServer = async() => {
 
     await server.start();
 
-    server.applyMiddleware({ app });
+    server.applyMiddleware({ app,path:'/classroom' });
 
     dotenv.config()
     app.use(express.json());

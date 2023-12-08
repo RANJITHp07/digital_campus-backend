@@ -27,6 +27,16 @@ export class Users extends Auth {
    profile:string
 
    @Column({
+      nullable:true
+   })
+   about:string
+
+   @Column({
+      nullable:true
+   })
+   education:string
+
+   @Column({
       default: 'user', 
       nullable: false,
   })

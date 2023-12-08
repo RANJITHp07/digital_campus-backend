@@ -61,10 +61,10 @@ export class Userusecase{
         try{
             const user:IUser | null=await this.userRepository.findUser(email);
 
-            if(user){
+            if(user && user.id){
                 const match:boolean=await this.bcrypt.compare(password,user.password);
                if(match){
-                if(user.id){
+               
                     const token=this.jwt.createJWT(user.id,user.email,"user",user.username)
                     return {
                       status:200,
@@ -72,8 +72,6 @@ export class Userusecase{
                       data:token,
                       message:"Sucessfully logged In"
                     }
-                }
-                return null
                 
                }else{
                 return {
@@ -93,22 +91,6 @@ export class Userusecase{
             throw err
         }
     }
-
-
-    //to get All the users
-    async getAllUsers(){
-        try{ 
-            const allUsers=await this.userRepository.findAll();
-            return {
-                status:200,
-                success:true,
-                data:allUsers
-            }
-        }catch(err){
-            throw err
-        }
-    }
-
 
     //to find the user using email
     async getUser(email:string){
@@ -134,6 +116,9 @@ export class Userusecase{
     //to update the user details
     async updateUser(id:number,update:Partial<IUser>){
         try{
+            if(update.password){
+                update.password=await this.bcrypt.createHash(update.password)
+            }
           const updatedUser=await this.userRepository.update(id,update)
           return updatedUser ?
           {
@@ -200,27 +185,79 @@ export class Userusecase{
       }
     }
 
-    async checkPassword(password:string,id:number){
-        try{ 
-              const user=await this.userRepository.checkPassword(password)
-              if(user){
-                const update={
-                    password
+    async checkPassword(bcryptPassword: string, oldPassword: string, newPassword: string, id: number) {
+        try {
+
+            const user = await this.userRepository.checkPassword(bcryptPassword);
+            if (user) {
+                if (await this.bcrypt.compare(oldPassword,user.password)) {
+                    const hashedPassword = await this.bcrypt.createHash(newPassword);
+                    const update = {
+                        password: hashedPassword
+                    };
+                    await this.userRepository.update(id, update);
+                    return {
+                        status: 200,
+                        success: true,
+                        message: "Password Changed"
+                    };
+                } else {
+                    return {
+                        status: 401,
+                        success: false,
+                        message: "Old password not matching"
+                    };
                 }
-                await this.userRepository.update(id,update)
+            } else {
                 return {
-                    status:200,
-                    message:"Password Changed"
-                }
-              }else{
-                return {
-                    status:401,
-                    message:"Old password not matching"
-                }
-              }
+                    status: 401,
+                    success: false,
+                    message: "User not found"
+                };
+            }
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+    
+
+    // pagination of the users collection
+    async paginateUser(pageNumber:number){
+        try{
+            const users=await this.userRepository.paginateUsers(pageNumber);
+            return {
+                status:200,
+                data:users
+            }
         }catch(err){
             throw err
         }
     }
+
+
+    //to search user
+    async searchUser(query:string,pagination:number){
+        try{
+       
+           const users=await this.userRepository.searchUser(pagination,query);
+           return{
+            status:200,
+            data:users
+           }
+        }catch(err){
+            throw err
+        }
+    }
+
+    async getAllusers(){
+        const users=await this.userRepository.getAlluser()
+        return {
+            status:200,
+            data:users
+        }
+    }
+
+
 
 }

@@ -13,6 +13,7 @@ class Publisher implements IPublish{
     this.isConnected = false;
   }
 
+  //to publish in a queue
   async publish(exchange: string, routingKey: string, data: unknown): Promise<boolean> {
     await this.ensureConnection();
 

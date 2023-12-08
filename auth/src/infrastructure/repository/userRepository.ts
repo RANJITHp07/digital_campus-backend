@@ -2,6 +2,8 @@ import { DeepPartial } from "typeorm";
 import { IUser } from "../../domain/user";
 import { IUserRepository } from "../../usecase/interface/userRepository";
 import { Users } from "../entities/user";
+import { redis } from "../config/redis";
+import { Like,In } from 'typeorm';
 
 
 export class UserRepository  implements IUserRepository{
@@ -22,12 +24,20 @@ export class UserRepository  implements IUserRepository{
      // checking whether a user exist using email
     async findUser(email:string):Promise<IUser | null>{
           try{
+            const cachedUser= await redis.get(email);
+             if(cachedUser){
+                return JSON.parse(cachedUser)
+             }
               const user=await Users.findOne({  
                 where:{
                     email:email
                 }
               })
-              if(user) return user
+              if(user){
+                await redis.set(email,JSON.stringify(user))
+                await redis.expire(email, 3600);
+                return user
+              } 
 
               return null
           }catch(err){
@@ -35,15 +45,6 @@ export class UserRepository  implements IUserRepository{
           }
     }
 
-    //to find all the users 
-    async findAll():Promise<IUser[]>{
-        try{
-           const allUsers:IUser[]=await Users.find();
-           return  allUsers
-        }catch(err){
-            throw err
-        }
-    }
 
     //to update the user details
     async update(id:number,update:Partial<IUser>):Promise<IUser | null >{
@@ -56,7 +57,7 @@ export class UserRepository  implements IUserRepository{
            if(user){
             Object.assign(user, update);//to merge both objects
              await Users.save(user); 
-      
+            await redis.set(user.email,JSON.stringify(user))
             return user;
            }
            return null
@@ -65,21 +66,62 @@ export class UserRepository  implements IUserRepository{
         }
     }
 
-    async  getAllParticipants(data: any) {
+    //to get users data using pagination
+    async paginateUsers(pageNumber: number): Promise<IUser[]> {
         try {
-        //   const participants = await Users.find({
-        //     select: ['id', 'username', 'profile'],
-        //     where: { id: parseInt('b1e82c7c-a026-46f9-aaf4-8954d1254744')},
-        //   });
-      
-        //   return participants;
-        console.log(data)
-        } catch (err) {
-          throw err;
+          const users = await Users.find({
+            skip: (pageNumber - 1) * 1,
+            take:1,
+          });
+          return users;
+        } catch (error) {
+          throw error;
         }
       }
 
-      async checkPassword(password: string){
+
+
+   //to get the user using filtration
+   async searchUser(pageNumber: number, searchQuery: string): Promise<IUser[]> {
+  try {
+    const users = await Users.find({
+      where: [
+        { email: Like(`%${searchQuery}%`) },
+      ],
+      skip: (pageNumber - 1) *2,
+      take: 2,
+    });
+    console.log(searchQuery)
+
+    return users;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+async getAllparticipants( userIds: number[]): Promise<IUser[]> {
+  try {
+    const users = await Users.find({
+      where: {
+        id: In(userIds),
+      },
+      select:['username','profile',"id"]
+    });
+
+    return users;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async getAlluser(){
+  const user=await Users.find()
+  return user
+}
+   
+
+async checkPassword(password: string){
         const user=await Users.findOne({  
             where:{
                password:password

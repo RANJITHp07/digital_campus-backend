@@ -8,6 +8,7 @@ export class AdminRepository implements IAdminRepository {
 
     constructor(Admin:any){}
 
+    //to create an admin
     async create(newAdmin: IAdmin): Promise<IAdmin>{
        try{
         const admin=Admin.create(newAdmin as DeepPartial<Admin>);

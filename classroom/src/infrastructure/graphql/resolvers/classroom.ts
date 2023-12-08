@@ -5,6 +5,7 @@ import { ErrorHandler } from "../../middleware/error/userErrorhandler"
 import classroomModel from "../../models/classroom"
 import { ClassRoomRepository } from "../../repository/classroomRepository"
 import Listener from "../../repository/listenrepository"
+import Nodemailer from "../../repository/nodemailerRepository"
 import Publisher from "../../repository/publishrepository"
 import { RandomNumber } from "../../repository/uniqueNumberRepository"
 
@@ -14,9 +15,10 @@ const model=new classroomModel()
 const repository=new ClassRoomRepository(model)
 const code=new RandomNumber()
 const errorHandler=new ErrorHandler()
+const nodemailer=new Nodemailer()
 const publish=new Publisher()
 const listner=new Listener()
-const usecase=new Classroomusecase(repository,code,errorHandler,publish,listner)
+const usecase=new Classroomusecase(repository,code,errorHandler,publish,listner,nodemailer)
 const controller =new ClassroomController(usecase,errorHandler)
 
 
@@ -58,12 +60,39 @@ export const resolver={
          }
       },
 
+      async getclassroom(_:unknown,args:any){
+         try{
+               const classroom = await controller.getclassroom(_,args)
+               return classroom
+         }catch(err){
+            errorHandler.apolloError(err)
+         }
+      },
+
       async getClassroomDetails(_:unknown,args:{id:string}){
          try{
             const classroom=await controller.getClassroomDetails(_,args)
             return classroom
          }catch(err){
             errorHandler.apolloError(err)
+         }
+      },
+
+      async getAllTheClassroom(_:unknown,args:{id:string}){
+         try{
+            const classroom=await controller.getAllTheClasroom(_,args)
+            return classroom
+         }catch(err){
+            errorHandler.apolloError(err)
+         }
+      },
+
+      async getFilteredClassroom(_:unknown,args:{id:string,category:string[]}){
+         try{
+            const classroom=await controller.getFilteredclassroom(_,args)
+            return classroom
+         }catch(err){
+             errorHandler.apolloError(err)
          }
       }
    },
@@ -77,7 +106,7 @@ export const resolver={
          }
       },
 
-      async updateClass(_:unknown,args:{id:string,update:Partial<IClassroom>}){
+     async updateClass(_:unknown,args:{id:string,update:Partial<IClassroom>}){
         try{
            const updatedClass=await controller.updateClass(_,args);
            return updatedClass
@@ -114,5 +143,31 @@ export const resolver={
         }
       },
 
+     async  addToAdmin(_:unknown,args:{id:string,classroomId:string}){
+         try{
+           const addAdmin=await controller.addToAdmin(_,args);
+           return addAdmin
+         }catch(err){
+            errorHandler.apolloError(err)
+         }
+      },
+
+      async  removeFromAdmin(_:unknown,args:{id:string,classroomId:string}){
+         try{
+           const addAdmin=await controller.removeFromAdmin(_,args);
+           return addAdmin
+         }catch(err){
+            errorHandler.apolloError(err)
+         }
+      },
+
+      async emailInvitation(_:unknown,args:{invitation:{fromEmail:string,toEmail: string, username: string,creator:string,code:string}}){
+            try{
+                 const inivitation=await controller.emailInviation(_,args)
+                 return inivitation
+            }catch(err){
+               errorHandler.apolloError(err)
+            }
+      }
    }
 }

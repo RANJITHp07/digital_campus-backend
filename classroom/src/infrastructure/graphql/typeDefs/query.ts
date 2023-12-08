@@ -12,12 +12,21 @@ export const classroomQuery=gql`
      students_enrolled:[String],
      admins:[String],
      classCode:String,
+     backgroundPicture:String,
+     themeColor:String,
+     block:Boolean
   }
 
   type Participants{
+    id:String!
     username:String!,
     profile:String 
   
+  }
+
+  type GetallParticipants{
+    admin:[Participants]!,
+    user:[Participants]!
   }
 
 
@@ -26,7 +35,10 @@ export const classroomQuery=gql`
     getAllClassroom(id:String!):[ClassRoom]
     getClassroomDetails(id:String!):ClassRoom
     getCreatorClassroom(id:String!):[ClassRoom]
-    getAllClassroomparticipants(id:String!):[Participants]
+    getAllClassroomparticipants(id:String!):GetallParticipants
+    getclassroom:[ClassRoom]
+    getAllTheClassroom(id:String!):[ClassRoom]
+    getFilteredClassroom(id:String!,category:[String!]):[ClassRoom]
   }
 
 `

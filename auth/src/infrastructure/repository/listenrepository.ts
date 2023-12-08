@@ -13,7 +13,8 @@ class Listener implements IListner{
     this.isConnected = false;
   }
 
-  async listen(exchange: string, routingKey: string, callback: (data: any) => void) {
+  //to listen the events
+  async listen(exchange: string, routingKey: string, callback:(data: any) => void) {
     await this.ensureConnection();
 
     if (!this.channel || !this.connection) {
