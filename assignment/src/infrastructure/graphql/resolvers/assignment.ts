@@ -56,6 +56,24 @@ export const resolver={
               }catch(err){
                 errorHandler.apolloError(err)
               }
+        },
+
+        async deleteAssignment(_:unknown,args:{id:string}){
+            try{
+                const deletedAssignment = await controller.deleteAssignment(_,args)
+                return deletedAssignment
+            }catch(err){
+                errorHandler.apolloError(err)
+            }
+        },
+
+        async updateAssignment(_:unknown,args:{id:string,update:any}){
+            try{
+                const deletedAssignment = await controller.updateAssignment(_,args)
+                return deletedAssignment
+            }catch(err){
+                errorHandler.apolloError(err)
+            }
         }
     }
 }

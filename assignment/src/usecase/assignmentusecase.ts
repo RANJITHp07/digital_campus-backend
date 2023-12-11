@@ -15,9 +15,7 @@ export class AssignmentUsecase{
         try{
             
             const newAssignment=await this.assignment.create(assignment)
-            return {
-                message :"Successfully created"
-            }
+            return newAssignment
         }catch(err){
             this.errorHandler.apolloError(err)
         }
@@ -56,6 +54,24 @@ export class AssignmentUsecase{
             return {
                 mainTopic:assignmnets
             }
+        }catch(err){
+            this.errorHandler.apolloError(err)
+        }
+     }
+
+     async deleteAssignment(id:string){
+        try{
+            const deletedAssignment=await this.assignment.deleteAssignment(id);
+            return deletedAssignment
+        }catch(err){
+            this.errorHandler.apolloError(err)
+        }
+     }
+
+     async updateAssignment(id:string,update:any){
+        try{
+            const deletedAssignment=await this.assignment.update(id,update);
+            return deletedAssignment
         }catch(err){
             this.errorHandler.apolloError(err)
         }

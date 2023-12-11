@@ -9,6 +9,7 @@ const connect = async function (): Promise<void> {
       const amqpServer= "amqp://localhost:5672";
       connection = await amqp.connect(amqpServer);
       channel = await connection.createChannel();
+      
       console.log("Channel created");
       resolve(); 
     } catch (err) {

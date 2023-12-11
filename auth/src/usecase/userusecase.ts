@@ -36,7 +36,7 @@ export class Userusecase{
                 const hashedPassword=await this.bcrypt.createHash(password);
                 const newUser={firstName,lastName,email,username,password:hashedPassword}
                 const createnewUser=await this.userRepository.createUser(newUser);
-                await this.publish.publish("exchange1","createroute",{id:createnewUser.id,username,email})
+                await this.publish.publish("exchange1","createroute",{id:createnewUser.id,username,email,profile:createnewUser.profile})
                 return{
                         status:200,
                         success:true,
@@ -120,6 +120,9 @@ export class Userusecase{
                 update.password=await this.bcrypt.createHash(update.password)
             }
           const updatedUser=await this.userRepository.update(id,update)
+          if(update.profile && updatedUser){
+            await this.publish.publish("exchange1","updateProfile",{profile:updatedUser.profile})
+          }
           return updatedUser ?
           {
             status:200,
@@ -172,18 +175,6 @@ export class Userusecase{
         }
     }
 
-
-    async getAllParticipants(){
-        try{
-            this.listner.listen("exchange4","details",async(data)=>{
-                // const user=await this.jobRepository.find(data.ids)
-                //  this.publish.publish("exchange7","Jobs",{user})
-                console.log(data)
-            })
-        }catch(err){
-         throw err
-      }
-    }
 
     async checkPassword(bcryptPassword: string, oldPassword: string, newPassword: string, id: number) {
         try {

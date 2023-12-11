@@ -69,11 +69,30 @@ export class AssignmentRepository{
       async distinctTopic(){
         try{
             const distinctMainTopics = await Assignment.distinct('mainTopic');
-            console.log(distinctMainTopics)
             return distinctMainTopics
         }catch(err){
             throw err
         }
+      }
+
+      //to delete assignment
+      async deleteAssignment(id:string){
+        try{
+           const deletedAssignment=await Assignment.findByIdAndDelete(id)
+           
+           return  deletedAssignment
+        }catch(err){
+          throw err
+        }
+      }
+
+      async update(id:string,update:any){
+        try{
+          const updateAssignment=await Assignment.findByIdAndUpdate(id,{$set:update})
+          return  updateAssignment
+       }catch(err){
+         throw err
+       }
       }
 
     

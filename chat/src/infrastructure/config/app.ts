@@ -3,6 +3,8 @@ import cors from "cors";
 import http from 'http';
 import morgan from 'morgan';
 import { SocketManager } from "../repository/socketRepository";
+import MessageRoute from "../routes/messageRoute"
+import UserRepository from "../repository/userRepository";
 
 
 
@@ -13,8 +15,11 @@ import { SocketManager } from "../repository/socketRepository";
 
   const httpServer = http.createServer(app);
 //socket.io connection
- const socket=new SocketManager(httpServer)
-//  socket.start()
+const repository=new UserRepository('')
+const socket=new SocketManager(httpServer,repository)
+
+//routes
+app.use("/v1/chat",MessageRoute)
 
 
 

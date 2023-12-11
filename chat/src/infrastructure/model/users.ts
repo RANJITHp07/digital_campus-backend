@@ -1,22 +1,23 @@
 import mongoose, { Document, Model,Types,Schema} from "mongoose";
 
 interface IUser extends Document {
-_id?:string
 username: string;
-profile:string
+user_id:string;
+profile:string;
 }
 
 const UserSchema = new mongoose.Schema<IUser>(
 
   {
-    _id: { type: Schema.Types.ObjectId, default: new Types.ObjectId()},
     username: {
       type: String,
       required: true,
     },
+    user_id:{
+      type:String
+    },
     profile: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }

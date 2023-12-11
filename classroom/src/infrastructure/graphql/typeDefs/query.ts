@@ -38,7 +38,7 @@ export const classroomQuery=gql`
     getAllClassroomparticipants(id:String!):GetallParticipants
     getclassroom:[ClassRoom]
     getAllTheClassroom(id:String!):[ClassRoom]
-    getFilteredClassroom(id:String!,category:[String!]):[ClassRoom]
+    getFilteredClassroom(id:String!,category:[String]):[ClassRoom]
   }
 
 `

@@ -142,13 +142,14 @@ export class Classroomusecase{
           try{
             const classroom=await this.classroomrepository.getAllparticipants(id);
             //to exchange the admin and userId to auth service and collect the data of the users from the auth service
-            await this.publish.publish("exchange4","details",{adminId:classroom?.admins, studentId:classroom?.students_enrolled});
+            await this.publish.publish("exchange2","details",{adminId:classroom?.admins, studentId:classroom?.students_enrolled});
           
             const details = await new Promise((resolve) => {
-               this.listen.listen("exchange5", "participants", (data) => {
+               this.listen.listen("exchange1", "participants", (data) => {
                  resolve(data);
                });
              });
+             console.log(details)
              return details
           }catch(err){
                this.errorHandler.apolloError(err)
@@ -190,7 +191,7 @@ export class Classroomusecase{
           //to filter out based on the category
           async getFilteredclassroom(id:string,category:string[]){
                try{
-                 const classrooms = await this.classroomrepository.clasroomFilter(id,category)
+                 const classrooms = await this.classroomrepository.classroomFilter(id,category)
                  return classrooms
                }catch(err){
                     this.errorHandler.apolloError(err)

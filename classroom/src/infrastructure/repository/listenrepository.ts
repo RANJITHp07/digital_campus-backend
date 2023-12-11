@@ -22,9 +22,10 @@ class Listener implements IListner {
     }
 
     try {
-      await this.channel.assertExchange(exchange, "direct");
-      const queue = await this.channel.assertQueue("");
+      await this.channel.assertExchange(exchange, "direct",{durable:true});
+      const queue = await this.channel.assertQueue("", {durable:true });
       await this.channel.bindQueue(queue.queue, exchange, routingKey);
+      
 
       this.channel.consume(queue.queue, (data) => {
         if (data) {

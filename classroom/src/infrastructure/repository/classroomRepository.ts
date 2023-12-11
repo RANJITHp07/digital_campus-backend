@@ -118,19 +118,20 @@ export class ClassRoomRepository implements IClassroomReository{
       }
 
       //to filter the classroom based on the category
-       async clasroomFilter(id:string,category:string[]){
-              try{
-                const classrooms = await classroomModel.find({
-                  $and: [
-                      { _id: id },  
-                      { category: { $in: category } }
-                  ]
-              });      
-                 return classrooms
-              }catch(err){
-                throw err
-              }
-       }
+      async classroomFilter(id:string, category:string[]) {
+        try {
+            const classrooms = await classroomModel.find({
+                $and: [
+                    { $or: [{ students_enrolled: id }, { admins: id }] },
+                    { category: { $in: category } }
+                ]
+            });
+            return classrooms;
+        } catch (err) {
+            throw err;
+        }
+    }
+
 
       async getAllclassroom(){
         try{

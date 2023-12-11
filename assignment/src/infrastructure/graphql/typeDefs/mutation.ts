@@ -32,11 +32,28 @@ export const assignmentMutation = gql`
     polling:Polling
   }
 
+  type Assignment {
+  _id:String
+  assignmentType: String
+  mainTopic: String
+title: String
+  dueDate: DueDate
+  class_id: [String!]!
+  students: [String!]!
+  instruction: String
+  attachment: Attachments
+  creator:String
+  createdAt:String
+  points:Int
+}
+  
   type Output {
     message: String!
   }
 
   type Mutation {
-    createAssignment(assignment: AssignmentInput): Output
+    createAssignment(assignment: AssignmentInput): Assignment
+    deleteAssignment(id:String!):Assignment
+    updateAssignment(id:String!,update:AssignmentInput):Assignment
   }
 `;

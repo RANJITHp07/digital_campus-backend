@@ -1,8 +1,8 @@
 import { Channel, Connection } from "amqplib";
 import { channel, connection, connect } from "../config/rabbitmq";
-import IPublish from "../../usecase/interface/publishRepository";
+import IListner from "../../usecase/interface/listenRepository";
 
-class Publisher implements IPublish{
+class Listener implements IListner{
   private channel: Channel | undefined;
   private connection: Connection | undefined;
   private isConnected: boolean;
@@ -13,8 +13,7 @@ class Publisher implements IPublish{
     this.isConnected = false;
   }
 
-  //to publish in a queue
-  async publish(exchange: string, routingKey: string, data: unknown): Promise<boolean> {
+  async listen(exchange: string, routingKey: string, callback: (data: any) => void) {
     await this.ensureConnection();
 
     if (!this.channel || !this.connection) {
@@ -22,21 +21,18 @@ class Publisher implements IPublish{
     }
 
     try {
-      await this.channel.assertExchange(exchange, "direct",{durable:true,});
-      const sent = await new Promise<boolean>((resolve, reject) => {
-        this.channel!.publish(
-          exchange,
-          routingKey,
-          Buffer.from(JSON.stringify(data)),
-          { persistent: true },      
-      );
-        resolve(true);
-      });
+      await this.channel.assertExchange(exchange, "direct",{durable:true});
+      const queue = await this.channel.assertQueue("",{durable:true});
+      await this.channel.bindQueue(queue.queue, exchange, routingKey);
 
-      return sent;
+      this.channel.consume(queue.queue, (data) => {
+        if (data) {
+          callback(JSON.parse(data.content.toString()));
+          this.channel?.ack(data);
+        }
+      });
     } catch (err) {
-      console.error("Error in publish:", err);
-      return false;
+      console.error("Error in listen:", err);
     }
   }
 
@@ -50,4 +46,4 @@ class Publisher implements IPublish{
   }
 }
 
-export default Publisher;
+export default Listener;

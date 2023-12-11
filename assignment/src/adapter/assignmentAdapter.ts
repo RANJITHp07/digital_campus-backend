@@ -55,4 +55,22 @@ export class AssignmentController{
              this.errorHandler.apolloError(err)
          }
     }
+
+    async deleteAssignment(_:unknown,args:{id:string}){
+        try{
+            const assignment=await this.assignmentusecase.deleteAssignment(args.id)
+            return assignment
+         }catch(err){
+             this.errorHandler.apolloError(err)
+         }
+    }
+
+    async updateAssignment(_:unknown,args:{id:string,update:any}){
+        try{
+            const assignment=await this.assignmentusecase.updateAssignment(args.id,args.update)
+            return assignment
+         }catch(err){
+             this.errorHandler.apolloError(err)
+         }
+    }
 }
