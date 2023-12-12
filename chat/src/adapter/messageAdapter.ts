@@ -24,12 +24,14 @@ export default class Messageadapter{
 
     async getMessage(req:Req,res:Res,next:Next){
         try{
-          const message = await this.messageusecase.getMessage(req.params.id);
+          const skip=req.query.skip as string
+          const message = await this.messageusecase.getMessage(req.params.id,parseInt(skip));
           res.status(message.status).json({
             success: message.success,
             data: message.data
           })
         }catch(err){
+           console.log(err)
             next(err)
         }
     }

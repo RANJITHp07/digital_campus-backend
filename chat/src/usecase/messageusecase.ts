@@ -21,9 +21,9 @@ export class Messageusecase{
         }
     }
 
-    async getMessage(id:string){
+    async getMessage(id:string,skip:number){
         try{
-           const messages=await this.messageRepository.getConversation(id)
+           const messages=await this.messageRepository.getConversation(id,skip)
            return {
             status:201,
             success:true,

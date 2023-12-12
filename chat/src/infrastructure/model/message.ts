@@ -1,11 +1,20 @@
-import mongoose, { Document,Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
+
+enum MessageType {
+  Text = "text",
+  Audio = "audio",
+  Video = "vedio",
+  PDF = "pdf",
+  PHOTO='photo'
+}
 
 interface IMessage extends Document {
   classId: string;
   sender: Schema.Types.ObjectId;
-  text:{
-    type:string,
-    text:string
+  text: {
+    type: MessageType;
+    text: string;
+    desc?: string;
   };
   createdAt: Date;
   updatedAt: Date;
@@ -17,22 +26,29 @@ const MessageSchema = new mongoose.Schema<IMessage>(
       type: String,
     },
     sender: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     text: {
-      type:{
-        type:String
-    },
-    text:{
-        type:String
-    }
+      type: {
+        type: String,
+        enum: Object.values(MessageType),
+        required:true
+      },
+      text: {
+        type: String,
+        required:true
+      },
+      desc: {
+        type: String,
+
+      },
     },
   },
   { timestamps: true }
 );
 
-const MessageModel= mongoose.model<IMessage>("Message", MessageSchema);
+const MessageModel = mongoose.model<IMessage>("Message", MessageSchema);
 
-export default MessageModel
+export default MessageModel;

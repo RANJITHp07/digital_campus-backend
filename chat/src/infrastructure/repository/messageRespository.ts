@@ -18,9 +18,9 @@ export class MessageRepository implements IMessageRepository{
     }
 
 
-    async getConversation(id:string):Promise<unknown>{
+    async getConversation(id:string,skip:number):Promise<unknown>{
         try{
-          const convo=await MessageModel.find({classId:id}).populate('sender')
+          const convo=await MessageModel.find({classId:id}).populate('sender').sort({createdAt:-1}).limit(10).skip(skip)
           return convo
         }catch(err){
             throw err
