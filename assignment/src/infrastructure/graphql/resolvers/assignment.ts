@@ -45,6 +45,15 @@ export const resolver={
             }catch(err){
                 errorHandler.apolloError(err)
             }
+        },
+
+        async getDueDates(_:unknown,args:{id:string}){
+            try{
+                const assignment = await controller.findAssignment(_,args)
+                 return assignment
+            }catch(err){
+                errorHandler.apolloError(err)
+            }
         }
     },
 
@@ -67,11 +76,12 @@ export const resolver={
             }
         },
 
-        async updateAssignment(_:unknown,args:{id:string,update:any}){
+        async updateAssignment(_:unknown,args:{id:string,update:Partial<IAssigment>}){
             try{
-                const deletedAssignment = await controller.updateAssignment(_,args)
-                return deletedAssignment
+                const updatedAssignment = await controller.updateAssignment(_,args)
+                return updatedAssignment
             }catch(err){
+                console.log(err)
                 errorHandler.apolloError(err)
             }
         }

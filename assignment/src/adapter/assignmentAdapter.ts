@@ -65,9 +65,18 @@ export class AssignmentController{
          }
     }
 
-    async updateAssignment(_:unknown,args:{id:string,update:any}){
+    async updateAssignment(_:unknown,args:{id:string,update:Partial<IAssigment>}){
         try{
-            const assignment=await this.assignmentusecase.updateAssignment(args.id,args.update)
+            const updatedAssignment=await this.assignmentusecase.updateAssignment(args.id,args.update)
+            return updatedAssignment
+         }catch(err){
+             this.errorHandler.apolloError(err)
+         }
+    }
+
+    async findAssignment(_:unknown,args:{id:string}){
+        try{
+            const assignment=await this.assignmentusecase.findAssignment(args.id)
             return assignment
          }catch(err){
              this.errorHandler.apolloError(err)

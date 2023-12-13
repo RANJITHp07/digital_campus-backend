@@ -9,6 +9,7 @@ import Nodemailer from "../repository/nodemailer";
 import validateMiddleware from "../utils/validator";
 import Publisher from "../repository/publishrepository";
 import Listener from "../repository/listenrepository";
+import RequestValidator from "../repository/validatorRepository";
 
 
 // factory pattern 
@@ -18,7 +19,8 @@ const jwt=new jwtPassword()
 const nodemailer=new Nodemailer()
 const publisher=new Publisher()
 const listener=new Listener()
-const userusecase=new Userusecase(userRepository,bcrypt,jwt,nodemailer,publisher,listener);
+const requestValidator=new RequestValidator()
+const userusecase=new Userusecase(userRepository,bcrypt,jwt,nodemailer,publisher,listener,requestValidator);
 const useradapter=new UserAdapter(userusecase);
 
 const router= express.Router();

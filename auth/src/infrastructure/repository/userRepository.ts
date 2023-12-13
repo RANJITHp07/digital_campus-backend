@@ -120,7 +120,7 @@ async getAlluser(){
   return user
 }
    
-
+//to  check the passoword is crct or not
 async checkPassword(password: string){
         const user=await Users.findOne({  
             where:{
@@ -129,5 +129,4 @@ async checkPassword(password: string){
           })
           return user
       }
-
 }

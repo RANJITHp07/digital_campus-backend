@@ -8,7 +8,7 @@ export const assignmentMutation = gql`
     time: String
   }
 
-  input Attachment {
+  input AttachmentInput {
     type: String
     content: String
   }
@@ -26,7 +26,7 @@ export const assignmentMutation = gql`
     class_id: [String]!
     students: [String]!
     instruction: String
-    attachment: Attachment
+    attachment: AttachmentInput
     points:Int
     creator:String
     polling:Polling
@@ -41,7 +41,7 @@ title: String
   class_id: [String!]!
   students: [String!]!
   instruction: String
-  attachment: Attachments
+  attachment: Attachment
   creator:String
   createdAt:String
   points:Int

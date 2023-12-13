@@ -5,6 +5,7 @@ import { RandomNumber } from "../infrastructure/repository/uniqueNumberRepositor
 import Publisher from "../infrastructure/repository/publishrepository";
 import Listener from "../infrastructure/repository/listenrepository";
 import Nodemailer from "../infrastructure/repository/nodemailerRepository";
+import RequestValidator from "../infrastructure/repository/validatorRepository";
 
 export class Classroomusecase{
  
@@ -14,19 +15,32 @@ export class Classroomusecase{
      private readonly nodemailer:Nodemailer
      private readonly publish:Publisher
      private readonly listen:Listener
+     private readonly requestValidator:RequestValidator
 
-     constructor(classroomrepository:ClassRoomRepository,randomGenerator:RandomNumber,errorHandler:ErrorHandler,publish:Publisher,listen:Listener,nodemailer:Nodemailer) {
+     constructor(classroomrepository:ClassRoomRepository,randomGenerator:RandomNumber,errorHandler:ErrorHandler,publish:Publisher,listen:Listener,nodemailer:Nodemailer,requestValidator:RequestValidator) {
          this.classroomrepository = classroomrepository;
          this.randomGenerator = randomGenerator;
          this.errorHandler=errorHandler;
          this.publish=publish;
          this.listen=listen;
          this.nodemailer=nodemailer
+         this.requestValidator=requestValidator
      }
 
      //to create the classroom
      async create(classroom:IClassroom):Promise<unknown>{
         try{
+
+          const validation = this.requestValidator.validateRequiredFields(
+                classroom,
+               ['className', 'classSection','classSubject','creator','students_enrolled','admins','backgroundPicture','category']
+           );
+   
+           if (!validation.success) {
+               this.errorHandler.userInputerror(validation.message as string)
+           }
+   
+
           const code=await this.randomGenerator.generateUniqueRandomCode()
            const newClasroom={...classroom,classCode:code}
             const newclassroom= await this.classroomrepository.create(newClasroom)
@@ -41,6 +55,16 @@ export class Classroomusecase{
      //to update the classroom
      async update(id:string,update:Partial<IClassroom>):Promise<unknown>{
           try{
+            // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+          { id,update },
+          ['id', 'update']
+      );
+
+      if (!validation.success) {
+          this.errorHandler.userInputerror(validation.message as string)
+      }
+               
                const updateClassroom=await this.classroomrepository.update(id,update);
                return updateClassroom ? {
                     message:"Sucessfully updated"
@@ -67,6 +91,16 @@ export class Classroomusecase{
 
     //to add a student into
      async addUser(code:string,userId:string,type:boolean):Promise<unknown>{
+
+             // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+          { code,userId,type},
+          ['code', 'userId','type']
+      );
+
+      if (!validation.success) {
+          this.errorHandler.userInputerror(validation.message as string)
+      }
           try{
               const classroom=await this.classroomrepository.getClassroom(code)
               
@@ -191,6 +225,15 @@ export class Classroomusecase{
           //to filter out based on the category
           async getFilteredclassroom(id:string,category:string[]){
                try{
+                       // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+          { id,category },
+          ['id', 'category']
+      );
+
+      if (!validation.success) {
+          this.errorHandler.userInputerror(validation.message as string)
+      }
                  const classrooms = await this.classroomrepository.classroomFilter(id,category)
                  return classrooms
                }catch(err){
@@ -216,8 +259,18 @@ export class Classroomusecase{
                this.errorHandler.apolloError(err)
               }
           }
+          
 
           async removeFromAdmin(id:string,classroomId:string){
+                  // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+          { id,classroomId },
+          ['id', 'classroomId']
+      );
+
+      if (!validation.success) {
+          this.errorHandler.userInputerror(validation.message as string)
+      }
                try{
                const classroom=await this.classroomrepository.getClassroom(classroomId)
                  if( classroom && classroom.admins.includes(id)){

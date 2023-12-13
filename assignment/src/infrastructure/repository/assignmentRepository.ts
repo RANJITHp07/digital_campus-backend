@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { IAssigment } from "../../entites/assignment";
 import Assignment from "../model/assignment";
+import { assignmentMutation } from "../graphql/typeDefs/mutation";
 
 export interface IAssignmentWithId extends IAssigment {
     _id: Types.ObjectId;
@@ -85,8 +86,9 @@ export class AssignmentRepository{
           throw err
         }
       }
-
-      async update(id:string,update:any){
+ 
+      //to update the assignments
+      async update(id:string,update:Partial<IAssigment>){
         try{
           const updateAssignment=await Assignment.findByIdAndUpdate(id,{$set:update})
           return  updateAssignment
@@ -95,5 +97,20 @@ export class AssignmentRepository{
        }
       }
 
+      //to get all the assignment and due_date
+      async findAssignments(id: string) {
+        try {
+          const assignments = await Assignment.find({
+            $and: [
+              { dueDate: { $exists: true } },
+              { students: id}
+            ]
+          });
+          return assignments;
+        } catch (err) {
+          throw err;
+        }
+      }
+      
     
 }

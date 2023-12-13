@@ -8,5 +8,6 @@ import { errorHandlingPlugin } from '../middleware/error/errorMiddleware';
 export const server=new ApolloServer({
     typeDefs:typeDefs,
     resolvers: resolver,
+    introspection: true,
     plugins:[errorHandlingPlugin]
 });

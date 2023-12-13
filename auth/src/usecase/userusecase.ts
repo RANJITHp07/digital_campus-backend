@@ -5,6 +5,8 @@ import Listener from "../infrastructure/repository/listenrepository";
 import Nodemailer from "../infrastructure/repository/nodemailer";
 import Publisher from "../infrastructure/repository/publishrepository";
 import { UserRepository } from "../infrastructure/repository/userRepository";
+import RequestValidator from "../infrastructure/repository/validatorRepository";
+import errorResponse from "./handler/errorResponse";
 
 
 export class Userusecase{
@@ -14,24 +16,36 @@ export class Userusecase{
     private readonly nodemailer:Nodemailer
     private readonly listner:Listener
     private readonly publish:Publisher
+    private readonly requestValidator:RequestValidator
     
 
-    constructor(userRepository:UserRepository, bcrypt:Encrypt, jwt: jwtPassword,nodemailer:Nodemailer,publish:Publisher,listner:Listener){
+    constructor(
+        userRepository:UserRepository, bcrypt:Encrypt, jwt: jwtPassword,nodemailer:Nodemailer,publish:Publisher,listner:Listener,requestValidator:RequestValidator){
         this.userRepository = userRepository;
         this.bcrypt = bcrypt;
         this.jwt=jwt
         this.nodemailer=nodemailer,
         this.publish=publish
         this.listner=listner
+        this.requestValidator=requestValidator
     }
 
-
-
     //to create user
-    async createUser(firstName:string,lastName:string,username:string,email:string,password:string){
+    async createUser({ firstName, lastName, username, email, password }: { firstName: string; lastName: string; username: string; email: string; password: string }){
         try{
+
+             // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+            { firstName, lastName, username, email, password },
+            ['firstName', 'lastName', 'username', 'email', 'password']
+        );
+        console.log(validation)
+
+        if (!validation.success) {
+            throw errorResponse.badRequest(validation.message as string)
+        }
+
            const user=await this.userRepository.findUser(email); // checking if the user exist or not
-    
            if(!user){
                 const hashedPassword=await this.bcrypt.createHash(password);
                 const newUser={firstName,lastName,email,username,password:hashedPassword}
@@ -43,13 +57,7 @@ export class Userusecase{
                         message:"Successfully created"
                     } 
                 }
-           else{
-            return {
-                status:401,
-                success:false,
-                message:"User Already exist"
-            }
-           }
+                throw errorResponse.badRequest("User already exist")
         }catch(err){
             throw err
         }
@@ -57,8 +65,19 @@ export class Userusecase{
 
 
     // allow login of the user
-    async loginUser(email:string,password:string){
+    async loginUser({email,password}:{email:string,password:string}){
         try{
+        // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+            { email, password },
+            ['email', 'password']
+        );
+
+        if (!validation.success) {
+            throw errorResponse.badRequest(validation.message as string)
+        }
+
+
             const user:IUser | null=await this.userRepository.findUser(email);
 
             if(user && user.id){
@@ -73,20 +92,11 @@ export class Userusecase{
                       message:"Sucessfully logged In"
                     }
                 
-               }else{
-                return {
-                    status:401,
-                    success:false,
-                    message:"Wrong password"
-                  }
                }
-            }else{
-                return {
-                    status:401,
-                    success:false,
-                    message:"Wrong email id"
-                  }
+                throw errorResponse.badRequest("Wrong password")
             }
+            
+          throw errorResponse.notFound("Wrong email id")
         }catch(err){
             throw err
         }
@@ -114,8 +124,19 @@ export class Userusecase{
 
 
     //to update the user details
-    async updateUser(id:number,update:Partial<IUser>){
+    async updateUser({id,update}:{id:number,update:Partial<IUser>}){
         try{
+
+        // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+            { id, update },
+            ['id', 'update']
+        );
+
+        if (!validation.success) {
+            throw errorResponse.badRequest(validation.message as string)
+        }
+
             if(update.password){
                 update.password=await this.bcrypt.createHash(update.password)
             }
@@ -123,25 +144,31 @@ export class Userusecase{
           if(update.profile && updatedUser){
             await this.publish.publish("exchange1","updateProfile",{profile:updatedUser.profile})
           }
-          return updatedUser ?
-          {
+          if(updatedUser)
+          return {
             status:200,
             success:true,
             message:"Successfully updated"
           }
-          :
-          {   status:401,
-              success:false,
-              message:"No such user"
-          }
+           throw errorResponse.badRequest("Wrong id")
         }catch(err){
             throw err
         }
     }
 
     //to send OTP to verify the user's detail
-    async verifyEmail(email:string,username:string){
+    async verifyEmail({email,username}:{email:string,username:string}){
         try{
+             // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+            { email, username },
+            ['id', 'update']
+        );
+
+        if (!validation.success) {
+            throw errorResponse.badRequest(validation.message as string)
+        }
+
             const verify=await this.nodemailer.sendEmailVerification(email,username)
            
             return {
@@ -156,20 +183,28 @@ export class Userusecase{
     
 
     //to check if the user entered OTP is correct or not
-    async emailVeification(otp:string,email:string){
+    async emailVeification({otp,email}:{otp:string,email:string}){
         try{
+
+        // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+            { email, otp },
+            ['email', 'otp']
+        );
+
+        if (!validation.success) {
+            throw errorResponse.badRequest(validation.message as string)
+        }
+
             const verify=await this.nodemailer.verifyEmail(otp,email)
-            return verify ?
-             {
-                status:200,
-                success:true,
-                data:"Succesfully logged In"
-            }:
-            {
-                status:200,
-                success:false,
-                data:"Wrong Otp"
+            if(verify){
+                return {
+                    status:200,
+                    success:true,
+                    data:"Succesfully logged In"
+                }
             }
+           throw errorResponse.badRequest("Wrong OTP")
         }catch(err){
             throw err
         }
@@ -178,6 +213,17 @@ export class Userusecase{
 
     async checkPassword(bcryptPassword: string, oldPassword: string, newPassword: string, id: number) {
         try {
+
+
+            // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+            { bcryptPassword,oldPassword,newPassword,id },
+            ['bcryptPassword', 'oldPassword','newPassword','id']
+        );
+
+        if (!validation.success) {
+            throw errorResponse.badRequest(validation.message as string)
+        }
 
             const user = await this.userRepository.checkPassword(bcryptPassword);
             if (user) {
@@ -192,24 +238,15 @@ export class Userusecase{
                         success: true,
                         message: "Password Changed"
                     };
-                } else {
-                    return {
-                        status: 401,
-                        success: false,
-                        message: "Old password not matching"
-                    };
-                }
-            } else {
-                return {
-                    status: 401,
-                    success: false,
-                    message: "User not found"
-                };
-            }
+                } 
+                throw errorResponse.badRequest("Old password not matching")
+            } 
+            throw errorResponse.notFound("No such user")
         } catch (err) {
             console.log(err);
             throw err;
         }
+        
     }
     
 

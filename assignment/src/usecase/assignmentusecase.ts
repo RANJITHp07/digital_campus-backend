@@ -68,10 +68,19 @@ export class AssignmentUsecase{
         }
      }
 
-     async updateAssignment(id:string,update:any){
+     async updateAssignment(id:string,update:Partial<IAssigment>){
         try{
-            const deletedAssignment=await this.assignment.update(id,update);
-            return deletedAssignment
+            const updatedAssignment=await this.assignment.update(id,update);
+            return updatedAssignment
+        }catch(err){
+            this.errorHandler.apolloError(err)
+        }
+     }
+
+     async findAssignment(id:string){
+        try{
+            const assignment=await this.assignment.findAssignments(id);
+            return assignment
         }catch(err){
             this.errorHandler.apolloError(err)
         }
