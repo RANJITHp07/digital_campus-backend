@@ -30,7 +30,7 @@ export class Classroomusecase{
      //to create the classroom
      async create(classroom:IClassroom):Promise<unknown>{
         try{
-
+        
           const validation = this.requestValidator.validateRequiredFields(
                 classroom,
                ['className', 'classSection','classSubject','creator','students_enrolled','admins','backgroundPicture','category']
@@ -53,7 +53,7 @@ export class Classroomusecase{
 
 
      //to update the classroom
-     async update(id:string,update:Partial<IClassroom>):Promise<unknown>{
+     async update({id,update}:{id:string,update:Partial<IClassroom>}):Promise<unknown>{
           try{
             // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(
@@ -75,7 +75,7 @@ export class Classroomusecase{
      }
 
      // to delete the existing classroom
-     async delete(id:string){
+     async delete({id}:{id:string}){
           try{
                const deleteClassroom=await this.classroomrepository.delete(id);
                // if id exist delete or else return an error
@@ -90,7 +90,7 @@ export class Classroomusecase{
 
 
     //to add a student into
-     async addUser(code:string,userId:string,type:boolean):Promise<unknown>{
+     async addUser({code,userId,type}:{code:string,userId:string,type:boolean}):Promise<unknown>{
 
              // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(
@@ -138,7 +138,7 @@ export class Classroomusecase{
      }
 
      //to get the classroom details using the code of the classroom
-     async getClassroom(code:string){
+     async getClassroom({code}:{code:string}){
           try{
                const classroom:IClassroom | null = await this.classroomrepository.getClassroom(code);
                if(classroom){
@@ -151,7 +151,7 @@ export class Classroomusecase{
      }
 
      //to get all the classroom which is created or on which the user is added into
-     async getAllclassroom(id:string){
+     async getAllclassroom({id}:{id:string}){
           try{
              const classroom:IClassroom[]=await this.classroomrepository.getAllClassroom(id)
              return classroom
@@ -162,7 +162,7 @@ export class Classroomusecase{
 
 
      //to get all the classroom user has created
-     async getCreatorclassroom(id:string){
+     async getCreatorclassroom({id}:{id:string}){
           try{
              const classroom:IClassroom[]=await this.classroomrepository.getCreatorClassrooms(id)
              return classroom
@@ -172,7 +172,7 @@ export class Classroomusecase{
      }
 
      //to get all the participants of the classroom
-     async getAllClassroomparticipants(id:string){
+     async getAllClassroomparticipants({id}:{id:string}){
           try{
             const classroom=await this.classroomrepository.getAllparticipants(id);
             //to exchange the admin and userId to auth service and collect the data of the users from the auth service
@@ -192,7 +192,7 @@ export class Classroomusecase{
 
 
          //to get the classroom details
-          async getClassroomDetail(id:string){
+          async getClassroomDetail({id}:{id:string}){
                try{
                     const classroom=await this.classroomrepository.getAllparticipants(id);
                     return classroom
@@ -202,7 +202,7 @@ export class Classroomusecase{
           }
 
           //to get all the classroom details
-          async getAllTheClassroom(id:string){
+          async getAllTheClassroom({id}:{id:string}){
                try{
                    const classroom=await this.classroomrepository.getAllTheClassroom(id)
                    return classroom
@@ -223,9 +223,9 @@ export class Classroomusecase{
           }
 
           //to filter out based on the category
-          async getFilteredclassroom(id:string,category:string[]){
+          async getFilteredclassroom({id,category}:{id:string,category:string[]}){
                try{
-                       // Validate required parameters
+         // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(
           { id,category },
           ['id', 'category']
@@ -241,8 +241,19 @@ export class Classroomusecase{
                }
           }
 
-          async addToAdmin(id:string,classroomId:string){
+          async addToAdmin({id,classroomId}:{id:string,classroomId:string}){
               try{ 
+
+               // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+          { id,classroomId },
+          ['id', 'classroomId']
+      );
+
+      if (!validation.success) {
+          this.errorHandler.userInputerror(validation.message as string)
+      }
+
                const classroom=await this.classroomrepository.getClassroom(classroomId)
                  if( classroom && classroom.students_enrolled.includes(id)){
                     classroom.admins.push(id)
@@ -259,9 +270,9 @@ export class Classroomusecase{
                this.errorHandler.apolloError(err)
               }
           }
-          
 
-          async removeFromAdmin(id:string,classroomId:string){
+
+          async removeFromAdmin({id,classroomId}:{id:string,classroomId:string}){
                   // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(
           { id,classroomId },
@@ -288,8 +299,17 @@ export class Classroomusecase{
                }
           }
 
-          async emailInvitation(fromEmail:string,toEmail: string, username: string,creator:string,code:string){
+          async emailInvitation({fromEmail,toEmail,username,creator,code}:{fromEmail:string,toEmail: string, username: string,creator:string,code:string}){
                try{
+                    const validation = this.requestValidator.validateRequiredFields(
+                         { fromEmail,toEmail,username,creator,code },
+                         ['fromEmail','toEmail','username','creator','code']
+                     );
+               
+                     if (!validation.success) {
+                         this.errorHandler.userInputerror(validation.message as string)
+                     }
+
                     const emailinvitation=await this.nodemailer.sendEmailInvitation(fromEmail,toEmail,username,creator,code)
                     return {
                          message:emailinvitation

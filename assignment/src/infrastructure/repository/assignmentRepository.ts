@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
 import { IAssigment } from "../../entites/assignment";
 import Assignment from "../model/assignment";
-import { assignmentMutation } from "../graphql/typeDefs/mutation";
 
 export interface IAssignmentWithId extends IAssigment {
     _id: Types.ObjectId;

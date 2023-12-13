@@ -23,7 +23,7 @@ export class ClassroomController{
 
     async updateClass(_:unknown,args:{id:string,update:Partial<IClassroom>}){
         try{
-           const updatedClassroom = await this.classroomusecase.update(args.id,args.update)
+           const updatedClassroom = await this.classroomusecase.update(args)
            return updatedClassroom
         }catch(err){
             this.errorHandler.apolloError(err)
@@ -32,7 +32,7 @@ export class ClassroomController{
 
     async deleteClass(_:unknown,args:{id:string}):Promise<unknown>{
         try{
-            const deletedClass=await this.classroomusecase.delete(args.id)
+            const deletedClass=await this.classroomusecase.delete(args)
             return deletedClass
         }catch(err){
             this.errorHandler.apolloError(err)
@@ -41,7 +41,7 @@ export class ClassroomController{
 
     async getClass(_:unknown,args:{code:string}){
         try{
-            const classroom=await this.classroomusecase.getClassroom(args.code)
+            const classroom=await this.classroomusecase.getClassroom(args)
              return classroom
         }catch(err){
             this.errorHandler.apolloError(err)
@@ -50,8 +50,7 @@ export class ClassroomController{
 
     async addStudent(_:unknown,args:{addstudent:{code:string,userId:string}}){
         try{
-            const {code ,userId}=args.addstudent
-            const adduser=await this.classroomusecase.addUser(code,userId,true)
+            const adduser=await this.classroomusecase.addUser({...args.addstudent,type:true});
             return adduser
         }catch(err){
             this.errorHandler.apolloError(err)
@@ -60,8 +59,7 @@ export class ClassroomController{
 
     async deleteStudent(_:unknown,args:{deletedstudent:{code:string,userId:string}}){
         try{
-            const {code ,userId}=args.deletedstudent
-            const deletedStudent=await this.classroomusecase.addUser(code,userId,false)
+            const deletedStudent=await this.classroomusecase.addUser({...args.deletedstudent,type:false})
             return deletedStudent
         }catch(err){
             this.errorHandler.apolloError(err)
@@ -71,7 +69,7 @@ export class ClassroomController{
 
     async getAllClassroom(_:unknown,args:{id:string}){
         try{
-           const classrooms=await this.classroomusecase.getAllclassroom(args.id)
+           const classrooms=await this.classroomusecase.getAllclassroom(args)
            return classrooms
         }catch(err){
             this.errorHandler.apolloError(err)
@@ -80,7 +78,7 @@ export class ClassroomController{
 
    async getCreatorClassroom(_:unknown,args:{id:string}){
     try{
-        const classrooms=await this.classroomusecase.getCreatorclassroom(args.id)
+        const classrooms=await this.classroomusecase.getCreatorclassroom(args)
         return classrooms
     }catch(err){
         this.errorHandler.apolloError(err)
@@ -89,7 +87,7 @@ export class ClassroomController{
 
    async getAllparticipants(_:unknown,args:{id:string}){
     try{
-        const classrooms=await this.classroomusecase.getAllClassroomparticipants(args.id)
+        const classrooms=await this.classroomusecase.getAllClassroomparticipants(args)
         return classrooms
     }catch(err){
         this.errorHandler.apolloError(err)
@@ -98,7 +96,7 @@ export class ClassroomController{
 
    async getClassroomDetails(_:unknown,args:{id:string}){
       try{
-          const classroom = await this.classroomusecase.getClassroomDetail(args.id);
+          const classroom = await this.classroomusecase.getClassroomDetail(args);
           return classroom
       }catch(err){
         this.errorHandler.apolloError(err)
@@ -107,7 +105,7 @@ export class ClassroomController{
 
    async getAllTheClasroom(_:unknown,args:{id:string}){
     try{
-        const classroom = await this.classroomusecase.getAllTheClassroom(args.id);
+        const classroom = await this.classroomusecase.getAllTheClassroom(args);
         return classroom
     }catch(err){
       this.errorHandler.apolloError(err)
@@ -125,7 +123,7 @@ export class ClassroomController{
 
    async getFilteredclassroom(_:unknown,args:{id:string,category:string[]}){
       try{
-         const classrooms=await this.classroomusecase.getFilteredclassroom(args.id,args.category)
+         const classrooms=await this.classroomusecase.getFilteredclassroom(args)
          return classrooms
       }catch(err){
         this.errorHandler.apolloError(err)
@@ -134,7 +132,7 @@ export class ClassroomController{
 
    async addToAdmin(_:unknown,args:{id:string,classroomId:string}){
     try{
-        const addedAdmin=await this.classroomusecase.addToAdmin(args.id,args.classroomId)
+        const addedAdmin=await this.classroomusecase.addToAdmin(args)
         return addedAdmin
     }catch(err){
         this.errorHandler.apolloError(err)
@@ -143,7 +141,7 @@ export class ClassroomController{
 
    async removeFromAdmin(_:unknown,args:{id:string,classroomId:string}){
     try{
-        const addedAdmin=await this.classroomusecase.removeFromAdmin(args.id,args.classroomId)
+        const addedAdmin=await this.classroomusecase.removeFromAdmin(args)
         return addedAdmin
     }catch(err){
         this.errorHandler.apolloError(err)
@@ -153,8 +151,7 @@ export class ClassroomController{
    async emailInviation(_:unknown,args:{invitation:{
     fromEmail:string,toEmail: string, username: string,creator:string,code:string}}){
         try{
-            const {fromEmail,toEmail,username,creator,code}=args.invitation
-            const inivitation=await this.classroomusecase.emailInvitation(fromEmail,toEmail,username,creator,code)
+            const inivitation=await this.classroomusecase.emailInvitation(args.invitation)
             return inivitation
             
         }catch(err){
