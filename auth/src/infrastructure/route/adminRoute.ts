@@ -15,6 +15,6 @@ const adapter=new Adminadapter(usecase);
 
 const router=express.Router();
 
-router.post("/create",(req,res,next:NextFunction) =>adapter.createAdmin(req,res,next) )
+router.post("/create",(req:Request,res:Response,next:NextFunction) =>adapter.createAdmin(req,res,next) )
 
 export  default router

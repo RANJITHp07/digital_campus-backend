@@ -38,11 +38,11 @@ export class PlanRepository {
    }
 
    //to delete the plans
-   async  delete(id:string,update:Partial<IPlan>):Promise<string | null>{
+   async  delete(id:string):Promise<string | null>{
     try{
-         const updatePlan=await PlanModel.findByIdAndUpdate(id,{$set:update})
-         return updatePlan ?
-         "successfully updated"
+         const deletePlan=await PlanModel.findByIdAndDelete(id)
+         return deletePlan ?
+         "successfully deleted"
          :
          null
     }catch(err){
