@@ -10,9 +10,13 @@ const repository=new PlanRepository('');
 const usecase=new Planusecase(repository,validator);
 const controller=new PlanController(usecase)
 
+
 const router=express.Router()
 
-router.route('/')
+router.use(express.json());
+
+router
+    .route('/')
     .post((req:Request,res:Response,next:NextFunction) =>controller.createPlan(req,res,next))
     .get((req:Request,res:Response,next:NextFunction) =>controller.getPlans(req,res,next))
     .put((req:Request,res:Response,next:NextFunction) =>controller.updatePlan(req,res,next))
