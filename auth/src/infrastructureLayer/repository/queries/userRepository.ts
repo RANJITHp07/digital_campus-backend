@@ -1,6 +1,6 @@
 import { DeepPartial } from "typeorm";
 import { IUser } from "../../../domainLayer/user";
-import { IUserRepository } from "../../../usecase/interface/userRepository";
+import { IUserRepository } from "../../../usecaseLayer/interface/userRepository";
 import { Users } from "../../entities/user";
 import { redis } from "../../config/redis";
 import { Like,In } from 'typeorm';

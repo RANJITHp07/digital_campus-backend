@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import Hashpassword from "../../../usecase/interface/hashpassword";
+import Hashpassword from "../../../usecaseLayer/interface/hashpassword";
 
 class Encrypt implements Hashpassword {
     //to hash the password

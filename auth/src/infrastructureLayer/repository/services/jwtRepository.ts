@@ -1,4 +1,4 @@
-import IJWT from "../../../usecase/interface/jwt";
+import IJWT from "../../../usecaseLayer/interface/jwt";
 import jwt from "jsonwebtoken"
 
 class jwtPassword implements IJWT{

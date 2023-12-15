@@ -1,9 +1,8 @@
-import express,{Application, Express} from "express";
+import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import { server } from "./graphql";
-import assignmentRouter from "../route/assignmentRoute"
 
 
 
@@ -21,8 +20,6 @@ export const  createServer = async() => {
     app.use(cors());
     app.use(morgan("dev"));
    
-
-    // app.use("/v1/assignment",assignmentRouter)
 
 
     return app;

@@ -1,4 +1,4 @@
-import { IAdmin } from "../../domain/admin";
+import { IAdmin } from "../../domainLayer/admin";
 
 export interface IAdminRepository {
     create(newAdmin: IAdmin): Promise<IAdmin>

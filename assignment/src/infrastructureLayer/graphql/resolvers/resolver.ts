@@ -1,33 +1,25 @@
-import { IAssigment } from "../../../domainLayer/assignment"
-import { controller,errorHandler } from "../injection/injection"
+import { assignmentQueries } from "./query"
+import { assignmentMutations } from "./mutation"
 
-export const assignmentMutations={
 
-    async createAssignment(_:unknown,args:{assignment:IAssigment}){
-        try{
-           const newAssignment = await controller.create(_,args)
-           return newAssignment
-        }catch(err){
-          errorHandler.apolloError(err)
-        }
-  },
+export const resolver={
+    Query: {
+        getAllassignment: assignmentQueries.getAllassignment,
 
-  async deleteAssignment(_:unknown,args:{id:string}){
-      try{
-          const deletedAssignment = await controller.deleteAssignment(_,args)
-          return deletedAssignment
-      }catch(err){
-          errorHandler.apolloError(err)
+        getgroupedAssignment: assignmentQueries.getgroupedAssignment,
+        
+        getOneassignment: assignmentQueries.getOneassignment,
+
+        getdistinctmainTopic: assignmentQueries.getdistinctmainTopic,
+
+        getDueDates: assignmentQueries.getDueDates,
+      },
+
+      Mutation: {
+        createAssignment: assignmentMutations.createAssignment,
+
+        deleteAssignment: assignmentMutations.deleteAssignment,
+
+        updateAssignment: assignmentMutations.updateAssignment,
       }
-  },
-
-  async updateAssignment(_:unknown,args:{id:string,update:Partial<IAssigment>}){
-      try{
-          const updatedAssignment = await controller.updateAssignment(_,args)
-          return updatedAssignment
-      }catch(err){
-          console.log(err)
-          errorHandler.apolloError(err)
-      }
-  }
 }

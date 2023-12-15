@@ -1,5 +1,5 @@
 import {ApolloServer} from 'apollo-server-express';
-import { resolver } from '../graphql/resolvers/assignment';
+import { resolver } from '../graphql/resolvers/resolver';
 import { typeDefs } from "../graphql/typeDefs/typeDefs";
 import { errorHandlingPlugin } from '../middleware/error/errorMiddleware';
 

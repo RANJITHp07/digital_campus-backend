@@ -1,6 +1,6 @@
-import { createServer } from "./infrastructure/config/app";
-import { db } from "./infrastructure/config/db"
-import { RabbitmquserDetails } from "./infrastructure/utils/rabbitmqMiddleware";
+import { createServer } from "./infrastructureLayer/config/app";
+import { db } from "./infrastructureLayer/config/db"
+import { RabbitmquserDetails } from "./infrastructureLayer/utils/rabbitmqMiddleware";
 
 
 const app=createServer();

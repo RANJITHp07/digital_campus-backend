@@ -1,7 +1,6 @@
-import { NextFunction,Request,Response} from "express";
-import { ErrorHandler } from "../../../classroom/src/infrastructure/middleware/error/userErrorhandler";
-import { IAssigment } from "../entites/assignment";
-import { AssignmentUsecase } from "../usecase/assignmentusecase";
+import { ErrorHandler } from "../../../classroom/src/infrastructureLayer/middleware/error/userErrorhandler";
+import { IAssigment } from "../domainLayer/assignment";
+import { AssignmentUsecase } from "../usecaseLayer/usecase/assignmentusecase";
 
 export class AssignmentController{
     private readonly assignmentusecase:AssignmentUsecase

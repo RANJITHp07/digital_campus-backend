@@ -1,6 +1,6 @@
-import { ErrorHandler } from "../../../classroom/src/infrastructure/middleware/error/userErrorhandler";
-import { IAssigment } from "../entites/assignment";
-import { AssignmentRepository } from "../infrastructure/repository/assignmentRepository";
+import { ErrorHandler } from "../../../../classroom/src/infrastructureLayer/middleware/error/userErrorhandler";
+import { IAssigment } from "../../domainLayer/assignment";
+import { AssignmentRepository } from "../../infrastructureLayer/repository/queries/assignmentRepository";
 
 export class AssignmentUsecase{
      private readonly assignment:AssignmentRepository

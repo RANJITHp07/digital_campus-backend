@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { IAssigment } from "../../domainLayer/assignment";
-import Assignment from "../model/assignment";
-import { IAssigmentRepository } from "../../usecaseLayer/interface/assignmentRepository";
+import { IAssigment } from "../../../domainLayer/assignment";
+import Assignment from "../../model/assignment";
+import { IAssigmentRepository } from "../../../usecaseLayer/interface/assignmentRepository";
 
 export interface IAssignmentWithId extends IAssigment {
     _id: Types.ObjectId;

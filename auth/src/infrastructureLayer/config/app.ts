@@ -3,7 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import userRoute from "../route/userRoute"
-import errorMiddleware from "../../usecase/handler/errorHandler";
+import errorMiddleware from "../../usecaseLayer/handler/errorHandler";
 import adminRoute from "../route/adminRoute"
 
 export const  createServer = () => {

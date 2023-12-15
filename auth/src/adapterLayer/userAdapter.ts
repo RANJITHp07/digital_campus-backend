@@ -1,5 +1,5 @@
-import { Next, Req, Res } from "../infrastructure/types/expressTypes";
-import { Userusecase } from "../usecase/usecase/userusecase";
+import { Next, Req, Res } from "../infrastructureLayer/types/expressTypes";
+import { Userusecase } from "../usecaseLayer/usecase/userusecase";
 
 
 export class  UserAdapter{

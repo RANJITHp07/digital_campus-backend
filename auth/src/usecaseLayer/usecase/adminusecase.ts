@@ -1,6 +1,6 @@
-import { AdminRepository } from "../../infrastructure/repository/queries/adminRepository";
-import Encrypt from "../../infrastructure/repository/services/bcryptRepository";
-import jwtPassword from "../../infrastructure/repository/services/jwtRepository";
+import { AdminRepository } from "../../infrastructureLayer/repository/queries/adminRepository";
+import Encrypt from "../../infrastructureLayer/repository/services/bcryptRepository";
+import jwtPassword from "../../infrastructureLayer/repository/services/jwtRepository";
 
 export class Adminusecase{
  

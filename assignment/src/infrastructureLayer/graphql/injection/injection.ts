@@ -1,7 +1,7 @@
 import { AssignmentController } from "../../../adapterLayer/assignmentAdapter";
-import { AssignmentUsecase } from "../../../usecaseLayer/assignmentusecase";
+import { AssignmentUsecase } from "../../../usecaseLayer/usecase/assignmentusecase";
 import { ErrorHandler } from "../../middleware/error/userErrorhandler";
-import { AssignmentRepository } from "../../repository/assignmentRepository";
+import { AssignmentRepository } from "../../repository/queries/assignmentRepository";
 
 //factory pattern
 const repository =new AssignmentRepository();

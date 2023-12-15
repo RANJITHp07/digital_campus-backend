@@ -1,6 +1,6 @@
 import { DeepPartial } from "typeorm";
 import { IAdmin } from "../../../domainLayer/admin";
-import { IAdminRepository } from "../../../usecase/interface/adminRepository";
+import { IAdminRepository } from "../../../usecaseLayer/interface/adminRepository";
 import { Admin } from "../../entities/admin";
 
 
