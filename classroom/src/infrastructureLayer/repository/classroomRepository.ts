@@ -1,5 +1,5 @@
-import { IClassroom } from "../../entities/classroom"
-import { IClassroomReository } from "../../usecase/interface/classroomRepository";
+import { IClassroom } from "../../domainLayer/classroom"
+import { IClassroomReository } from "../../usecaseLayer/interface/classroomRepository";
 import classroomModel from "../models/classroom"
 import { redis } from "../config/redis";
 

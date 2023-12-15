@@ -1,6 +1,6 @@
-import { IClassroom } from "../entities/classroom";
-import { ErrorHandler } from "../infrastructure/middleware/error/userErrorhandler";
-import { Classroomusecase } from "../usecase/classRoomusecase";
+import { IClassroom } from "../domainLayer/classroom";
+import { ErrorHandler } from "../infrastructureLayer/middleware/error/userErrorhandler";
+import { Classroomusecase } from "../usecaseLayer/classRoomusecase";
 
 
 export class ClassroomController{

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import bcrypt from 'bcrypt';
-import { IRandomgenerator } from '../../usecase/interface/uniqueRepositroy';
+import { IRandomgenerator } from '../../usecaseLayer/interface/uniqueRepositroy';
 
 export class RandomNumber implements IRandomgenerator {
   async generateUniqueRandomCode(): Promise<string> {

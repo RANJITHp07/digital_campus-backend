@@ -1,7 +1,8 @@
 import { Channel, Connection } from "amqplib";
 import connect from "../config/rabbitmq";
+import IListner from "../../usecaseLayer/interface/listenRepository";
 
-class Listener {
+export class Listener implements IListner {
   private channel: Channel | undefined;
   private connection: Connection | undefined;
 

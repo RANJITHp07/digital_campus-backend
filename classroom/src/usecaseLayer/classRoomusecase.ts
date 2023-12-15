@@ -1,11 +1,11 @@
-import { IClassroom } from "../entities/classroom";
-import { ErrorHandler } from "../infrastructure/middleware/error/userErrorhandler";
-import { ClassRoomRepository } from "../infrastructure/repository/classroomRepository";
-import { RandomNumber } from "../infrastructure/repository/uniqueNumberRepository";
-import Publisher from "../infrastructure/repository/publishrepository";
-import Listener from "../infrastructure/repository/listenrepository";
-import Nodemailer from "../infrastructure/repository/nodemailerRepository";
-import RequestValidator from "../infrastructure/repository/validatorRepository";
+import { IClassroom } from "../domainLayer/classroom";
+import { ErrorHandler } from "../infrastructureLayer/middleware/error/userErrorhandler";
+import { ClassRoomRepository } from "../infrastructureLayer/repository/classroomRepository";
+import { RandomNumber } from "../infrastructureLayer/repository/uniqueNumberRepository";
+import Publisher from "../infrastructureLayer/repository/publishrepository";
+import Listener from "../infrastructureLayer/repository/listenrepository";
+import Nodemailer from "../infrastructureLayer/repository/nodemailerRepository";
+import RequestValidator from "../infrastructureLayer/repository/validatorRepository";
 
 export class Classroomusecase{
  
@@ -118,7 +118,7 @@ export class Classroomusecase{
                 }
                classroom.students_enrolled.push(userId);
               }else{
-               classroom.students_enrolled = classroom.students_enrolled.filter(studentId => studentId !== userId);
+               classroom.students_enrolled = classroom.students_enrolled.filter((studentId :string)=> studentId !== userId);
               }
               await this.classroomrepository.create(classroom);
               
@@ -256,7 +256,7 @@ export class Classroomusecase{
                const classroom=await this.classroomrepository.getClassroom(classroomId)
                  if( classroom && classroom.students_enrolled.includes(id)){
                     classroom.admins.push(id)
-                    classroom.students_enrolled = classroom.students_enrolled.filter(studentId => studentId !== id);
+                    classroom.students_enrolled = classroom.students_enrolled.filter((studentId :string) => studentId !== id);
                     await this.classroomrepository.create(classroom);
                      return {
                          message:"Successfully added as admin"
@@ -285,7 +285,7 @@ export class Classroomusecase{
                const classroom=await this.classroomrepository.getClassroom(classroomId)
                  if( classroom && classroom.admins.includes(id)){
                     classroom.students_enrolled.push(id)
-                    classroom.admins = classroom.admins.filter(adminId => adminId !== id);
+                    classroom.admins = classroom.admins.filter((adminId:string) => adminId !== id);
                     await this.classroomrepository.create(classroom);
                      return {
                          message:"Successfully removed from admin"
