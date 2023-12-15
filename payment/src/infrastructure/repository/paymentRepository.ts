@@ -2,7 +2,7 @@ import Razorpay from 'razorpay';
 import { IPayment } from '../../domain/payment';
 
 const razorpay = new Razorpay({
-    key_id: 'rzp_test_9uGze6KlNX4TF',
+    key_id: 'rzp_test_9uGze6KlNX4TFj',
     key_secret: 'SRFAWTmjaiySyM356UJjxc09',
 });
 

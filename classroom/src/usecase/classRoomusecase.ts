@@ -176,14 +176,13 @@ export class Classroomusecase{
           try{
             const classroom=await this.classroomrepository.getAllparticipants(id);
             //to exchange the admin and userId to auth service and collect the data of the users from the auth service
-            await this.publish.publish("exchange2","details",{adminId:classroom?.admins, studentId:classroom?.students_enrolled});
+            await this.publish.publish("classroomExchange","details",{adminId:classroom?.admins, studentId:classroom?.students_enrolled});
           
             const details = await new Promise((resolve) => {
-               this.listen.listen("exchange1", "participants", (data) => {
+               this.listen.listen("authExchange", "participants", (data) => {
                  resolve(data);
                });
              });
-             console.log(details)
              return details
           }catch(err){
                this.errorHandler.apolloError(err)

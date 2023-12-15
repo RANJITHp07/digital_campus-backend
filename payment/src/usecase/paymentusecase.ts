@@ -16,14 +16,14 @@ export class PaymentUsecase{
 
     async createSubscription({plan_id,email,username,planName,amount,interval}:IPayment){
         try{
-            const validation=this.requestValidator.validateRequiredFields(
-                {planName,plan_id,email,username,amount,interval},
-                ["planName","plan_id","email","amount","username","interval"]
-                );
+            // const validation=this.requestValidator.validateRequiredFields(
+            //     {planName,plan_id,email,username,amount,interval},
+            //     ["planName","plan_id","email","amount","username","interval"]
+            //     );
               
-                if (!validation.success) {
-                    throw ErrorResponse.badRequest(validation.message as string)
-                }
+            //     if (!validation.success) {
+            //         throw ErrorResponse.badRequest(validation.message as string)
+            //     }
 
                 const razorpay=await this.paymentrepository.createPayment({plan_id,email,username,planName,amount,interval})
                 if(razorpay)return {

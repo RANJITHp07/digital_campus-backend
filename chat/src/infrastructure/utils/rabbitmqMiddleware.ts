@@ -8,7 +8,7 @@ const listener=new Listener()
 
 async function RabbitmquserCreate(){
     try{
-        await listener.listen("exchange1","createroute",async (data:any)=>{
+        await listener.listen("authExchange","createroute",async (data:any)=>{
             console.log(data)
             const user={
                 user_id:data.id,

@@ -50,7 +50,7 @@ export class Userusecase{
                 const hashedPassword=await this.bcrypt.createHash(password);
                 const newUser={firstName,lastName,email,username,password:hashedPassword}
                 const createnewUser=await this.userRepository.createUser(newUser);
-                await this.publish.publish("exchange1","createroute",{id:createnewUser.id,username,email,profile:createnewUser.profile})
+                await this.publish.publish("authExchange","createroute",{id:createnewUser.id,username,email,profile:createnewUser.profile})
                 return{
                         status:200,
                         success:true,

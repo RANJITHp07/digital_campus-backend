@@ -1,20 +1,20 @@
 import { Channel, Connection } from "amqplib";
-import { channel, connection, connect } from "../config/rabbitmq";
-import IListner from "../../usecase/interface/listenRepository";
+import connect from "../config/rabbitmq";
 
-class Listener implements IListner {
+class Listener {
   private channel: Channel | undefined;
   private connection: Connection | undefined;
-  private isConnected: boolean;
 
   constructor() {
     this.channel = undefined;
     this.connection = undefined;
-    this.isConnected = false;
   }
 
-  // to listen to the channel 
-  async listen(exchange: string, routingKey: string, callback: (data: any) => void) {
+  async listen(
+    exchange: string, 
+    routingKey: string,
+    callback: (data: any) => void 
+  ): Promise<void> {
     await this.ensureConnection();
 
     if (!this.channel || !this.connection) {
@@ -23,30 +23,36 @@ class Listener implements IListner {
 
     try {
       await this.channel.assertExchange(exchange, "direct",{durable:true});
-      const queue = await this.channel.assertQueue("", {durable:true });
-      await this.channel.bindQueue(queue.queue, exchange, routingKey);
-      
+      const queue = await this.channel.assertQueue("Classroom");
 
-      this.channel.consume(queue.queue, (data) => {
+      
+      await this.channel.bindQueue(queue.queue, exchange, routingKey);
+
+      // Consume messages from the queue
+      this.channel.consume(queue.queue, async (data) => {
         if (data) {
-          callback(JSON.parse(data.content.toString()));
-          this.channel?.ack(data);
+          try {
+            const parsedData = JSON.parse(data.content.toString());
+            await callback(parsedData);
+            this.channel?.ack(data); // Acknowledge successful processing
+          } catch (err) {
+            console.error("Error processing message:", err);
+          }
         }
       });
     } catch (err) {
-      console.error("Error in listen:", err);
+      console.error("Error listening to queue:", err);
     }
   }
 
-  //ensures that the connection is established else it establish the connection
   private async ensureConnection() {
-    if (!this.isConnected) {
-      await connect();
+    if (!this.channel) {
+      const {channel,connection}=await connect();
       this.channel = channel;
       this.connection = connection;
-      this.isConnected = true;
     }
   }
 }
 
 export default Listener;
+

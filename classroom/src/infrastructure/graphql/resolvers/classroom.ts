@@ -8,6 +8,7 @@ import Listener from "../../repository/listenrepository"
 import Nodemailer from "../../repository/nodemailerRepository"
 import Publisher from "../../repository/publishrepository"
 import { RandomNumber } from "../../repository/uniqueNumberRepository"
+import RequestValidator from "../../repository/validatorRepository"
 
 
 //factory method
@@ -18,7 +19,8 @@ const errorHandler=new ErrorHandler()
 const nodemailer=new Nodemailer()
 const publish=new Publisher()
 const listner=new Listener()
-const usecase=new Classroomusecase(repository,code,errorHandler,publish,listner,nodemailer)
+const requestValidator=new RequestValidator()
+const usecase=new Classroomusecase(repository,code,errorHandler,publish,listner,nodemailer,requestValidator)
 const controller =new ClassroomController(usecase,errorHandler)
 
 

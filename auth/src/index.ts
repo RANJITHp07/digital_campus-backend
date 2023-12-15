@@ -5,13 +5,8 @@ import { RabbitmquserDetails } from "./infrastructure/utils/rabbitmqMiddleware";
 
 const app=createServer();
 
-const rabbitmq=async()=>{
-   await RabbitmquserDetails()
-}
-
-rabbitmq()
-
-db().then(()=>{
+db().then(async()=>{
+    await RabbitmquserDetails()
     app?.listen(4000,()=>{
         console.log(`connected to the server`)
     })

@@ -1,4 +1,3 @@
-import { connect } from "./infrastructure/config/rabbitmq";
 import { httpServer } from "./infrastructure/config/app";
 import { connectDB } from "./infrastructure/config/connectdb";
 import { RabbitmquserCreate, RabbitmquserUpdate } from "./infrastructure/utils/rabbitmqMiddleware";
