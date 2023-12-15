@@ -1,5 +1,5 @@
-import IMessage from "../domain/message";
-import MessageRepository from "../infrastructure/repository/messageRespository";
+import IMessage from "../domainLayer/message";
+import MessageRepository from "../infrastructureLayer/repository/queries/messageRespository";
 
 export class Messageusecase{
     private readonly messageRepository: MessageRepository;

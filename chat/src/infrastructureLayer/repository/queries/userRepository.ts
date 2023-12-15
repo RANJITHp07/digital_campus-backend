@@ -1,5 +1,5 @@
-import IUser from "../../domain/user"
-import UserModel from "../model/users"
+import IUser from "../../../domainLayer/user"
+import UserModel from "../../model/users"
 
 export default class UserRepository{
     constructor(UserModel:any){}

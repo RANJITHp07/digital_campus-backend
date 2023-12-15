@@ -2,9 +2,9 @@ import express, { Express } from "express";
 import cors from "cors";
 import http from 'http';
 import morgan from 'morgan';
-import { SocketManager } from "../repository/socketRepository";
+import { SocketManager } from "../repository/queries/socketRepository";
 import MessageRoute from "../routes/messageRoute"
-import UserRepository from "../repository/userRepository";
+import UserRepository from "../repository/queries/userRepository";
 
 
 

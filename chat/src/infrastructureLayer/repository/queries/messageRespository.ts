@@ -1,6 +1,5 @@
-import IMessage from "../../domain/message"
-import IMessageRepository from "../../usecase/interface/messageConversation"
-import MessageModel from "../model/message"
+import IMessageRepository from "../../../usecaseLayer/interface/messageConversation"
+import MessageModel from "../../model/message"
 
 
 

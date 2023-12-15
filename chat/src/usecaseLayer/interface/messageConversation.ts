@@ -1,4 +1,4 @@
-import IMessage from "../../domain/message";
+import IMessage from "../../domainLayer/message";
 
 interface IMessageRepository{
     create(message:any):Promise<unknown>

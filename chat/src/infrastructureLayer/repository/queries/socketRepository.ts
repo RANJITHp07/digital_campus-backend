@@ -2,8 +2,7 @@ import { Server, Socket } from "socket.io";
 import { createServer as createHttpServer, Server as HttpServer } from "http";
 import UserRepository from "./userRepository";
 import MessageRepository from "./messageRespository";
-import IUser from "../../domain/user";
-import IMessage from "../../domain/message";
+import IMessage from "../../../domainLayer/message";
 
 interface ClassRoom {
   [classRoomId: string]: {

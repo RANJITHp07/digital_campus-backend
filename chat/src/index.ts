@@ -1,6 +1,6 @@
-import { httpServer } from "./infrastructure/config/app";
-import { connectDB } from "./infrastructure/config/connectdb";
-import { RabbitmquserCreate, RabbitmquserUpdate } from "./infrastructure/utils/rabbitmqMiddleware";
+import { httpServer } from "./infrastructureLayer/config/app";
+import { connectDB } from "./infrastructureLayer/config/connectdb";
+import { RabbitmquserCreate, RabbitmquserUpdate } from "./infrastructureLayer/utils/rabbitmqMiddleware";
 
 
 

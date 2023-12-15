@@ -1,6 +1,6 @@
 import UserModel from "../model/users";
-import Listener from "../repository/listenrepository";
-import UserRepository from "../repository/userRepository";
+import Listener from "../repository/rabbitmq/listenrepository";
+import UserRepository from "../repository/queries/userRepository";
 
 
 const repository=new UserRepository(UserModel);

@@ -121,7 +121,7 @@ async getAlluser(){
 }
    
 //to  check the passoword is crct or not
-async checkPassword(password: string){
+async checkPassword(password: string):Promise<IUser | null>{
         const user=await Users.findOne({  
             where:{
                password:password

@@ -4,7 +4,6 @@ const connect = async function (): Promise<{ connection: Connection | undefined,
   try {
     let channel: Channel | undefined;
     let connection: Connection | undefined;
-    console.log(channel)
     const amqpServer = "amqp://localhost:5672";
     connection = await amqp.connect(amqpServer);
     channel = await connection.createChannel();
