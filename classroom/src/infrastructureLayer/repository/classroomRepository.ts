@@ -11,7 +11,7 @@ export class ClassRoomRepository implements IClassroomReository{
     //to create classroom
     async create(classroom:IClassroom):Promise< IClassroom>{
         try{
-            const classRoom=await classroomModel.create(classroom);
+            const classRoom=await classroomModel.create({...classroom,students_enrolled:[]});
             await redis.set(classRoom._id,JSON.stringify(classRoom))
             return classRoom
         }catch(err){
@@ -137,6 +137,24 @@ export class ClassRoomRepository implements IClassroomReository{
         try{
             const classroom=await classroomModel.find().sort({createdAt:-1});
             return classroom
+        }catch(err){
+          throw err
+        }
+      }
+
+      //to update the profile photo of all the classroom where he is admin
+      async updateProfile(id:string,update:{profile:string}){
+        try{
+          const result = await classroomModel.updateOne(
+            {
+              'admins.0': id,
+            },
+            {
+              $set:update
+            },
+          );
+          if(result) return "updated profile"
+          return "not updated profile"
         }catch(err){
           throw err
         }

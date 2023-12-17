@@ -4,6 +4,7 @@ export const assignmentQuery = gql`
   type DueDate {
     day: String
     time: String
+    timer:[String]
   }
 
   type Polling{
@@ -14,6 +15,12 @@ export const assignmentQuery = gql`
   type Attachment {
     type: String
     content: String
+  }
+
+  type Quiz{
+    question:String,
+   answers:[String],
+   type:String
   }
 
   type Assignment {
@@ -27,6 +34,7 @@ export const assignmentQuery = gql`
     instruction: String
     attachment: Attachment
     polling:Polling,
+    quiz:[Quiz],
     creator: String
     createdAt: String
   }

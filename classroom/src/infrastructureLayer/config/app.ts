@@ -3,13 +3,14 @@ import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import { server } from "./graphql";
+import {Express} from 'express'
 
 
 
 export const  createServer = async() => {
   
     // Config
-    const app:any= express();
+    const app:Express | any= express();
 
     await server.start();
 
@@ -19,10 +20,7 @@ export const  createServer = async() => {
     app.use(express.json());
     app.use(cors());
     app.use(morgan("dev"));
-   
 
-
-
-    return app;
+    return app as Express;
   
 };

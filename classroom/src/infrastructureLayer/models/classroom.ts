@@ -12,6 +12,7 @@ interface IClassroom extends Document {
     backgroundPicture:string,
     themeColor:string,
     category:string,
+    profile:string,
     block:boolean
 }
 
@@ -51,6 +52,10 @@ const classroomSchema = new Schema<IClassroom>({
       },
       category:{
         type:String
+      },
+      profile:{
+         type:String,
+         default:''
       },
       block:{
         type:Boolean,

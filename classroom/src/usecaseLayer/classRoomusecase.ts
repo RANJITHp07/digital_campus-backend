@@ -33,7 +33,7 @@ export class Classroomusecase{
         
           const validation = this.requestValidator.validateRequiredFields(
                 classroom,
-               ['className', 'classSection','classSubject','creator','students_enrolled','admins','backgroundPicture','category']
+               ['className', 'classSection','classSubject','creator','admins','backgroundPicture','category']
            );
    
            if (!validation.success) {
@@ -172,23 +172,23 @@ export class Classroomusecase{
           }
      }
 
-     //to get all the participants of the classroom
-     async getAllClassroomparticipants({id}:{id:string}){
-          try{
-            const classroom=await this.classroomrepository.getAllparticipants(id);
-            //to exchange the admin and userId to auth service and collect the data of the users from the auth service
-            await this.publish.publish("classroomExchange","details",{adminId:classroom?.admins, studentId:classroom?.students_enrolled});
+     // //to get all the participants of the classroom
+     // async getAllClassroomparticipants({id}:{id:string}){
+     //      try{
+     //        const classroom=await this.classroomrepository.getAllparticipants(id);
+     //        //to exchange the admin and userId to auth service and collect the data of the users from the auth service
+     //        await this.publish.publish("classroomExchange","details",{adminId:classroom?.admins, studentId:classroom?.students_enrolled});
           
-            const details = await new Promise((resolve) => {
-               this.listen.listen("authExchange", "participants", (data) => {
-                 resolve(data);
-               });
-             });
-             return details
-          }catch(err){
-               this.errorHandler.apolloError(err)
-          }
-          }
+     //        const details = await new Promise((resolve) => {
+     //           this.listen.listen("authExchange", "participants", (data) => {
+     //             resolve(data);
+     //           });
+     //         });
+     //         return details
+     //      }catch(err){
+     //           this.errorHandler.apolloError(err)
+     //      }
+     //      }
 
 
          //to get the classroom details
@@ -223,18 +223,18 @@ export class Classroomusecase{
           }
 
           //to filter out based on the category
-          async getFilteredclassroom({id,category}:{id:string,category:string[]}){
+          async getFilteredclassroom({id:userId,category}:{id:string,category:string[]}){
                try{
          // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(
-          { id,category },
-          ['id', 'category']
+          { userId,category },
+          ['userId', 'category']
       );
 
       if (!validation.success) {
           this.errorHandler.userInputerror(validation.message as string)
       }
-                 const classrooms = await this.classroomrepository.classroomFilter(id,category)
+                 const classrooms = await this.classroomrepository.classroomFilter(userId,category)
                  return classrooms
                }catch(err){
                     this.errorHandler.apolloError(err)

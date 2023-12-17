@@ -2,15 +2,21 @@ import { gql } from "apollo-server";
 
 export const assignmentMutation = gql`
   
-
   input DueDateInput {
     day: String
     time: String
+    timer:[String]
   }
 
   input AttachmentInput {
     type: String
     content: String
+  }
+
+  input QuizInput{
+    question:String,
+   answers:[String],
+   type:String
   }
 
   input PollingInput{
@@ -30,6 +36,7 @@ export const assignmentMutation = gql`
     points:Int
     creator:String
     polling:PollingInput
+    quiz:[QuizInput]
   }
 
   type Assignment {

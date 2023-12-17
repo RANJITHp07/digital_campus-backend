@@ -1,11 +1,18 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
+interface IQuestion {
+    question: string;
+    answers: string[];
+    type: string;
+}
+
 interface IAssignment extends Document {
     assignmentType: "Assignment" | "Quiz" | "Announcement" | "Question" | "Material" | "Polling";
     mainTopic: string;
     dueDate: {
         day: string;
         time: string;
+        timer:string[]
     };
     title: string;
     class_id: string[];
@@ -20,7 +27,9 @@ interface IAssignment extends Document {
     polling:{
     answers:string[],
     polling:number[]
-    }
+    },
+    quiz: IQuestion[];
+
 }
 
 const assignmentSchema = new Schema<IAssignment>({
@@ -45,6 +54,9 @@ const assignmentSchema = new Schema<IAssignment>({
             type: String,
             
         },
+        timer:{
+            type:[String]
+        }
     },
     class_id: {
         type: [String],
@@ -79,7 +91,23 @@ const assignmentSchema = new Schema<IAssignment>({
         polling: {
             type: [Number],
         },
-        }
+     },
+     quiz: [
+        {
+            question: {
+                type: String,
+            },
+            answers: {
+                type: [String],
+                
+            },
+            type: {
+                type: String,
+                
+            },
+        },
+    ],
+
 },{
     timestamps:true
 }

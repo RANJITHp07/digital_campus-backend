@@ -15,6 +15,7 @@ export const classroomQuery=gql`
      backgroundPicture:String,
      themeColor:String,
      block:Boolean
+     profile:String
   }
 
   type Participants{
