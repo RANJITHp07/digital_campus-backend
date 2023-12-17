@@ -142,7 +142,7 @@ export class Userusecase{
             }
           const updatedUser=await this.userRepository.update(id,update)
           if(update.profile && updatedUser){
-            await this.publish.publish("exchange1","updateProfile",{profile:updatedUser.profile})
+            await this.publish.publish("authExchange","updateProfile",{profile:updatedUser.profile})
           }
           if(updatedUser)
           return {

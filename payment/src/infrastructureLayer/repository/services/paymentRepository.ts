@@ -1,5 +1,5 @@
 import Razorpay from 'razorpay';
-import { IPayment } from '../../domainLayer/payment';
+import { IPayment } from '../../../domainLayer/payment';
 
 export class PaymentRepository {
     private razorpay: any;

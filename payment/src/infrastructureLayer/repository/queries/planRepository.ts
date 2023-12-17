@@ -1,5 +1,5 @@
-import { IPlan } from "../../domainLayer/plan";
-import PlanModel from "../model/planModel";
+import { IPlan } from "../../../domainLayer/plan";
+import PlanModel from "../../model/planModel";
 
 export class PlanRepository {
    constructor(planModel:any){}

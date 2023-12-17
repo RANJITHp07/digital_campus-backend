@@ -167,6 +167,7 @@ export class Classroomusecase{
              const classroom:IClassroom[]=await this.classroomrepository.getCreatorClassrooms(id)
              return classroom
           }catch(err){
+               console.log(err)
                this.errorHandler.apolloError(err)
           }
      }

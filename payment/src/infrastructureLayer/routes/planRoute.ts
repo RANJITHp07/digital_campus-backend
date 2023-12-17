@@ -1,7 +1,7 @@
 import { PlanController } from "../../adapterLayer/planAdapter";
-import { Planusecase } from "../../usecaseLayer/planusecase";
-import { PlanRepository } from "../repository/planRepository";
-import RequestValidator from "../repository/validatorRepository";
+import { Planusecase } from "../../usecaseLayer/usecase/planusecase";
+import { PlanRepository } from "../repository/queries/planRepository";
+import RequestValidator from "../repository/services/validatorRepository";
 import express,{Request,Response,NextFunction} from 'express'
 
 //factory pattern

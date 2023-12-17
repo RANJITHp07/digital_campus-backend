@@ -1,5 +1,5 @@
 import { Next, Req, Res } from "../infrastructureLayer/types/expressTypes";
-import { Planusecase } from "../usecaseLayer/planusecase";
+import { Planusecase } from "../usecaseLayer/usecase/planusecase";
 
 export class PlanController{
     private readonly planusecase:Planusecase

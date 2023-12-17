@@ -1,5 +1,5 @@
 interface IListner{
-    listen(exchange: string, routingKey: string, callback: (data: any) => void):Promise<unknown>
+    listen(exchange: string, routingKey: string,queueName:string, callback: (data: any) => void):Promise<unknown>
 
 }
 

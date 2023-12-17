@@ -8,7 +8,7 @@ const listener=new Listener()
 const publisher=new Publisher()
 
 async function RabbitmquserDetails(){
-    await listener.listen("classroomExchange","details",async (data:any)=>{
+    await listener.listen("classroomExchange","details",'classroomDetail',async (data:any)=>{
     console.log(data)
      const admin=await repository.getAllparticipants(data.adminId)
      const user=await repository.getAllparticipants(data.studentId)

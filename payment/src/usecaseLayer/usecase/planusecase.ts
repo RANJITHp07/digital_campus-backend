@@ -1,7 +1,7 @@
-import { IPlan } from "../domainLayer/plan";
-import { PlanRepository } from "../infrastructureLayer/repository/planRepository";
-import RequestValidator from "../infrastructureLayer/repository/validatorRepository";
-import ErrorResponse from "./handler/errorResponse";
+import { IPlan } from "../../domainLayer/plan";
+import { PlanRepository } from "../../infrastructureLayer/repository/queries/planRepository";
+import RequestValidator from "../../infrastructureLayer/repository/services/validatorRepository";
+import ErrorResponse from "../handler/errorResponse";
 
 export class Planusecase{
 

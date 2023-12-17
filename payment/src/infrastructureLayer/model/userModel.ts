@@ -1,7 +1,6 @@
 import mongoose, { Document, Schema, Types } from 'mongoose';
 
 export interface IPaymentModel extends Document {
-   _id:Schema.Types.ObjectId,
    planName:string,
    amount:number,
    username:string,
@@ -11,7 +10,6 @@ export interface IPaymentModel extends Document {
 }
 
 const paymentSchema = new Schema<IPaymentModel>({
-    _id: { type: Schema.Types.ObjectId}, // Assuming _id is optional
     planName: { type: String },
     amount: { type: Number },
     username: { type: String },

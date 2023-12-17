@@ -15,6 +15,7 @@ export default class UserRepository{
 
     async update(id:number,update:Partial<IUser>):Promise<string>{
         try{
+            console.log(id,update)
             await UserModel.findOneAndUpdate({user_id:id},{$set:update})
             return "updated"
         }catch(err){

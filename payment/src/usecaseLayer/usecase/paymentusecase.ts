@@ -1,7 +1,7 @@
-import { IPayment } from "../domainLayer/payment";
-import { PaymentRepository } from "../infrastructureLayer/repository/paymentRepository";
-import RequestValidator from "../infrastructureLayer/repository/validatorRepository";
-import ErrorResponse from "./handler/errorResponse";
+import { IPayment } from "../../domainLayer/payment";
+import { PaymentRepository } from "../../infrastructureLayer/repository/services/paymentRepository";
+import RequestValidator from "../../infrastructureLayer/repository/services/validatorRepository";
+import ErrorResponse from "./../handler/errorResponse";
 
 export class PaymentUsecase{
     

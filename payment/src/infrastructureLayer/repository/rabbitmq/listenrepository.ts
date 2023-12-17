@@ -1,8 +1,7 @@
 import { Channel, Connection } from "amqplib";
 import connect from "../../config/rabbitmq";
-import IListner from "../../../usecaseLayer/interface/listenRepository";
 
-export class Listener implements IListner {
+class Listener {
   private channel: Channel | undefined;
   private connection: Connection | undefined;
 
@@ -14,7 +13,6 @@ export class Listener implements IListner {
   async listen(
     exchange: string, 
     routingKey: string,
-    queueName:string,
     callback: (data: any) => void 
   ): Promise<void> {
     await this.ensureConnection();
@@ -25,7 +23,7 @@ export class Listener implements IListner {
 
     try {
       await this.channel.assertExchange(exchange, "direct",{durable:true});
-      const queue = await this.channel.assertQueue(queueName);
+      const queue = await this.channel.assertQueue("Payment");
 
       
       await this.channel.bindQueue(queue.queue, exchange, routingKey);

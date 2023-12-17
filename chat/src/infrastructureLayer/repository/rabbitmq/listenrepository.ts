@@ -13,6 +13,7 @@ class Listener {
   async listen(
     exchange: string, 
     routingKey: string,
+    queueName:string,
     callback: (data: any) => void 
   ): Promise<void> {
     await this.ensureConnection();
@@ -23,7 +24,7 @@ class Listener {
 
     try {
       await this.channel.assertExchange(exchange, "direct",{durable:true});
-      const queue = await this.channel.assertQueue("Chat");
+      const queue = await this.channel.assertQueue(queueName);
 
       
       await this.channel.bindQueue(queue.queue, exchange, routingKey);
