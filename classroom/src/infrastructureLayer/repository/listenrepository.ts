@@ -1,4 +1,4 @@
-import { Channel, Connection } from "amqplib";
+import { Channel, Connection,ConsumeMessage } from "amqplib";
 import connect from "../config/rabbitmq";
 import IListner from "../../usecaseLayer/interface/listenRepository";
 
@@ -47,7 +47,32 @@ export class Listener implements IListner {
     }
   }
 
-  private async ensureConnection() {
+
+  async consume(replyQueue:string){
+    await this.ensureConnection();
+
+    if (!this.channel || !this.connection) {
+      throw new Error("RabbitMQ connection not available");
+    }
+    try{
+      this.channel.consume(
+        replyQueue,
+        (data: ConsumeMessage | null) => {
+          console.log("the reply is..", JSON.parse(data?.content.toString() as string));
+          
+        },
+        {
+          noAck: true,
+        }
+      );
+    }catch(err){
+      console.error("Error in publish:", err);
+      return false;
+    }
+  }
+
+
+   async ensureConnection() {
     if (!this.channel) {
       const {channel,connection}=await connect();
       this.channel = channel;

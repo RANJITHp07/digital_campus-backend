@@ -5,5 +5,6 @@ export interface IUser {
     username:string,
     email:string,
     password: string,
-    profile?:string
+    profile?:string,
+    blocked?:boolean
 }

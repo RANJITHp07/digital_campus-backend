@@ -1,6 +1,7 @@
 import { Channel, Connection } from "amqplib";
 import connect from "../config/rabbitmq";
 import IPublish from "../../usecaseLayer/interface/publishRepository";
+import { randomUUID } from "crypto";
 
 class Publisher implements IPublish{
   private channel: Channel | undefined;
@@ -34,7 +35,29 @@ class Publisher implements IPublish{
     }
   }
 
-  private async ensureConnection() {
+  async producer(data: any,rpcQueue:string,replyQueueName:string) {
+    await this.ensureConnection();
+
+    if (!this.channel || !this.connection) {
+      throw new Error("RabbitMQ connection not available");
+    }
+    const uuid = randomUUID();
+    console.log("the corr id is ", uuid);
+    this.channel.sendToQueue(
+      rpcQueue,
+      Buffer.from(JSON.stringify(data)),
+      {
+        replyTo: replyQueueName,
+        correlationId: uuid,
+        expiration: 10,
+        headers: {
+          function: data.operation,
+        },
+      }
+    );
+  }
+
+  async ensureConnection() {
     if (!this.channel) {
       const {channel,connection}=await connect();
       this.channel = channel;

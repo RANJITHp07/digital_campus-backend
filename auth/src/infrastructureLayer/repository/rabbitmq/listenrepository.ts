@@ -1,4 +1,4 @@
-import { Channel, Connection } from "amqplib";
+import { Channel, Connection, ConsumeMessage } from "amqplib";
 import connect from "../../config/rabbitmq";
 import IListner from "../../../usecaseLayer/interface/listenRepository";
 
@@ -46,6 +46,8 @@ export class Listener implements IListner {
       console.error("Error listening to queue:", err);
     }
   }
+
+ 
 
   private async ensureConnection() {
     if (!this.channel) {

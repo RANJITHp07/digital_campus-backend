@@ -86,12 +86,12 @@ export class ClassroomController{
    }
 
    async getAllparticipants(_:unknown,args:{id:string}){
-    // try{
-    //     const classrooms=await this.classroomusecase.getAllClassroomparticipants(args)
-    //     return classrooms
-    // }catch(err){
-    //     this.errorHandler.apolloError(err)
-    // }
+    try{
+        const classrooms=await this.classroomusecase.getAllClassroomparticipants(args)
+        return classrooms
+    }catch(err){
+        this.errorHandler.apolloError(err)
+    }
    }
 
    async getClassroomDetails(_:unknown,args:{id:string}){

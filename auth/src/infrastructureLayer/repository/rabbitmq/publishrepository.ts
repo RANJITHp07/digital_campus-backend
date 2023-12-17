@@ -1,4 +1,4 @@
-import { Channel, Connection } from "amqplib";
+import { Channel, Connection, ConsumeMessage } from "amqplib";
 import connect from "../../config/rabbitmq";
 import IPublish from "../../../usecaseLayer/interface/publishRepository";
 
@@ -33,6 +33,8 @@ class Publisher implements IPublish{
       return false;
     }
   }
+
+  
 
   private async ensureConnection() {
     if (!this.channel) {

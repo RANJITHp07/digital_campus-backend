@@ -1,5 +1,5 @@
 interface Submit{
-    status:"Delay"| "Submitted" | "Not Submitted",
+    status:"Late Submission"| "Submitted" | "Not Submitted",
     grade:number
 }
 
