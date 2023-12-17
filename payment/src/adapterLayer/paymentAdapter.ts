@@ -1,5 +1,5 @@
-import { Next, Req, Res } from "../infrastructure/types/expressTypes";
-import { PaymentUsecase } from "../usecase/paymentusecase";
+import { Next, Req, Res } from "../infrastructureLayer/types/expressTypes";
+import { PaymentUsecase } from "../usecaseLayer/paymentusecase";
 
 export class PaymentAdapter{
 

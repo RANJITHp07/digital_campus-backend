@@ -240,13 +240,13 @@ export class Classroomusecase{
                }
           }
 
-          async addToAdmin({id,classroomId}:{id:string,classroomId:string}){
+          async addToAdmin({id:userId,classroomId}:{id:string,classroomId:string}){
               try{ 
 
                // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(
-          { id,classroomId },
-          ['id', 'classroomId']
+          { userId,classroomId },
+          ['userId', 'classroomId']
       );
 
       if (!validation.success) {
@@ -254,9 +254,9 @@ export class Classroomusecase{
       }
 
                const classroom=await this.classroomrepository.getClassroom(classroomId)
-                 if( classroom && classroom.students_enrolled.includes(id)){
-                    classroom.admins.push(id)
-                    classroom.students_enrolled = classroom.students_enrolled.filter((studentId :string) => studentId !== id);
+                 if( classroom && classroom.students_enrolled.includes(userId)){
+                    classroom.admins.push(userId)
+                    classroom.students_enrolled = classroom.students_enrolled.filter((studentId :string) => studentId !== userId);
                     await this.classroomrepository.create(classroom);
                      return {
                          message:"Successfully added as admin"
@@ -271,11 +271,12 @@ export class Classroomusecase{
           }
 
 
-          async removeFromAdmin({id,classroomId}:{id:string,classroomId:string}){
+          async removeFromAdmin({id:userId,classroomId}:{id:string,classroomId:string}){
+
                   // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(
-          { id,classroomId },
-          ['id', 'classroomId']
+          { userId,classroomId },
+          ['userId', 'classroomId']
       );
 
       if (!validation.success) {
@@ -283,9 +284,9 @@ export class Classroomusecase{
       }
                try{
                const classroom=await this.classroomrepository.getClassroom(classroomId)
-                 if( classroom && classroom.admins.includes(id)){
-                    classroom.students_enrolled.push(id)
-                    classroom.admins = classroom.admins.filter((adminId:string) => adminId !== id);
+                 if( classroom && classroom.admins.includes(userId)){
+                    classroom.students_enrolled.push(userId)
+                    classroom.admins = classroom.admins.filter((adminId:string) => adminId !== userId);
                     await this.classroomrepository.create(classroom);
                      return {
                          message:"Successfully removed from admin"

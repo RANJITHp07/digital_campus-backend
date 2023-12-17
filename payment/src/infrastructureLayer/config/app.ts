@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
-import errorMiddleware from "../../usecase/handler/errorHandler";
+import errorMiddleware from "../../usecaseLayer/handler/errorHandler";
 import planRoute from '../routes/planRoute'
 import paymentRoute from '../routes/paymentRoute'
 

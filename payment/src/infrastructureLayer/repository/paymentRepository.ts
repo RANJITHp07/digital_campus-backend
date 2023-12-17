@@ -1,34 +1,26 @@
 import Razorpay from 'razorpay';
-import { IPayment } from '../../domain/payment';
-
-const razorpay = new Razorpay({
-    key_id: 'rzp_test_9uGze6KlNX4TFj',
-    key_secret: 'SRFAWTmjaiySyM356UJjxc09',
-});
+import { IPayment } from '../../domainLayer/payment';
 
 export class PaymentRepository {
-    async createPayment(payment: IPayment) {
-        try{
-        const razorpayPlan = await razorpay.plans.create({
-            period: 'monthly',
-            interval: payment.interval,
-            item: {
-                name: payment.planName,
-                amount: payment.amount,
-                currency: 'INR',
-            },
-            notes: {
-                plan_id: payment.plan_id,
-                username: payment.username,
-                email: payment.email,
-            }
-            
+    private razorpay: any;
+
+    constructor(key_id: string, key_secret: string) {
+        this.razorpay = new Razorpay({
+            key_id: "rzp_test_f2VkhZBqoeOqME",
+            key_secret: 'yze5eVVwqu4HcpTWr51Vm76A',
         });
-        return razorpayPlan
-    }catch(err){
-        throw err
     }
-        
+
+    async createPayment(payment: IPayment) {
+        try {
+            const razorpayPlan = await this.razorpay.subscriptions.create({
+                plan_id:'plan_NDHsyIEFMzLGnH',
+                customer_notify:1,
+                total_count:1,
+            });
+            return razorpayPlan;
+        } catch (err) {
+            throw err;
+        }
     }
-    
 }

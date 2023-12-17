@@ -1,6 +1,6 @@
 import { isValidObjectId } from 'mongoose';
 
-interface ValidationResult {
+interface ValidationResult { 
     success: boolean;
     message?: string;
 }

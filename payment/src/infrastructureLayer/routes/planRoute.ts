@@ -1,5 +1,5 @@
-import { PlanController } from "../../adapter/planAdapter";
-import { Planusecase } from "../../usecase/planusecase";
+import { PlanController } from "../../adapterLayer/planAdapter";
+import { Planusecase } from "../../usecaseLayer/planusecase";
 import { PlanRepository } from "../repository/planRepository";
 import RequestValidator from "../repository/validatorRepository";
 import express,{Request,Response,NextFunction} from 'express'

@@ -162,7 +162,7 @@ export class Userusecase{
              // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(
             { email, username },
-            ['id', 'update']
+            ['email', 'username']
         );
 
         if (!validation.success) {
@@ -185,6 +185,7 @@ export class Userusecase{
     //to check if the user entered OTP is correct or not
     async emailVeification({otp,email}:{otp:string,email:string}){
         try{
+            console.log(email)
 
         // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(

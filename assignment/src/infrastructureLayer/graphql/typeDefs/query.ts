@@ -6,6 +6,11 @@ export const assignmentQuery = gql`
     time: String
   }
 
+  type Polling{
+    answers:[String],
+    polling:[Int]
+  }
+
   type Attachment {
     type: String
     content: String
@@ -21,6 +26,7 @@ export const assignmentQuery = gql`
     students: [String!]!
     instruction: String
     attachment: Attachment
+    polling:Polling,
     creator: String
     createdAt: String
   }

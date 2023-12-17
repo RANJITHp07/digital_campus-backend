@@ -1,11 +1,11 @@
-import { PaymentAdapter } from "../../adapter/paymentAdapter";
-import { PaymentUsecase } from "../../usecase/paymentusecase";
+import { PaymentAdapter } from "../../adapterLayer/paymentAdapter";
+import { PaymentUsecase } from "../../usecaseLayer/paymentusecase";
 import { PaymentRepository } from "../repository/paymentRepository";
 import RequestValidator from "../repository/validatorRepository";
 import express,{Request,Response,NextFunction} from 'express'
 
 
-const repository=new PaymentRepository();
+const repository=new PaymentRepository('','');
 const validator=new RequestValidator()
 const usecase=new PaymentUsecase(repository,validator);
 const controller=new PaymentAdapter(usecase);

@@ -1,4 +1,4 @@
-import { IPlan } from "../../domain/plan";
+import { IPlan } from "../../domainLayer/plan";
 import PlanModel from "../model/planModel";
 
 export class PlanRepository {

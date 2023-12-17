@@ -1,6 +1,6 @@
-import { IPayment } from "../domain/payment";
-import { PaymentRepository } from "../infrastructure/repository/paymentRepository";
-import RequestValidator from "../infrastructure/repository/validatorRepository";
+import { IPayment } from "../domainLayer/payment";
+import { PaymentRepository } from "../infrastructureLayer/repository/paymentRepository";
+import RequestValidator from "../infrastructureLayer/repository/validatorRepository";
 import ErrorResponse from "./handler/errorResponse";
 
 export class PaymentUsecase{
@@ -16,6 +16,7 @@ export class PaymentUsecase{
 
     async createSubscription({plan_id,email,username,planName,amount,interval}:IPayment){
         try{
+            console.log(plan_id,email,username,planName,amount,interval)
             // const validation=this.requestValidator.validateRequiredFields(
             //     {planName,plan_id,email,username,amount,interval},
             //     ["planName","plan_id","email","amount","username","interval"]

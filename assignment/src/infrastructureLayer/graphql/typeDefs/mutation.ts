@@ -13,7 +13,7 @@ export const assignmentMutation = gql`
     content: String
   }
 
-  input Polling{
+  input PollingInput{
     answers:[String],
     polling:[Int]
   }
@@ -29,7 +29,7 @@ export const assignmentMutation = gql`
     attachment: AttachmentInput
     points:Int
     creator:String
-    polling:Polling
+    polling:PollingInput
   }
 
   type Assignment {

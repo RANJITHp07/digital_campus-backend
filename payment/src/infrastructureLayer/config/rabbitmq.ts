@@ -1,6 +1,5 @@
 import amqp, { Channel, Connection } from "amqplib";
 
-
 const connect = async function (): Promise<{ connection: Connection | undefined, channel: Channel | undefined }> {
   try {
     let channel: Channel | undefined;

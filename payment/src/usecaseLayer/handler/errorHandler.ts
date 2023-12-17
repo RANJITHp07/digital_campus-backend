@@ -1,4 +1,4 @@
-import { Next, Req, Res } from "../../infrastructure/types/expressTypes";
+import { Next, Req, Res } from "../../infrastructureLayer/types/expressTypes";
 import ErrorResponse from "./errorResponse";
 
 const errorHandler = (err: any, req: Req, res: Res, next: Next) => {
