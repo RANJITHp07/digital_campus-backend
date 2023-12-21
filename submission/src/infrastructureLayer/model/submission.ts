@@ -1,81 +1,65 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 interface ISubmit {
-  status: 'Late Submission' | 'Submitted' | 'Not Submitted';
+  status: 'Late assignment' | 'Submitted' | 'Not Submitted';
   grade: number;
 }
 
-interface IQuiz {
-  question: string;
-  answers: string[];
-}
-
-export interface ISubmission extends Document {
+interface Iassignment extends Document {
+  quizAnswers: string[]; // You may need to specify the correct type for quizAnswers
+  pollingAnswers: string;
   assignment_id: string;
-  students:string[],
-  dueDate: {
-    day: string;
-    time: string;
-    timer: string[];
+  attachment: {
+    type: string;
+    content: string;
   };
-  polling: {
-    answers: string[];
-  };
-  quiz: IQuiz[];
-  points: number;
-  submission: ISubmit[];
+  assignment: ISubmit;
+  username: string;
 }
 
-const submissionSchema = new Schema<ISubmission>({
+const assignmentSchema = new Schema<Iassignment>({
+  quizAnswers: {
+    type: [String], // Adjust the type accordingly based on the actual type of quizAnswers
+    
+  },
+  pollingAnswers: {
+    type: String,
+    
+  },
   assignment_id: {
     type: String,
+    
   },
-  dueDate: {
-    day: {
+  attachment: {
+    type: {
       type: String,
+      
     },
-    time: {
+    content: {
       type: String,
-    },
-    timer: {
-      type: [String],
+      
     },
   },
-  polling: {
-    answers: {
-      type: [String],
-    },
-  },
-  quiz: {
-    type: [
-      {
-        question: {
-          type: String,
-        },
-        answers: {
-          type: [String],
-        },
+  assignment: {
+    type: {
+      status: {
+        type: String,
+        enum: ['Late assignment', 'Submitted', 'Not Submitted'],
+        
       },
-    ],
-  },
-  points: {
-    type: Number,
-  },
-  submission: {
-    type: [
-      {
-        status: {
-          type: String,
-          enum: ['Late Submission', 'Submitted', 'Not Submitted'] as const,
-        },
-        grade: {
-          type: Number,
-        },
+      grade: {
+        type: Number,
+        
       },
-    ],
+    },
+    
+  },
+  username: {
+    type: String,
+    
   },
 });
 
-const SubmissionModel = mongoose.model<ISubmission>('Submission', submissionSchema);
+const submissionModel = mongoose.model<Iassignment>('assignment', assignmentSchema);
 
-export default SubmissionModel;
+export default submissionModel ;

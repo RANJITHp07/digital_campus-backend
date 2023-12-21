@@ -6,13 +6,13 @@ import { db } from "./infrastructureLayer/config/db";
 const startServer = async () => {
   try {
     await db();
-    await RabbitmquserUpdate()
 
     const app = await createServer();
 
     app?.listen(5000, () => {
       console.log("Connected to the server");
     });
+    await RabbitmquserUpdate()
   } catch (err) {
     console.error("Error starting the server:", err);
   }

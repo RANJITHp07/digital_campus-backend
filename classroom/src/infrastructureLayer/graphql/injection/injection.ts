@@ -4,6 +4,7 @@ import { Classroomusecase } from "../../../usecaseLayer/classRoomusecase"
 import { ErrorHandler } from "../../middleware/error/userErrorhandler"
 import classroomModel from "../../models/classroom"
 import { ClassRoomRepository } from "../../repository/classroomRepository"
+import Requester from "../../repository/client"
 import Listener from "../../repository/listenrepository"
 import Nodemailer from "../../repository/nodemailerRepository"
 import Publisher from "../../repository/publishrepository"
@@ -20,7 +21,8 @@ const nodemailer=new Nodemailer()
 const publish=new Publisher()
 const listner=new Listener()
 const requestValidator=new RequestValidator()
-const usecase=new Classroomusecase(repository,code,errorHandler,publish,listner,nodemailer,requestValidator)
+const requester=new Requester()
+const usecase=new Classroomusecase(repository,code,errorHandler,publish,listner,nodemailer,requestValidator,requester)
 const controller =new ClassroomController(usecase,errorHandler)
 
 export {controller,errorHandler}

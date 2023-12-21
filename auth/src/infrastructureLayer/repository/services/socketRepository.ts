@@ -1,6 +1,9 @@
 import { Server, Socket } from "socket.io";
 import { createServer, Server as HttpServer } from "http";
 import { UserRepository } from "../queries/userRepository";
+import { CreateChatCompletionRequestMessage } from "openai/resources";
+import { configureOpenAI } from "../../config/open.ai";
+import OpenAI from "openai";
 
 export class SocketManager {
   private httpServer: HttpServer;
@@ -20,17 +23,17 @@ export class SocketManager {
   }
 
   private handleConnection = (socket: Socket): void => {
-
+    
     socket.on("join-room",(email)=>{
       console.log("a user connected.");
       socket.join(email);
     })
 
-
+    //to block the user
     socket.on("isBlocked", async ({ email}: { email:string }) => {
       let user = await this.userResponsitory.findUser(email)
       if(user && user.id){
-        socket.broadcast.to(email).emit("responseIsBlocked", {isBlocked:user.blocked});
+        this.io.to(email).emit("responseIsBlocked", {isBlocked:user.blocked});
       }
     });
 
@@ -38,6 +41,8 @@ export class SocketManager {
       console.log("a user disconnected!");
     });
   };
+
+  
 
   start = (): void => {
     this.httpServer.listen(8000, () => {

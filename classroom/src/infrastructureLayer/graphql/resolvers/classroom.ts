@@ -11,6 +11,7 @@ export const resolver={
     getClassroomDetails: classroomQueries.getClassroomDetails,
     getAllTheClassroom: classroomQueries.getAllTheClassroom,
     getFilteredClassroom: classroomQueries.getFilteredClassroom,
+    reportedClassroom:classroomQueries.reportedClassroom,
    },
    Mutation:{
       createClass: classroomMutation.createClass,

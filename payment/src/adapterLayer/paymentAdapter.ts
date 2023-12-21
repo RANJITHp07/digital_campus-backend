@@ -1,5 +1,6 @@
 import { Next, Req, Res } from "../infrastructureLayer/types/expressTypes";
 import { PaymentUsecase } from "../usecaseLayer/usecase/paymentusecase";
+import crypto from "crypto";
 
 export class PaymentAdapter{
 
@@ -20,4 +21,24 @@ export class PaymentAdapter{
             next(err)
         }
     }
+
+    paymentVerification = async (req:Req,res:Res,next:Next) => {
+        console.log(req.body)
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+          req.body;
+      
+        const body = razorpay_order_id + "|" + razorpay_payment_id;
+      
+        const expectedSignature = crypto
+          .createHmac("sha256",'yze5eVVwqu4HcpTWr51Vm76A')
+          .update(body.toString())
+          .digest("hex");
+      
+        const isAuthentic = expectedSignature === razorpay_signature;
+        console.log(expectedSignature,razorpay_signature)
+        res.redirect(
+            `http://localhost:3000/payment/success`
+          );
+      
+      };
 }

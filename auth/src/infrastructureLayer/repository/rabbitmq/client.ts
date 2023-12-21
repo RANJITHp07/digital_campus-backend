@@ -1,67 +1,66 @@
-// import { Channel, Connection, connect } from "amqplib";
-// import { EventEmitter } from "events";
+import { Channel, Connection } from "amqplib";
+import connect from "../../config/rabbitmq";
 
-// class RabbitMQClient {
-//   private constructor() {}
+export class Responder  {
+  private channel: Channel | undefined;
+  private connection: Connection | undefined;
 
-//   private static instance: RabbitMQClient;
-//   private isInitialized = false;
+  constructor() {
+    this.channel = undefined;
+    this.connection = undefined;
+  }
 
-//   private producer: Producer;
-//   private consumer: Consumer;
-//   private connection: Connection;
-//   private producerChannel: Channel;
-//   private consumerChannel: Channel;
+  async listenForRequests(
+    exchange: string,
+    routingKey: string,
+    queueName: string,
+    callback: (data: any) => Promise<unknown>
+  ): Promise<void> {
+    await this.ensureConnection();
 
-//   private eventEmitter: EventEmitter;
+    if (!this.channel || !this.connection) {
+      throw new Error("RabbitMQ connection not available");
+    }
 
-//   public static getInstance() {
-//     if (!this.instance) {
-//       this.instance = new RabbitMQClient();
-//     }
-//     return this.instance;
-//   }
+    try {
+      await this.channel.assertExchange(exchange, "direct", { durable: true });
+      const queue = await this.channel.assertQueue(queueName);
 
-//   async initialize() {
-//     if (this.isInitialized) {
-//       return;
-//     }
-//     try {
-//       this.connection = await connect(config.rabbitMQ.url);
+      await this.channel.bindQueue(queue.queue, exchange, routingKey);
 
-//       this.producerChannel = await this.connection.createChannel();
-//       this.consumerChannel = await this.connection.createChannel();
+      await this.channel.consume(queue.queue, async (data) => {
+        if (data) {
+          try {
+            const parsedData = JSON.parse(data.content.toString());
+            const reply = await callback(parsedData);
 
-//       const { queue: replyQueueName } = await this.consumerChannel.assertQueue(
-//         "",
-//         { exclusive: true }
-//       );
+            // Send the reply to the callback queue specified in the request message properties
+            this.channel?.sendToQueue(
+              data.properties.replyTo,
+              Buffer.from(JSON.stringify(reply)),
+              {
+                correlationId: data.properties.correlationId,
+              }
+            );
 
-//       this.eventEmitter = new EventEmitter();
-//       this.producer = new Producer(
-//         this.producerChannel,
-//         replyQueueName,
-//         this.eventEmitter
-//       );
-//       this.consumer = new Consumer(
-//         this.consumerChannel,
-//         replyQueueName,
-//         this.eventEmitter
-//       );
+            this.channel?.ack(data);
+          } catch (err) {
+            console.error("Error processing message:", err);
+          }
+        }
+      });
+    } catch (err) {
+      console.error("Error listening for requests:", err);
+    }
+  }
 
-//       this.consumer.consumeMessages();
+  private async ensureConnection() {
+    if (!this.channel) {
+      const { channel, connection } = await connect();
+      this.channel = channel;
+      this.connection = connection;
+    }
+  }
+}
 
-//       this.isInitialized = true;
-//     } catch (error) {
-//       console.log("rabbitmq error...", error);
-//     }
-//   }
-//   async produce(data: any) {
-//     if (!this.isInitialized) {
-//       await this.initialize();
-//     }
-//     return await this.producer.produceMessages(data);
-//   }
-// }
-
-// export default RabbitMQClient.getInstance();
+export default Responder;

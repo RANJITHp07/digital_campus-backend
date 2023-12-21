@@ -2,6 +2,11 @@ import { gql } from "apollo-server";
 
 export const classroomQuery=gql`
 
+ type Reason{
+      title:String,
+      description:String,
+      reporter:String
+   }
 
   type ClassRoom{
      _id:ID!,
@@ -16,7 +21,12 @@ export const classroomQuery=gql`
      themeColor:String,
      block:Boolean
      profile:String
+     reported:Boolean,
+     reason:[Reason]
+     blockClassroom:Boolean
   }
+
+
 
   type Participants{
     id:String!
@@ -38,6 +48,7 @@ export const classroomQuery=gql`
     getCreatorClassroom(id:String!):[ClassRoom]
     getAllClassroomparticipants(id:String!):GetallParticipants
     getclassroom:[ClassRoom]
+    reportedClassroom:[ClassRoom]
     getAllTheClassroom(id:String!):[ClassRoom]
     getFilteredClassroom(id:String!,category:[String]):[ClassRoom]
   }

@@ -1,3 +1,9 @@
+interface Quiz{
+        question:string,
+        answers:string[]
+
+}
+
 export interface IAssigment {
     assignmentType: "Assignment" | "Quiz" | "Announcement" | "Question" | "Material" | "Polling";
     mainTopic: string;
@@ -18,5 +24,6 @@ export interface IAssigment {
     polling:{
         answers:string[],
         polling:number[]
-        }
+        },
+    quiz:Quiz[]      
 }

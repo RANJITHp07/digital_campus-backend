@@ -159,5 +159,21 @@ export class ClassRoomRepository implements IClassroomReository{
           throw err
         }
       }
+
+      async getReportedClassrooms() {
+        try {
+          const reportedClassrooms = await classroomModel
+            .find({
+              reported: true,
+              $or: [{ blockClassroom: { $exists: false } }, { blockClassroom: false }],
+            })
+            .sort({ _id: -1 });
+      
+          return reportedClassrooms;
+        } catch (error) {
+          console.error("Error retrieving non-reported classrooms:", error);
+          throw error;
+        }
+      }
 }
 

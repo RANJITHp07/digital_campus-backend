@@ -1,20 +1,24 @@
 import { ErrorHandler } from "../../../../classroom/src/infrastructureLayer/middleware/error/userErrorhandler";
 import { IAssigment } from "../../domainLayer/assignment";
 import { AssignmentRepository } from "../../infrastructureLayer/repository/queries/assignmentRepository";
+import Publisher from "../../infrastructureLayer/repository/rabbitmq/publishrepository";
 
 export class AssignmentUsecase{
      private readonly assignment:AssignmentRepository
      private readonly errorHandler:ErrorHandler
+     private readonly publisher:Publisher
      
-     constructor(assignment:AssignmentRepository,errorHandler:ErrorHandler){
+     constructor(assignment:AssignmentRepository,errorHandler:ErrorHandler,publisher:Publisher) {
         this.assignment = assignment;
         this.errorHandler = errorHandler;
+        this.publisher = publisher;
      }
 
      async createAssignment(assignment:IAssigment){
         try{
             
             const newAssignment=await this.assignment.create(assignment)
+             await this.publisher.publish("assignmentExchange","createAssignment",{id:newAssignment._id,dueDate:newAssignment.dueDate,students:assignment.students,polling:newAssignment.polling,quiz:newAssignment.quiz})
             return newAssignment
         }catch(err){
             this.errorHandler.apolloError(err)

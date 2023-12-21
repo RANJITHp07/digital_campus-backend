@@ -66,6 +66,15 @@ export class ClassroomController{
         }
     }
 
+    async reportedClassroom(_:unknown,args:unknown){
+        try{
+            const deletedStudent=await this.classroomusecase.getReportedClassroom()
+            return deletedStudent
+        }catch(err){
+            this.errorHandler.apolloError(err)
+        }
+    }
+
 
     async getAllClassroom(_:unknown,args:{id:string}){
         try{

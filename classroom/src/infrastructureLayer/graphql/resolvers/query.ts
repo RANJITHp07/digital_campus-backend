@@ -46,6 +46,14 @@ export const classroomQueries={
         }
     },
 
+    async reportedClassroom(_:unknown,args:any){
+      try{
+            const classroom = await controller.reportedClassroom(_,args)
+            return classroom
+      }catch(err){
+         errorHandler.apolloError(err)
+      }
+  },
     
     async getClassroomDetails(_:unknown,args:{id:string}){
         try{

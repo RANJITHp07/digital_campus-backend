@@ -1,0 +1,20 @@
+import { Assignment } from "../infrastructureLayer/respository/assignment";
+import Listener from "../infrastructureLayer/respository/listenrepository";
+
+const repository=new Assignment();
+const listener=new Listener()
+
+async function RabbitmqassignmentCreate(){
+    try{
+        await listener.listen("assignmentExchange","createAssignment",'createAssignment',async (data:any)=>{
+            console.log(data)
+             let d={_id:data.id,...data}
+            await repository.create(d)
+    })
+    }catch(err){
+        throw err
+    }
+    
+}
+
+export {RabbitmqassignmentCreate}

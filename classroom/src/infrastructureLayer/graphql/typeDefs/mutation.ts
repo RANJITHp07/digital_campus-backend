@@ -2,11 +2,13 @@ import { gql } from "apollo-server";
 
 
 export const classRoomMutation=gql`
+
+   
    input Classroom{
      className:String!,
     classSection:String!,
     classSubject:String!,
-    creator:String!
+    creator:String!,
     students_enrolled:[String!],
     admins:[String]!,
     backgroundPicture:String! 
@@ -16,6 +18,13 @@ export const classRoomMutation=gql`
    type Output{
      message:String!
    }
+
+   input ReasonInput{
+      title:String,
+      description:String,
+      reporter:String
+   }
+
 
    input AddStudent{
      code:String!,
@@ -27,7 +36,10 @@ export const classRoomMutation=gql`
      classSection:String,
      classSubject:String,
      backgroundPicture:String,
-     themeColor:String 
+     themeColor:String,
+     reported:Boolean,
+     reason:[ReasonInput]
+     blockClassroom:Boolean
    }
 
    input Invitation{

@@ -1,6 +1,6 @@
-import { Channel, Connection } from "amqplib";
-import connect from "../config/rabbitmq";
-import IPublish from "../../usecaseLayer/interface/publishRepository";
+import { Channel, Connection, ConsumeMessage } from "amqplib";
+import connect from "../../config/rabbitmq";
+import IPublish from "../../../usecaseLayer/interface/publishRepository";
 
 class Publisher implements IPublish{
   private channel: Channel | undefined;
@@ -21,7 +21,7 @@ class Publisher implements IPublish{
 
     try {
       await this.channel.assertExchange(exchange, "direct",{durable:true});
-        await this.channel!.publish(
+       await this.channel.publish(
           exchange,
           routingKey,
           Buffer.from(JSON.stringify(data)),
@@ -34,7 +34,9 @@ class Publisher implements IPublish{
     }
   }
 
-  async ensureConnection() {
+  
+
+  private async ensureConnection() {
     if (!this.channel) {
       const {channel,connection}=await connect();
       this.channel = channel;

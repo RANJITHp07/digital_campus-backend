@@ -1,60 +1,80 @@
-// import { Channel, Connection, connect } from "amqplib";
-// import { EventEmitter } from "events";
-// import Listener from "./listenrepository";
-// import Publisher from "./publishrepository";
-
-// class RabbitMQClient {
-//   private constructor() {}
-
-//   private static instance: RabbitMQClient;
-//   private isInitialized = false;
-
-//   private producer: Publisher;
-//   private consumer: Listener;
-//   private connection: Connection;
-//   private producerChannel: Channel;
-//   private consumerChannel: Channel;
+import { Channel, Connection } from "amqplib";
+import connect from "../config/rabbitmq";
 
 
-//   public static getInstance() {
-//     if (!this.instance) {
-//       this.instance = new RabbitMQClient();
-//     }
-//     return this.instance;
-//   }
+export class Requester {
+  private channel: Channel | undefined;
+  private connection: Connection | undefined;
+  private callbackQueue: string;
 
-//   async initialize() {
-//     if (this.isInitialized) {
-//       return;
-//     }
-//     try {
-//       this.producer = new Publisher();
-//       this.consumer = new Listener();
+  constructor() {
+    this.channel = undefined;
+    this.connection = undefined;
+    this.callbackQueue = ""; // Initialize the callback queue
+  }
 
-//       this.producerChannel = await this.producer.ensureConnection();
-//       this.consumerChannel = await this.connection.createChannel();
+  async publishWithReply(
+    exchange: string,
+    routingKey: string,
+    data: unknown
+  ): Promise<unknown | null> {
+    await this.ensureConnection();
 
-//       const { queue: replyQueueName } = await this.consumerChannel.assertQueue(
-//         "",
-//         { exclusive: true }
-//       );
+    if (!this.channel || !this.connection) {
+      throw new Error("RabbitMQ connection not available");
+    }
 
-//       this.eventEmitter = new EventEmitter();
-      
+    try {
+      // Create a callback queue for receiving the reply
+      const { queue } = await this.channel.assertQueue("", { exclusive: true });
+      this.callbackQueue = queue;
 
-//       this.consumer.consumeMessages('AuthReply');
+      // Send the request to the request queue with the callback queue specified
+      await this.channel.assertExchange(exchange, "direct", { durable: true });
+      await this.channel.publish(
+        exchange,
+        routingKey,
+        Buffer.from(JSON.stringify(data)),
+        {
+          persistent: true,
+          replyTo: this.callbackQueue,
+          correlationId: generateCorrelationId(),
+        }
+      );
 
-//       this.isInitialized = true;
-//     } catch (error) {
-//       console.log("rabbitmq error...", error);
-//     }
-//   }
-//   async produce(data: any) {
-//     if (!this.isInitialized) {
-//       await this.initialize();
-//     }
-//     return await this.producer.produceMessages(data);
-//   }
-// }
+      // Wait for the reply on the callback queue
+      const reply = await this.waitForReply();
 
-// export default RabbitMQClient.getInstance();
+      return reply;
+    } catch (err) {
+      console.error("Error in publishWithReply:", err);
+      return null;
+    }
+  }
+
+  private async waitForReply(): Promise<unknown> {
+    return new Promise((resolve) => {
+      this.channel?.consume(this.callbackQueue, (reply) => {
+        if (reply) {
+          const parsedReply = JSON.parse(reply.content.toString());
+          this.channel?.ack(reply);
+          resolve(parsedReply);
+        }
+      });
+    });
+  }
+
+  private async ensureConnection() {
+    if (!this.channel) {
+      const { channel, connection } = await connect();
+      this.channel = channel;
+      this.connection = connection;
+    }
+  }
+}
+
+function generateCorrelationId(): string {
+  return Math.random().toString() + Math.random().toString();
+}
+
+export default Requester;

@@ -1,4 +1,4 @@
-import { IClassroom } from "../domainLayer/classroom";
+import { IClassroom,} from "../domainLayer/classroom";
 import { ErrorHandler } from "../infrastructureLayer/middleware/error/userErrorhandler";
 import { ClassRoomRepository } from "../infrastructureLayer/repository/classroomRepository";
 import { RandomNumber } from "../infrastructureLayer/repository/uniqueNumberRepository";
@@ -6,6 +6,7 @@ import Publisher from "../infrastructureLayer/repository/publishrepository";
 import Listener from "../infrastructureLayer/repository/listenrepository";
 import Nodemailer from "../infrastructureLayer/repository/nodemailerRepository";
 import RequestValidator from "../infrastructureLayer/repository/validatorRepository";
+import Requester from "../infrastructureLayer/repository/client";
 
 export class Classroomusecase{
  
@@ -16,8 +17,10 @@ export class Classroomusecase{
      private readonly publish:Publisher
      private readonly listen:Listener
      private readonly requestValidator:RequestValidator
+     private readonly requester:Requester
 
-     constructor(classroomrepository:ClassRoomRepository,randomGenerator:RandomNumber,errorHandler:ErrorHandler,publish:Publisher,listen:Listener,nodemailer:Nodemailer,requestValidator:RequestValidator) {
+
+     constructor(classroomrepository:ClassRoomRepository,randomGenerator:RandomNumber,errorHandler:ErrorHandler,publish:Publisher,listen:Listener,nodemailer:Nodemailer,requestValidator:RequestValidator,requester:Requester) {
          this.classroomrepository = classroomrepository;
          this.randomGenerator = randomGenerator;
          this.errorHandler=errorHandler;
@@ -25,6 +28,8 @@ export class Classroomusecase{
          this.listen=listen;
          this.nodemailer=nodemailer
          this.requestValidator=requestValidator
+         this.requester=requester
+
      }
 
      //to create the classroom
@@ -91,7 +96,7 @@ export class Classroomusecase{
 
     //to add a student into
      async addUser({code,userId,type}:{code:string,userId:string,type:boolean}):Promise<unknown>{
-
+ 
              // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(
           { code,userId,type},
@@ -120,7 +125,8 @@ export class Classroomusecase{
               }else{
                classroom.students_enrolled = classroom.students_enrolled.filter((studentId :string)=> studentId !== userId);
               }
-              await this.classroomrepository.create(classroom);
+              console.log(classroom)
+              await this.classroomrepository.update(classroom._id as string, classroom);
               
            return type ? {
                   message:"Added to the classroom"
@@ -133,6 +139,7 @@ export class Classroomusecase{
               this.errorHandler.userInputerror("No such classroom")
           }
           }catch(err){
+               // console.log(err)
                this.errorHandler.apolloError(err)
           }
      }
@@ -176,16 +183,17 @@ export class Classroomusecase{
      async getAllClassroomparticipants({id}:{id:string}){
           try{
             const classroom=await this.classroomrepository.getAllparticipants(id);
-            //to exchange the admin and userId to auth service and collect the data of the users from the auth service
-            await this.publish.publish("classroomExchange","details",{adminId:classroom?.admins, studentId:classroom?.students_enrolled});
+          //   //to exchange the admin and userId to auth service and collect the data of the users from the auth service
+          //   await this.publish.publish("classroomExchange","details",{adminId:classroom?.admins, studentId:classroom?.students_enrolled});
           
-            const details = await new Promise((resolve) => {
-               this.listen.listen("authExchange", "participants",'studentDetail',(data) => {
-                 resolve(data);
-               });
-             });
-             return details
-          }catch(err){
+          //    const data= await this.listen.listen("authExchange", "participants",'studentDetail',(data) => {
+          //      });
+          //      console.log(data)
+          //    return data
+          // await this.rabbitmqClient.produce({adminId:classroom?.admins, studentId:classroom?.students_enrolled})
+          const data=await this.requester.publishWithReply('classroomExchang','studentDetails',{adminId:classroom?.admins, studentId:classroom?.students_enrolled})
+           return data     
+     }catch(err){
                this.errorHandler.apolloError(err)
           }
           }
@@ -271,7 +279,6 @@ export class Classroomusecase{
               }
           }
 
-
           async removeFromAdmin({id:userId,classroomId}:{id:string,classroomId:string}){
 
                   // Validate required parameters
@@ -315,6 +322,15 @@ export class Classroomusecase{
                     return {
                          message:emailinvitation
                     }
+               }catch(err){
+                    this.errorHandler.apolloError(err)
+               }
+          }
+
+          async getReportedClassroom(){
+               try{
+                 const reportedClassroom=await this.classroomrepository.getReportedClassrooms();
+                 return reportedClassroom
                }catch(err){
                     this.errorHandler.apolloError(err)
                }

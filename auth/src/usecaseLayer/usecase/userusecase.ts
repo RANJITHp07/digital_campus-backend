@@ -79,8 +79,12 @@ export class Userusecase{
 
 
             const user:IUser | null=await this.userRepository.findUser(email);
+            
 
             if(user && user.id){
+                if(user.blocked){
+                    throw errorResponse.badRequest("User is blocked")
+                }
                 const match:boolean=await this.bcrypt.compare(password,user.password);
                if(match){
                
