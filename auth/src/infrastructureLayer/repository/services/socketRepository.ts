@@ -1,9 +1,6 @@
 import { Server, Socket } from "socket.io";
 import { createServer, Server as HttpServer } from "http";
 import { UserRepository } from "../queries/userRepository";
-import { CreateChatCompletionRequestMessage } from "openai/resources";
-import { configureOpenAI } from "../../config/open.ai";
-import OpenAI from "openai";
 
 export class SocketManager {
   private httpServer: HttpServer;

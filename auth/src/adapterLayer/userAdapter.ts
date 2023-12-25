@@ -56,6 +56,7 @@ export class  UserAdapter{
     async updateUser(req:Req,res:Res,next:Next){
       try{
          const updateUser=await this.userusecase.updateUser(req.body)
+         console.log(updateUser)
          updateUser && res.status(updateUser.status).json({
           success: updateUser.success,
           message: updateUser.message

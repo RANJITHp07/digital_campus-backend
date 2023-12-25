@@ -145,9 +145,11 @@ export class Userusecase{
                 update.password=await this.bcrypt.createHash(update.password)
             }
           const updatedUser=await this.userRepository.update(id,update)
+          console.log('jii')
           if(update.profile && updatedUser){
             await this.publish.publish("authExchange","updateProfile",{id:id,profile:updatedUser.profile})
           }
+          
           if(updatedUser)
           return {
             status:200,
