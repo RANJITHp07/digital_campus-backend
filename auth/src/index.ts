@@ -1,18 +1,22 @@
-import { createServer } from "./infrastructure/config/app";
-import { db } from "./infrastructure/config/db"
-import { RabbitmquserDetails } from "./infrastructure/utils/rabbitmqMiddleware";
+import { db } from "./infrastructureLayer/config/db"
+import { RabbitmquserDetails } from "./infrastructureLayer/utils/rabbitmqMiddleware";
+import { httpServer } from "./infrastructureLayer/config/app";
+import connect from "./infrastructureLayer/config/rabbitmq";
 
 
-const app=createServer();
 
-const rabbitmq=async()=>{
-   await RabbitmquserDetails()
-}
 
-rabbitmq()
+const startServer = async (): Promise<void> => {
+    await db();
+    // await connect()
+    await RabbitmquserDetails()
 
-db().then(()=>{
-    app?.listen(4000,()=>{
-        console.log(`connected to the server`)
-    })
-})
+    const app = httpServer
+
+    app?.listen(4000, () => {
+      console.log("Connected to the server");
+    });
+ 
+};
+
+startServer();

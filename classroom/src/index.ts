@@ -1,16 +1,21 @@
-import { createServer } from "./infrastructure/config/app";
-import { db } from "./infrastructure/config/db"
+import { RabbitmquserUpdate } from "./infrastructureLayer/middleware/utils/rabbitmqMiddleware";
+import { createServer } from "./infrastructureLayer/config/app";
+import { db } from "./infrastructureLayer/config/db";
 
 
-const bootstrap=async()=>{
-    const app=await createServer();
+const startServer = async () => {
+  try {
+    await db();
 
-    db().then(()=>{
-    
-        app?.listen(5000,()=>{
-            console.log(`connected to the server`)
-        })
-    })
-}
+    const app = await createServer();
 
-bootstrap()
+    app?.listen(5000, () => {
+      console.log("Connected to the server");
+    });
+    await RabbitmquserUpdate()
+  } catch (err) {
+    console.error("Error starting the server:", err);
+  }
+};
+
+startServer();
