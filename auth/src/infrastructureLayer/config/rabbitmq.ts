@@ -11,7 +11,7 @@ const connect = async function (): Promise<{ connection: Connection | undefined,
     console.log("Channel created");
     return { connection, channel };
   } catch (err) {
-    console.error("Error connecting to RabbitMQ:", err);
+    console.error("Error connecting to RabbitMQ:  ", err);
     throw err;
   }
 };
