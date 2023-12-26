@@ -2,19 +2,20 @@ import AssignmentModel from "../model/assignment"
 
 export class Assignment{
 
-     
-
-    async create(assignment:any){
+    async create(assignment:any):Promise<string>{
         try{
            await AssignmentModel.create(assignment)
+           return 'assignment created'
         }catch(err){
-            console.log(err)
+            throw err
         }
     }
 
     async update(id:string,update:any){
         try{
-           await AssignmentModel.findByIdAndUpdate(id,{$set:update})
+           const updateAssignment=await AssignmentModel.findByIdAndUpdate(id,{$set:update})
+           return updateAssignment ? 'assignment updated' :  null
+           
         }catch(err){
             throw err
         }
@@ -22,8 +23,8 @@ export class Assignment{
 
     async find(id:string){
         try{
-           const a= await AssignmentModel.findById(id)
-           return a
+           const assignment= await AssignmentModel.findById(id)
+           return assignment
         }catch(err){
             throw err
         }

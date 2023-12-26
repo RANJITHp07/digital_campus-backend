@@ -18,7 +18,19 @@ export class AssignmentUsecase{
         try{
             
             const newAssignment=await this.assignment.create(assignment)
-             await this.publisher.publish("assignmentExchange","createAssignment",{id:newAssignment._id,dueDate:newAssignment.dueDate,students:assignment.students,polling:newAssignment.polling,quiz:newAssignment.quiz})
+            let exchangeAssignment:any={
+                id:newAssignment._id,
+                students:newAssignment.students
+            }
+             if(newAssignment.assignmentType==='Polling'){
+                exchangeAssignment.polling=newAssignment.polling
+             }else if(newAssignment.assignmentType==='Quiz'){
+                 exchangeAssignment.quiz=newAssignment.quiz
+             }else if(newAssignment.assignmentType==='Assignment' && newAssignment.dueDate){
+                 exchangeAssignment.points=newAssignment.points
+                 exchangeAssignment.dueDate=newAssignment.dueDate
+             }
+             newAssignment.assignmentType!=='Material' && newAssignment.assignmentType!=='Announcement' && await this.publisher.publish("assignmentExchange","createAssignment",exchangeAssignment)
             return newAssignment
         }catch(err){
             this.errorHandler.apolloError(err)
