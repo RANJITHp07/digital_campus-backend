@@ -1,6 +1,5 @@
 import amqp, { Channel, Connection } from "amqplib";
 
-
 const connect = async function (): Promise<{ connection: Connection | undefined, channel: Channel | undefined }> {
   try {
     let channel: Channel | undefined;
@@ -11,9 +10,9 @@ const connect = async function (): Promise<{ connection: Connection | undefined,
     console.log("Channel created");
     return { connection, channel };
   } catch (err) {
-    console.error("Error connecting to RabbitMQ:  ", err);
+    console.error("Error connecting to RabbitMQ:", err);
     throw err;
   }
 };
 
-export  default connect;
+export default connect

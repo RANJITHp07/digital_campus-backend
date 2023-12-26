@@ -1,15 +1,15 @@
 import { db } from "./infrastructureLayer/config/db"
-import { RabbitmquserDetails } from "./infrastructureLayer/utils/rabbitmqMiddleware";
+// import { RabbitmquserDetails } from "./infrastructureLayer/utils/rabbitmqMiddleware";
 import { httpServer } from "./infrastructureLayer/config/app";
 import connect from "./infrastructureLayer/config/rabbitmq";
 
 
 
 
-const startServer = async (): Promise<void> => {
+const startServer = async ()=> {
     await db();
-    // await connect()
-    await RabbitmquserDetails()
+    await connect()
+    // await RabbitmquserDetails()
 
     const app = httpServer
 
