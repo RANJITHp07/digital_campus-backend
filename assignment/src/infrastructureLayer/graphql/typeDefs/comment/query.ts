@@ -1,7 +1,7 @@
 import { gql } from "apollo-server";
 
 
-export const query=gql`
+export const commentQuery=gql`
    type Comment{
     assignment_id:String!,
     username:String!,

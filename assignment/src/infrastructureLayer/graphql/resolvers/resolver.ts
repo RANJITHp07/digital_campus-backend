@@ -14,7 +14,7 @@ export const resolver={
         getDueDates: assignmentQueries.getDueDates,
 
         //comments
-        getAllComments:commentQuery.getAllComments,
+        getAllcomments:commentQuery.getAllComments,
       },
 
       Mutation: {
