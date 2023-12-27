@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: classroom-depl
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: classroom
+  template:
+    metadata:
+      labels:
+        app: classroom
+    spec: 
+      containers:
+        - name: classroom    
+          image: ranjithp007/dc_classroom
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: classroom-srv
+spec:
+  selector:
+    app: classroom
+  ports:
+    - name: classroom
+      protocol: TCP
+      port: 3000
+      targetPort: 3000                  
