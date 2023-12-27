@@ -22,7 +22,7 @@ export class PaymentAdapter{
         }
     }
 
-    paymentVerification = async (req:Req,res:Res,next:Next) => {
+    async paymentVerification(req:Req,res:Res,next:Next){
         console.log(req.body)
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
           req.body;
@@ -35,10 +35,12 @@ export class PaymentAdapter{
           .digest("hex");
       
         const isAuthentic = expectedSignature === razorpay_signature;
-        console.log(expectedSignature,razorpay_signature)
-        res.redirect(
+        console.log(isAuthentic)
+        if(isAuthentic){
+          res.redirect(
             `http://localhost:3000/payment/success`
           );
+        }
       
       };
 }

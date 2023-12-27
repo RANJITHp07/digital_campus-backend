@@ -17,10 +17,38 @@ spec:
                 name: auth-srv
                 port:
                   number: 3000
-          - path: /classroom?(.*)
+          - path: /classroom/?(.*)
             pathType: Prefix
             backend:
               service:
                 name: classroom-srv
                 port:
                   number: 3000
+          - path: /assignment/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: assignment-srv
+                port:
+                  number: 3000       
+          - path: /v1/api/payment/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: payment-srv
+                port:
+                  number: 3000       
+          - path: /v1/api/chat/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: chat-srv
+                port:
+                  number: 3000
+          - path: /submission/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: submission-srv
+                port:
+                  number: 3000                 

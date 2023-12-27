@@ -16,7 +16,7 @@ export class PaymentUsecase{
 
     async createSubscription({plan_id,email,username,planName,amount,interval}:IPayment){
         try{
-            console.log(plan_id,email,username,planName,amount,interval)
+            // console.log(plan_id,email,username,planName,amount,interval)
             // const validation=this.requestValidator.validateRequiredFields(
             //     {planName,plan_id,email,username,amount,interval},
             //     ["planName","plan_id","email","amount","username","interval"]
