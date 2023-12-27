@@ -16,6 +16,13 @@ spec:
       containers:
         - name: auth-postgres
           image: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              value: '1234'
+            - name: POSTGRES_USER
+              value: 'postgres'
+            - name: POSTGRES_DB
+              value: 'Auth'   
 ---
 # PostgreSQL Service
 apiVersion: v1

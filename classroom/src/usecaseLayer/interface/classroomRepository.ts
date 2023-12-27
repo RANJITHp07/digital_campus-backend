@@ -1,4 +1,4 @@
-import { IClassroom } from "../../entities/classroom"
+import { IClassroom } from "../../domainLayer/classroom"
 
 export interface  IClassroomReository{
     create(classroom:IClassroom):Promise< IClassroom>

@@ -8,7 +8,8 @@ import connect from "./infrastructureLayer/config/rabbitmq";
 
 const startServer = async ()=> {
     await db();
-    // await RabbitmquserDetails()
+    // await connect()
+    await RabbitmquserDetails()
 
     const app = httpServer
 
