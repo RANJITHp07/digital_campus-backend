@@ -1,0 +1,11 @@
+name: tests-assignment
+
+on:
+  pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/chekout@v2
+      - run: cd assignment && npm install
