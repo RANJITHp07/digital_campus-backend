@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: submission-depl
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: submission
+  template:
+    metadata:
+      labels:
+        app: submission
+    spec: 
+      containers:
+        - name: submission    
+          image: ranjithp007/dc_submission
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: submission-srv
+spec:
+  selector:
+    app: submission
+  ports:
+    - name: submission
+      protocol: TCP
+      port: 3000
+      targetPort: 3000                  
