@@ -14,7 +14,7 @@ export class CommentRepository{
     async delete(id:string){
         try{
            const deletedComment=await CommentModel.findByIdAndDelete(id)
-           return 'successfully deleted'
+           return deletedComment ?true :false
         }catch(err){
             throw err
         }
