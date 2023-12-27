@@ -13,7 +13,6 @@ export class PaymentRepository {
 
     async createPayment(payment: IPayment) {
         try {
-            console.log(payment)
             const razorpayPlan = await this.razorpay.subscriptions.create({
                 plan_id:'plan_NDHsyIEFMzLGnH',
                 customer_notify:1,

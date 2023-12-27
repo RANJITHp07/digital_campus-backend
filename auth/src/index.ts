@@ -6,14 +6,13 @@ import connect from "./infrastructureLayer/config/rabbitmq";
 
 
 
-const startServer = async (): Promise<void> => {
+const startServer = async ()=> {
     await db();
-    // await connect()
-    await RabbitmquserDetails()
+    await RabbitmquserDetails();
 
     const app = httpServer
 
-    app?.listen(4000, () => {
+    app?.listen(3000, () => {
       console.log("Connected to the server");
     });
  

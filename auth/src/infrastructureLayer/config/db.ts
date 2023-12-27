@@ -14,11 +14,11 @@ export const  db=async():Promise<void>=>{
         if(username && database && password){
         await createConnection({
 			type:"postgres",
-			host: 'localhost',
+			host: 'auth-postgres-srv',
 			port: 5432,
 			username: username,
 			password: password,
-			database: database,
+			database: database ,
 			entities: [Users,Admin],
 			synchronize: true,
 		});

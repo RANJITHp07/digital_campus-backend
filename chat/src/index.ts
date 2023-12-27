@@ -11,7 +11,7 @@ const startServer = async (): Promise<void> => {
 
     const app = httpServer
 
-    app?.listen(8000, () => {
+    app?.listen(3000, () => {
       console.log("Connected to the server");
     });
  

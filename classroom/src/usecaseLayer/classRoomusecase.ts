@@ -191,7 +191,7 @@ export class Classroomusecase{
           //      console.log(data)
           //    return data
           // await this.rabbitmqClient.produce({adminId:classroom?.admins, studentId:classroom?.students_enrolled})
-          const data=await this.requester.publishWithReply('classroomExchang','studentDetails',{adminId:classroom?.admins, studentId:classroom?.students_enrolled})
+          const data=await this.requester.publishWithReply('classroomExchange','studentDetails',{adminId:classroom?.admins, studentId:classroom?.students_enrolled})
            return data     
      }catch(err){
                this.errorHandler.apolloError(err)

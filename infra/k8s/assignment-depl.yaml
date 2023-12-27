@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assignment-depl
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: assignment
+  template:
+    metadata:
+      labels:
+        app: assignment
+    spec: 
+      containers:
+        - name: assignment    
+          image: ranjithp007/dc_assignment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: assignment-srv
+spec:
+  selector:
+    app: assignment
+  ports:
+    - name: assignment
+      protocol: TCP
+      port: 3000
+      targetPort: 3000                  

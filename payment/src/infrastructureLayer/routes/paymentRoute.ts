@@ -3,6 +3,7 @@ import RazorpayController from './injection/injection'
 
 
 const router=express.Router()
+router.use(express.json());
 
 
 router.post('/subscription',(req:Request,res:Response,next:NextFunction) =>RazorpayController.createSubscription(req,res,next))

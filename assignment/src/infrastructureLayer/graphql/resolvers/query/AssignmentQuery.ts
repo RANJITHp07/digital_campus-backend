@@ -1,4 +1,4 @@
-import { controller,errorHandler } from "../injection/injection"
+import { controller,errorHandler } from "../../injection/assignment"
 
 export const assignmentQueries={
     async  getAllassignment(_:unknown,args:{id:string}){

@@ -7,6 +7,8 @@ import errorMiddleware from "../../usecaseLayer/handler/errorHandler";
 import adminRoute from "../route/adminRoute"
 import { SocketManager } from "../repository/services/socketRepository";
 import { UserRepository } from "../repository/queries/userRepository";
+import connect from "./rabbitmq";
+
 
 
 

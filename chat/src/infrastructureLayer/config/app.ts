@@ -19,7 +19,7 @@ const repository=new UserRepository('')
 const socket=new SocketManager(httpServer,repository)
 
 //routes
-app.use("/v1/chat",MessageRoute)
+app.use("/v1/api/chat",MessageRoute)
 
 
 

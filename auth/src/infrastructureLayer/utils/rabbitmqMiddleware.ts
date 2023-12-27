@@ -8,8 +8,7 @@ const repository=new UserRepository(Users);
 const responder=new Responder()
 
 async function RabbitmquserDetails(){
-responder.listenForRequests('classroomExchang','studentDetails', "participant", async (data) => {
-    console.log(data)
+responder.listenForRequests('classroomExchange','studentDetails', "participant", async (data) => {
         const admin=await repository.getAllparticipants(data.adminId)
         const user=await repository.getAllparticipants(data.studentId)
        return {admin,user};

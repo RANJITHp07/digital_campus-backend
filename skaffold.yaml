@@ -1,0 +1,61 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+      - ./infra/k8s-dev/*
+
+build:
+  local:
+    push: false
+  artifacts:
+    - image: ranjithp007/dc_auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: 'src/**/*.ts'
+          dest: .
+    - image: ranjithp007/dc_classroom
+      context: classroom
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: 'src/**/*.ts'
+          dest: .
+    - image: ranjithp007/dc_chat
+      context: chat
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: 'src/**/*.ts'
+          dest: . 
+    - image: ranjithp007/dc_assignment
+      context: assignment
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: 'src/**/*.ts'
+          dest: .   
+    - image: ranjithp007/dc_submission
+      context: submission
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: 'src/**/*.ts'
+          dest: . 
+    - image: ranjithp007/dc_payment
+      context: payment
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: 'src/**/*.ts'
+          dest: .                   

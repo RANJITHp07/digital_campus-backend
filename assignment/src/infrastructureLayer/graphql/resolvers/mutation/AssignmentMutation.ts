@@ -1,5 +1,5 @@
-import { IAssigment } from "../../../domainLayer/assignment"
-import { controller,errorHandler } from "../injection/injection"
+import { IAssigment } from "../../../../domainLayer/assignment"
+import { controller,errorHandler } from "../../injection/assignment"
 
 export const assignmentMutations={
 

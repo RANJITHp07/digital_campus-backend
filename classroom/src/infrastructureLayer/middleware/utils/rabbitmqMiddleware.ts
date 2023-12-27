@@ -8,7 +8,6 @@ const listener=new Listener()
 
 async function RabbitmquserUpdate(){
     try{
-        console.log("jiii")
         await listener.listen("authExchange","updateProfile",'updateProfile',async (data:any)=>{
             const update={
                 profile:data.profile

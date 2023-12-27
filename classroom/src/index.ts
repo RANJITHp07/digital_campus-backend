@@ -2,14 +2,13 @@ import { RabbitmquserUpdate } from "./infrastructureLayer/middleware/utils/rabbi
 import { createServer } from "./infrastructureLayer/config/app";
 import { db } from "./infrastructureLayer/config/db";
 
-
 const startServer = async () => {
   try {
     await db();
 
-    const app = await createServer();
+    const app = await createServer()
 
-    app?.listen(5000, () => {
+    app?.listen(3000, () => {
       console.log("Connected to the server");
     });
     await RabbitmquserUpdate()
