@@ -7,12 +7,13 @@ import connect from "./infrastructureLayer/config/rabbitmq";
 
 
 const startServer = async ()=> {
+  const port=3000
     await db();
     await RabbitmquserDetails();
 
     const app = httpServer
 
-    app?.listen(3000, () => {
+    app?.listen(port, () => {
       console.log("Connected to the server");
     });
  

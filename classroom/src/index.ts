@@ -4,11 +4,12 @@ import { db } from "./infrastructureLayer/config/db";
 
 const startServer = async () => {
   try {
+    const port=3000
     await db();
 
     const app = await createServer()
 
-    app?.listen(3000, () => {
+    app?.listen(port, () => {
       console.log("Connected to the server");
     });
     await RabbitmquserUpdate()
