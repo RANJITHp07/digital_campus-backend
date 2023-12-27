@@ -9,7 +9,7 @@ const startServer = async (): Promise<void> => {
     await db();
     await RabbitmqassignmentCreate()
 
-    const app = createServer()
+    const app =createServer()
 
     app?.listen(port, () => {
       console.log("Connected to the server");
