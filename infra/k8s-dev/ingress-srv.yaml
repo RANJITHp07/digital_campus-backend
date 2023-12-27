@@ -10,11 +10,17 @@ spec:
     - host: jobee.dev
       http:
         paths:
-          - path: /v4/api/auth/?(.*)
+          - path: /v1/api/auth/?(.*)
             pathType: Prefix
             backend:
               service:
                 name: auth-srv
                 port:
                   number: 3000
-          
+          - path: /classroom?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: classroom-srv
+                port:
+                  number: 3000

@@ -6,7 +6,7 @@ const bootstrap=async()=>{
 
     db().then(()=>{
     
-        app?.listen(6001,()=>{
+        app?.listen(3000,()=>{
             console.log(`connected to the server`)
         })
     })

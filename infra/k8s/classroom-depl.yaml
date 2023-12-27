@@ -15,8 +15,6 @@ spec:
       containers:
         - name: classroom    
           image: ranjithp007/dc_classroom
-
-
 ---
 apiVersion: v1
 kind: Service
