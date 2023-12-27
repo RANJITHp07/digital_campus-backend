@@ -1,5 +1,5 @@
 import { ErrorHandler } from "../../../classroom/src/infrastructureLayer/middleware/error/userErrorhandler";
-import { IComment } from "../infrastructureLayer/model/comment";
+import { IComment } from "../domainLayer/comments";
 import { Commentusecase } from "../usecaseLayer/usecase/commentusecase";
 
 export class CommentAdapter{
