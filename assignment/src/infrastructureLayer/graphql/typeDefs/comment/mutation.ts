@@ -9,8 +9,12 @@ export const commentMutation=gql`
     type: String!
   }
 
+  type Output{
+    message:String!
+  }
+
   type Mutation{
-  
-  
+    createComment(comment:CommentInput):Output,
+    deleteComment(id:String!):Output
   }
 `

@@ -1,5 +1,7 @@
 import { assignmentQueries } from "./query/AssignmentQuery"
 import { assignmentMutations } from "./mutation/AssignmentMutation"
+import { commentQuery } from "./query/CommentQuery"
+import { commentMutation } from "./mutation/CommentMutation"
 
 
 export const resolver={
@@ -12,6 +14,7 @@ export const resolver={
         getDueDates: assignmentQueries.getDueDates,
 
         //comments
+        getAllComments:commentQuery.getAllComments,
       },
 
       Mutation: {
@@ -21,5 +24,7 @@ export const resolver={
         updateAssignment: assignmentMutations.updateAssignment,
 
         //comments
+        createComment:commentMutation.createComment,
+        deleteComment: commentMutation.deleteComment
       }
 }
