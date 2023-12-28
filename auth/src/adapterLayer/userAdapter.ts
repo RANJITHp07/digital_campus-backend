@@ -10,6 +10,7 @@ export class  UserAdapter{
           this.userusecase = userusecase  // using dependency injection to call the userusecase
     } 
 
+    //to create the user
     async createUser(req:Req,res:Res,next:Next){
           try{
              

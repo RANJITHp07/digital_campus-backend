@@ -1,37 +1,39 @@
-import express, { Express } from "express";
-import cors from "cors";
+import express, { Express } from 'express';
+import cors from 'cors';
 import http from 'http';
 import morgan from 'morgan';
-import userRoute from "../route/userRoute"
-import errorMiddleware from "../../usecaseLayer/handler/errorHandler";
-import adminRoute from "../route/adminRoute"
-import { SocketManager } from "../repository/services/socketRepository";
-import { UserRepository } from "../repository/queries/userRepository";
-import connect from "./rabbitmq";
+import userRoute from '../route/userRoute';
+import errorMiddleware from '../../usecaseLayer/handler/errorHandler';
+import adminRoute from '../route/adminRoute';
+import { SocketManager } from '../repository/services/socketRepository';
+import { userRepository } from '../route/injection/userInjection';
 
+const app: Express = express();
 
+// Middleware
+app.use(express.json());
 
+// CORS setup
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'PATCH', 'PUT','POST'], 
+    optionsSuccessStatus: 204, 
+};
 
-  const app: Express = express();
-  app.use(express.json());
-  app.use(cors());
-  app.use(morgan("dev"));
+app.use(cors(corsOptions));
+app.use(morgan('dev'));
 
-  const httpServer = http.createServer(app);
-//socket.io connection
-const repository=new UserRepository('')
-const socket=new SocketManager(httpServer,repository); 
+// HTTP server setup
+const httpServer = http.createServer(app);
 
+// Socket.io connection setup
+const socket = new SocketManager(httpServer, userRepository);
 
-    //routes
-    app.use("/v1/api/auth/user",userRoute)
-    app.use("/v1/api/auth/admin",adminRoute)
+// Routes
+app.use('/v3/api/auth/user', userRoute);
+app.use('/v3/api/auth/admin', adminRoute);
 
+// Error handling middleware
+app.use(errorMiddleware);
 
-
-    //error handling middleware
-    app.use(errorMiddleware)
-
-
-  export {httpServer}
-
+export { httpServer };

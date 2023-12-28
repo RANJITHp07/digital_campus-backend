@@ -1,15 +1,15 @@
 import { Server, Socket } from "socket.io";
-import { createServer, Server as HttpServer } from "http";
+import {  Server as HttpServer } from "http";
 import { UserRepository } from "../queries/userRepository";
 
 export class SocketManager {
   private httpServer: HttpServer;
   private io: Server;
-  private userResponsitory: UserRepository
+  private userRepository: UserRepository;
 
-  constructor(httpServer: HttpServer,userRepository: UserRepository) {
+  constructor(httpServer: HttpServer, userRepository: UserRepository) {
     this.httpServer = httpServer;
-    this.userResponsitory=userRepository
+    this.userRepository = userRepository;
     this.io = new Server(httpServer, {
       cors: {
         origin: "http://localhost:3000",
@@ -21,25 +21,27 @@ export class SocketManager {
 
   private handleConnection = (socket: Socket): void => {
     
-    socket.on("join-room",(email)=>{
-      console.log("a user connected.");
+    socket.on("join-room", (email) => {
+      console.log("A user connected.");
       socket.join(email);
-    })
+    });
 
-    //to block the user
-    socket.on("isBlocked", async ({ email}: { email:string }) => {
-      let user = await this.userResponsitory.findUser(email)
-      if(user && user.id){
-        this.io.to(email).emit("responseIsBlocked", {isBlocked:user.blocked});
+    // To block the user
+    socket.on("isBlocked", async ({ email }: { email: string }) => {
+      try {
+        const user = await this.userRepository.findUser(email);
+        if (user && user.id) {
+          this.io.to(email).emit("responseIsBlocked", { isBlocked: user.blocked });
+        }
+      } catch (error) {
+        console.error("Error checking if user is blocked:", error);
       }
     });
 
     socket.on("disconnect", () => {
-      console.log("a user disconnected!");
+      console.log("A user disconnected!");
     });
   };
-
-  
 
   start = (): void => {
     this.httpServer.listen(8000, () => {

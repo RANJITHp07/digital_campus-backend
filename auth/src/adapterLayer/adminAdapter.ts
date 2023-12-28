@@ -7,6 +7,7 @@ export class Adminadapter{
          this.adminusecase = adminusecase;
     }
 
+   //to create the admin
     async createAdmin(req:Req,res:Res,next:Next){
        try{
         const {email,password} = req.body

@@ -10,7 +10,7 @@ spec:
     - host: jobee.dev
       http:
         paths:
-          - path: /v1/api/auth/?(.*)
+          - path: /v3/api/auth/?(.*)
             pathType: Prefix
             backend:
               service:

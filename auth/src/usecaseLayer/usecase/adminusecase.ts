@@ -8,7 +8,10 @@ export class Adminusecase{
   private readonly bcrypt:Encrypt
   private readonly jwt:jwtPassword
 
-  constructor( adminRepository:AdminRepository, bcrypt:Encrypt,jwt:jwtPassword){
+  constructor( adminRepository:AdminRepository, 
+    bcrypt:Encrypt,
+    jwt:jwtPassword
+    ){
      this.adminRepository = adminRepository,
      this.bcrypt = bcrypt,
      this.jwt = jwt

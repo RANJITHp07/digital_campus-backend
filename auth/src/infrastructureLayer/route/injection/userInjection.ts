@@ -16,9 +16,8 @@ const bcrypt=new Encrypt()
 const jwt=new jwtPassword()
 const nodemailer=new Nodemailer()
 const publisher=new Publisher()
-const listener=new Listener()
 const requestValidator=new RequestValidator()
-const userusecase=new Userusecase(userRepository,bcrypt,jwt,nodemailer,publisher,listener,requestValidator);
-const useradapter=new UserAdapter(userusecase);
+const userusecase=new Userusecase(userRepository,bcrypt,jwt,nodemailer,publisher,requestValidator);
+const userAdapter=new UserAdapter(userusecase);
 
-export default useradapter
+export {userAdapter,userRepository}

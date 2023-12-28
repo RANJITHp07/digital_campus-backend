@@ -1,7 +1,6 @@
 import { IUser } from "../../domainLayer/user";
 import Encrypt from "../../infrastructureLayer/repository/services/bcryptRepository";
 import jwtPassword from "../../infrastructureLayer/repository/services/jwtRepository";
-import Listener from "../../infrastructureLayer/repository/rabbitmq/listenrepository";
 import Nodemailer from "../../infrastructureLayer/repository/services/nodemailer";
 import Publisher from "../../infrastructureLayer/repository/rabbitmq/publishrepository";
 import { UserRepository } from "../../infrastructureLayer/repository/queries/userRepository";
@@ -14,20 +13,24 @@ export class Userusecase{
     private readonly bcrypt: Encrypt
     private readonly jwt: jwtPassword
     private readonly nodemailer:Nodemailer
-    private readonly listner:Listener
-    private readonly publish:Publisher
+    private readonly publisher:Publisher
     private readonly requestValidator:RequestValidator
     
 
     constructor(
-        userRepository:UserRepository, bcrypt:Encrypt, jwt: jwtPassword,nodemailer:Nodemailer,publish:Publisher,listner:Listener,requestValidator:RequestValidator){
+        userRepository: UserRepository,
+        bcrypt: Encrypt,
+        jwt: jwtPassword,
+        nodemailer: Nodemailer,
+        publisher: Publisher,
+        requestValidator: RequestValidator
+    ) {
         this.userRepository = userRepository;
         this.bcrypt = bcrypt;
-        this.jwt=jwt
-        this.nodemailer=nodemailer,
-        this.publish=publish
-        this.listner=listner
-        this.requestValidator=requestValidator
+        this.jwt = jwt;
+        this.nodemailer = nodemailer;
+        this.publisher = publisher;
+        this.requestValidator = requestValidator;
     }
 
     //to create user
@@ -50,7 +53,7 @@ export class Userusecase{
                 const hashedPassword=await this.bcrypt.createHash(password);
                 const newUser={firstName,lastName,email,username,password:hashedPassword}
                 const createnewUser=await this.userRepository.createUser(newUser);
-                await this.publish.publish("authExchange","createroute",{id:createnewUser.id,username,email,profile:createnewUser.profile})
+                await this.publisher.publish("authExchange","createroute",{id:createnewUser.id,username,email,profile:createnewUser.profile})
                 return{
                         status:200,
                         success:true,
@@ -144,10 +147,10 @@ export class Userusecase{
             if(update.password){
                 update.password=await this.bcrypt.createHash(update.password)
             }
-          const updatedUser=await this.userRepository.update(id,update)
+          const updatedUser=await this.userRepository.updateUser(id,update)
           console.log('jii')
           if(update.profile && updatedUser){
-            await this.publish.publish("authExchange","updateProfile",{id:id,profile:updatedUser.profile})
+            await this.publisher.publish("authExchange","updateProfile",{id:id,profile:updatedUser.profile})
           }
           
           if(updatedUser)
@@ -239,7 +242,7 @@ export class Userusecase{
                     const update = {
                         password: hashedPassword
                     };
-                    await this.userRepository.update(id, update);
+                    await this.userRepository.updateUser(id, update);
                     return {
                         status: 200,
                         success: true,
@@ -286,7 +289,7 @@ export class Userusecase{
     }
 
     async getAllusers(){
-        const users=await this.userRepository.getAlluser()
+        const users=await this.userRepository.getAllUsers()
         return {
             status:200,
             data:users

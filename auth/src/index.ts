@@ -5,15 +5,17 @@ import connect from "./infrastructureLayer/config/rabbitmq";
 
 
 const startServer = async ()=> {
-  const port=process.env.PORT || 3000
+   const PORT = process.env.PORT || 3000; // Specify a default port or use environment variable
 
    // db connection
-    await db();
-    await RabbitmquserDetails();
+    // await db();
+
+    // // doing rabbitmq request return patter
+    // await RabbitmquserDetails();
 
     const app = httpServer
 
-    app?.listen(port, () => {
+    app?.listen(PORT, () => {
       console.log("Connected to the server");
     });
  

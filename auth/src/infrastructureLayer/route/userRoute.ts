@@ -1,6 +1,6 @@
 import express, { NextFunction,Request,Response } from  'express'
 import validateMiddleware from "../utils/validator";
-import userAdapter from './injection/userInjection';
+import { userAdapter } from './injection/userInjection';
 
 const router= express.Router();
 

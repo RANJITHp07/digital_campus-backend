@@ -1,30 +1,31 @@
-import { createConnection } from 'typeorm';
+import { createConnection, ConnectionOptions, Connection } from 'typeorm';
 import { Users } from '../entities/user';
 import { Admin } from '../entities/admin';
 
-export const  db=async():Promise<void>=>{
-    try{
+export const db = async (): Promise<void> => {
+    try {
+        // Environment variables for configuration
+        const username = process.env.DATABASE_USERNAME as string;
+        const password = process.env.DATABASE_PASSWORD as string;
+        const database = process.env.DATABASE_NAME as string;
 
-        // env variables of configuration
-        const username=process.env.DATABASE_USERNAME as string
-        const password=process.env.DATABASE_PASSWORD as string
-        const database=process.env.DATABASE_NAME as string
+        if (username && database && password) {
+            const connectionOptions: ConnectionOptions = {
+                type: 'postgres',
+                host: 'auth-postgres-srv',
+                port: 5432,
+                username: username,
+                password: password,
+                database: database,
+                entities: [Users, Admin],
+                synchronize: true,
+            };
 
+            const connection: Connection = await createConnection(connectionOptions);
 
-        if(username && database && password){
-        await createConnection({
-			type:"postgres",
-			host: 'auth-postgres-srv',
-			port: 5432,
-			username: 'postgres',
-			password: '1234',
-			database: 'Auth',
-			entities: [Users,Admin],
-			synchronize: true,
-		});
-		console.log('Connected to Postgres');
+            console.log('Connected to Postgres:', connection.name);
         }
-    }catch(err){
-      throw new Error(`Postgress connection err: ${err}` )
+    } catch (error) {
+        throw new Error(`Postgres connection error: ${error}`);
     }
-}
+};
