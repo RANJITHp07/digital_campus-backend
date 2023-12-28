@@ -8,6 +8,8 @@ import connect from "./infrastructureLayer/config/rabbitmq";
 
 const startServer = async ()=> {
   const port=3000
+
+   // db connection
     await db();
     await RabbitmquserDetails();
 

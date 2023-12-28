@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+    - host: jobee.dev
+      http:
+        paths:
+          - path: /v1/api/auth/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3000
+          - path: /classroom/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: classroom-srv
+                port:
+                  number: 3000
+          - path: /assignment/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: assignment-srv
+                port:
+                  number: 3000       
+          - path: /v1/api/payment/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: payment-srv
+                port:
+                  number: 3000       
+          - path: /v1/api/chat/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: chat-srv
+                port:
+                  number: 3000
+          - path: /submission/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: submission-srv
+                port:
+                  number: 3000                 
