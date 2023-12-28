@@ -18,4 +18,5 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: docker push ranjithp007/dc_auth
+      - uses: digitalocean/action-doctl@v2
       
