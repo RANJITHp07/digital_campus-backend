@@ -1,4 +1,3 @@
-kubectl create secret generic chat-secrets --from-literal=MONGO_URL="mongodb+srv://ranjithp27122003:qwerty1234@cluster0.akd3bfz.mongodb.net/DC-chat?retryWrites=true&w=majority"
 apiVersion: apps/v1
 kind: Deployment
 metadata:
