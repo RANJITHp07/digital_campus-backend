@@ -2,8 +2,6 @@ name: test-chat
 
 on:
   pull_request
-    paths:
-      - 'chat/**'
 
 jobs:
   build:

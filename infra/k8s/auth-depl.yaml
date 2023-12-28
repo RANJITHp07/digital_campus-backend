@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: auth-depl
-spec:
+spec: 
   replicas: 1
   selector:
     matchLabels:
@@ -11,51 +11,12 @@ spec:
     metadata:
       labels:
         app: auth
-    spec:
+    spec: 
       containers:
-        - name: auth
+        - name: auth    
           image: ranjithp007/dc_auth
-          env:
-            - name: MONGO_URL
-              valueFrom:
-                secretKeyRef:
-                  name: auth-mongo
-                  key: MONGO_URL
-            - name: JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: auth-secrets
-                  key: JWT_KEY
-            - name: DATABASE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: auth-secrets
-                  key: DATABASE_USERNAME
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: auth-secrets
-                  key: DATABASE_PASSWORD
-            - name: EMAILID
-              valueFrom:
-                secretKeyRef:
-                  name: auth-secrets
-                  key: EMAILID
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: auth-secrets
-                  key: PASSWORD
-            - name: CREDENTIALS
-              valueFrom:
-                secretKeyRef:
-                  name: auth-secrets
-                  key: CREDENTIALS
-            - name: REDIS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: auth-secrets
-                  key: REDIS_URL
+
+
 ---
 apiVersion: v1
 kind: Service
@@ -68,4 +29,4 @@ spec:
     - name: auth
       protocol: TCP
       port: 3000
-      targetPort: 3000
+      targetPort: 3000                  
