@@ -5,13 +5,13 @@ import { RabbitmquserCreate,} from "./infrastructureLayer/utils/rabbitmqMiddlewa
 
 
 const startServer = async (): Promise<void> => {
+  const port=3000
     await db();
     await RabbitmquserCreate()
 
     const app = createServer()
 
-    app?.listen(3000
-      , () => {
+    app?.listen(port, () => {
       console.log("Connected to the server");
     });
  

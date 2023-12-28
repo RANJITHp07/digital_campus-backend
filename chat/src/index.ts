@@ -5,13 +5,14 @@ import { RabbitmquserCreate, RabbitmquserUpdate } from "./infrastructureLayer/ut
 
 
 const startServer = async (): Promise<void> => {
+    const port=3000
     await connectDB();
     await RabbitmquserCreate()
     await RabbitmquserUpdate()
 
     const app = httpServer
 
-    app?.listen(3000, () => {
+    app?.listen(port, () => {
       console.log("Connected to the server");
     });
  
