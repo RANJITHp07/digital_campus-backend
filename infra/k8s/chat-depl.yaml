@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: chat-depl
-spec: 
+spec:
   replicas: 1
   selector:
     matchLabels:
@@ -11,10 +11,17 @@ spec:
     metadata:
       labels:
         app: chat
-    spec: 
+    spec:
       containers:
-        - name: chat    
+        - name: chat
           image: ranjithp007/dc_chat
+          env:
+            - name: MONGO_URL
+              valueFrom:
+                secretKeyRef:
+                  name: chat-secrets
+                  key: MONGO_URL
+
 ---
 apiVersion: v1
 kind: Service
@@ -27,4 +34,4 @@ spec:
     - name: chat
       protocol: TCP
       port: 3000
-      targetPort: 3000                  
+      targetPort: 3000
