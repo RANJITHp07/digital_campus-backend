@@ -4,10 +4,8 @@ import { httpServer } from "./infrastructureLayer/config/app";
 import connect from "./infrastructureLayer/config/rabbitmq";
 
 
-
-
 const startServer = async ()=> {
-  const port=3000
+  const port=process.env.PORT || 3000
 
    // db connection
     await db();

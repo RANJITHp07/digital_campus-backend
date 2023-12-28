@@ -5,7 +5,7 @@ import { RabbitmquserCreate, RabbitmquserUpdate } from "./infrastructureLayer/ut
 
 
 const startServer = async (): Promise<void> => {
-    const port=3000
+   const port=process.env.PORT || 3000
     
     //db connection
     await connectDB();
