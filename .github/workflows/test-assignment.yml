@@ -2,8 +2,6 @@ name: tests-assignment
 
 on:
   pull_request
-    paths:
-      - 'assignment/**'
 
 jobs:
   build:
