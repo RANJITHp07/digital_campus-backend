@@ -11,7 +11,7 @@ const startServer = async ()=> {
 
    // db connection
     await db();
-    await RabbitmquserDetails();
+    // await RabbitmquserDetails();
 
     const app = httpServer
 
