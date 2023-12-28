@@ -14,9 +14,9 @@ export const db = async (): Promise<void> => {
                 type: 'postgres',
                 host: 'auth-postgres-srv',
                 port: 5432,
-                username: username,
-                password: password,
-                database: database,
+                username: 'postgres',
+                password: '1234',
+                database: 'Auth',
                 entities: [Users, Admin],
                 synchronize: true,
             };
