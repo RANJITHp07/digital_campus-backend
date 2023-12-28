@@ -17,6 +17,7 @@ class Nodemailer implements INodemailer {
   //to send email for verification
   async sendEmailVerification(email: string, username: string):Promise<string> {
     try {
+      console.log(process.env.EMAILID,process.env.PASSWORD,)
       const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
