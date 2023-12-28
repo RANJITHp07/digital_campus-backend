@@ -8,8 +8,8 @@ const startServer = async ()=> {
   const port=process.env.PORT || 3000
 
    // db connection
-    // await db();
-    // await RabbitmquserDetails();
+    await db();
+    await RabbitmquserDetails();
 
     const app = httpServer
 
