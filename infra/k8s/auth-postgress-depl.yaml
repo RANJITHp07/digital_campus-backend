@@ -18,20 +18,11 @@ spec:
           image: postgres
           env:
             - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-password
-                  key: POSTGRES_PASSWORD
+              value: '1234'
             - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-user
-                  key: POSTGRES_USER
+              value: 'postgres'
             - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-db
-                  key: POSTGRES_DB
+              value: 'Auth'   
 ---
 # PostgreSQL Service
 apiVersion: v1
