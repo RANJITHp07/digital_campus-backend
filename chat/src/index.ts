@@ -6,6 +6,8 @@ import { RabbitmquserCreate, RabbitmquserUpdate } from "./infrastructureLayer/ut
 
 const startServer = async (): Promise<void> => {
     const port=3000
+    
+    //db connection
     await connectDB();
     await RabbitmquserCreate()
     await RabbitmquserUpdate()
