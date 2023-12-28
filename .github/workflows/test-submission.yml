@@ -2,6 +2,8 @@ name: test-submission
 
 on:
   pull_request
+    paths:
+      - 'submission/**'
 
 jobs:
   build:
