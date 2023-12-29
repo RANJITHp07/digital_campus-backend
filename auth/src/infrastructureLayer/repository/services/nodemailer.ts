@@ -24,7 +24,7 @@ class Nodemailer implements INodemailer {
         requireTLS: false,
         auth: {
           user: 'testingjobee007@gmail.com',
-          pass: 'glpwhvaizrtykorv',
+          pass: 'ztuxfbtmllnwyvii',
         },
       });
 
