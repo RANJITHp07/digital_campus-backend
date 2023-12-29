@@ -76,7 +76,7 @@ export class AssignmentRepository implements IAssigmentRepository{
       //to delete assignment
       async deleteAssignment(id:string):Promise<IAssignmentModel | null>{
         try{
-           const deletedAssignment=await Assignment.findByIdAndDelete(id)as IAssignmentModel
+           const deletedAssignment=await Assignment.findByIdAndDelete(id)as IAssignmentModel | null
            return  deletedAssignment
         }catch(err){
           throw err
@@ -86,7 +86,7 @@ export class AssignmentRepository implements IAssigmentRepository{
       //to update the assignments
       async update(id:string,update:Partial<IAssigment>):Promise<IAssignmentModel | null>{
         try{
-          const updateAssignment=await Assignment.findByIdAndUpdate(id,{$set:update})as IAssignmentModel
+          const updateAssignment=await Assignment.findByIdAndUpdate(id,{$set:update})as IAssignmentModel | null
           return  updateAssignment
        }catch(err){
          throw err
@@ -101,7 +101,7 @@ export class AssignmentRepository implements IAssigmentRepository{
               { dueDate: { $exists: true } },
               { students: id}
             ]
-          });
+          })as IAssignmentModel[];
           return assignments;
         } catch (err) {
           throw err;
