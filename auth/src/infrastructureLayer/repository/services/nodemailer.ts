@@ -17,14 +17,15 @@ class Nodemailer implements INodemailer {
   //to send email for verification
   async sendEmailVerification(email: string, username: string):Promise<string> {
     try {
+      console.log(email,username)
       const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
         secure: false,
         requireTLS: false,
         auth: {
-          user: 'testingjobee007@gmail.com',
-          pass: 'glpwhvaizrtykorv',
+          user: process.env.EMAILID,
+          pass: process.env.PASSWORD,
         },
       });
 
