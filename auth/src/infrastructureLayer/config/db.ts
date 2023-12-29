@@ -9,6 +9,8 @@ export const db = async (): Promise<void> => {
         const password = process.env.DATABASE_PASSWORD as string;
         const database = process.env.DATABASE_NAME as string;
 
+        console.log(username,password,database)
+
         if (username && database && password) {
             const connectionOptions: ConnectionOptions = {
                 type: 'postgres',
