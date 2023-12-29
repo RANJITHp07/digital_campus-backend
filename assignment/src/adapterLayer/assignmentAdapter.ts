@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../../classroom/src/infrastructureLayer/middleware/error/userErrorhandler";
+import { ErrorHandler } from "../infrastructureLayer/middleware/error/userErrorhandler";
 import { IAssigment } from "../domainLayer/assignment";
 import { AssignmentUsecase } from "../usecaseLayer/usecase/assignmentusecase";
 
