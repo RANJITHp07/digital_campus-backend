@@ -29,7 +29,7 @@ export class AssignmentRepository implements IAssigmentRepository{
     //to get the details of a single classroom
     async getOneAssignment(id:string):Promise<IAssignmentModel | null>{
         try{
-            const assignments=await Assignment.findById(id)as IAssignmentModel
+            const assignments=await Assignment.findById(id)as IAssignmentModel | null
             return assignments
         }catch(err){
             throw err
@@ -76,22 +76,32 @@ export class AssignmentRepository implements IAssigmentRepository{
       //to delete assignment
       async deleteAssignment(id:string):Promise<IAssignmentModel | null>{
         try{
-           const deletedAssignment=await Assignment.findByIdAndDelete(id)as IAssignmentModel
-           return  deletedAssignment
+           const deletedAssignment=await Assignment.findByIdAndDelete(id)
+           if (deletedAssignment instanceof Assignment && deletedAssignment !== null) {
+            return deletedAssignment as IAssignmentModel;
+          } else {
+            return null;
+          }
         }catch(err){
           throw err
         }
       }
  
       //to update the assignments
-      async update(id:string,update:Partial<IAssigment>):Promise<IAssignmentModel | null>{
-        try{
-          const updateAssignment=await Assignment.findByIdAndUpdate(id,{$set:update})as IAssignmentModel
-          return  updateAssignment
-       }catch(err){
-         throw err
-       }
+      async update(id: string, update: Partial<IAssigment>): Promise<IAssignmentModel | null> {
+        try {
+          const updatedAssignment = await Assignment.findByIdAndUpdate(id, { $set: update }, { new: true });
+      
+          if (updatedAssignment && updatedAssignment instanceof Assignment) {
+            return updatedAssignment as IAssignmentModel;
+          } else {
+            return null;
+          }
+        } catch (err) {
+          throw err;
+        }
       }
+      
 
       //to get all the assignment and due_date
       async findAssignments(id: string):Promise<IAssignmentModel[]> {
