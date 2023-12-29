@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../../classroom/src/infrastructureLayer/middleware/error/userErrorhandler";
+import { ErrorHandler } from "../infrastructureLayer/middleware/error/userErrorhandler";
 import { IComment } from "../domainLayer/comments";
 import { Commentusecase } from "../usecaseLayer/usecase/commentusecase";
 
