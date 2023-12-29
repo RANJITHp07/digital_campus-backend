@@ -12,6 +12,7 @@ export const resolver={
     getAllTheClassroom: classroomQueries.getAllTheClassroom,
     getFilteredClassroom: classroomQueries.getFilteredClassroom,
     reportedClassroom:classroomQueries.reportedClassroom,
+    
    },
    Mutation:{
       createClass: classroomMutation.createClass,
@@ -22,6 +23,8 @@ export const resolver={
       addToAdmin: classroomMutation.addToAdmin,
       removeFromAdmin: classroomMutation.removeFromAdmin,
       emailInvitation: classroomMutation.emailInvitation,
+      addRequest: classroomMutation.addRequest,
+      removeRequest: classroomMutation.removeRequest
 }
 
 }

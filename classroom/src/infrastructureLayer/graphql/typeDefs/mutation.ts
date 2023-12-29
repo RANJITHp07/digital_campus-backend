@@ -50,6 +50,12 @@ export const classRoomMutation=gql`
      code:String!
    }
 
+   input RequestInput{
+     id:String!,
+     name:String!,
+     code:String!
+   }
+
 
    type  Mutation{
      createClass(classroom:Classroom): ClassRoom!
@@ -60,5 +66,7 @@ export const classRoomMutation=gql`
      addToAdmin(id:String,classroomId:String):Output!
      removeFromAdmin(id:String,classroomId:String):Output!
      emailInvitation(invitation:Invitation):Output!
+     addRequest(request:RequestInput):Output!
+     removeRequest(request:RequestInput):Output!
    }
 `

@@ -2,6 +2,11 @@ interface Report{
     title: string;
       description: string;
       reporter: string;
+} 
+
+interface Request{
+   id:string,
+   name:string
 }
 
 export interface IClassroom {
@@ -17,6 +22,7 @@ export interface IClassroom {
     createdAt?: Date;
     category: string;
     block: boolean;
+    request:Request[];
     reported?: boolean;
     reason?:Report[];
     blockClassroom: boolean;

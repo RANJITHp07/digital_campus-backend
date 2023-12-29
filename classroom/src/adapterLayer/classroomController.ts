@@ -167,5 +167,23 @@ export class ClassroomController{
             this.errorHandler.apolloError(err)
         }
     }
+
+    async addRequest(_:unknown,args:{request:{id:string,name:string,code:string}}){
+        try{
+         const addUserRequest=await this.classroomusecase.addRequest({...args.request,type:true})
+         return addUserRequest
+        }catch(err){
+            this.errorHandler.apolloError(err)
+        }
+    }
+
+    async removeRequest(_:unknown,args:{request:{id:string,name:string,code:string}}){
+        try{
+            const removeUserRequest=await this.classroomusecase.addRequest({...args.request,type:false})
+            return removeUserRequest
+           }catch(err){
+               this.errorHandler.apolloError(err)
+           }
+    }
     
 }

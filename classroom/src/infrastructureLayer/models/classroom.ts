@@ -14,6 +14,10 @@ interface IClassroom extends Document {
   category: string;
   profile: string;
   block: boolean;
+  request: Array<{
+    id: string;
+    name: string;
+  }>;
   reported?: boolean;
   reason?: Array<{
     title: string;
@@ -76,17 +80,29 @@ const classroomSchema = new Schema<IClassroom>({
     type: Boolean,
     default: false,
   },
-  reason: [{
-    title: {
-      type: String,
+  request: [
+    {
+      id: {
+        type: String,
+      },
+      name: {
+        type: String,
+      },
     },
-    description: {
-      type: String,
+  ],
+  reason: [
+    {
+      title: {
+        type: String,
+      },
+      description: {
+        type: String,
+      },
+      reporter: {
+        type: String,
+      },
     },
-    reporter: {
-      type: String,
-    },
-  }],
+  ],
   blockClassroom: {
     type: Boolean,
     default: false,

@@ -8,6 +8,12 @@ export const classroomQuery=gql`
       reporter:String
    }
 
+  type Request{
+    id:String!
+    name:String!
+    _id:ID!
+  }  
+
   type ClassRoom{
      _id:ID!,
      className:String!,
@@ -24,6 +30,7 @@ export const classroomQuery=gql`
      reported:Boolean,
      reason:[Reason]
      blockClassroom:Boolean
+     request:[Request]
   }
 
 

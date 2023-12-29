@@ -73,5 +73,23 @@ export const classroomMutation={
            }catch(err){
               errorHandler.apolloError(err)
            }
-     }
+     },
+
+     async addRequest(_:unknown,args:{request:{id:string,name:string,code:string}}){
+         try{
+              const addUserRequest=await controller.addRequest(_,args);
+              return addUserRequest
+         }catch(err){
+            errorHandler.apolloError(err)
+         }
+     },
+
+     async removeRequest(_:unknown,args:{request:{id:string,name:string,code:string}}){
+      try{
+           const removeUserRequest=await controller.removeRequest(_,args);
+           return removeUserRequest
+      }catch(err){
+         errorHandler.apolloError(err)
+      }
+  }
   }

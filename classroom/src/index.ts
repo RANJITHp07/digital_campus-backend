@@ -9,10 +9,10 @@ const startServer = async () => {
 
     const app = await createServer()
 
-    app?.listen(port, () => {
+    app?.listen(5000, () => {
       console.log("Connected to the server");
     });
-    await RabbitmquserUpdate()
+    // await RabbitmquserUpdate()
   } catch (err) {
     console.error("Error starting the server:", err);
   }

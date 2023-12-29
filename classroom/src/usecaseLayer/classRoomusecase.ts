@@ -144,6 +144,40 @@ export class Classroomusecase{
           }
      }
 
+     //to add a student into the request
+     async addRequest({id,name,code,type}:{id:string,name:string,code:string,type:boolean}){
+          try{
+               const classroom=await this.classroomrepository.getClassroom(code)
+               if(classroom){
+                    if(type){
+                      // Check if the request already exists based on id and name
+                 const requestExists = classroom.request.some((request) => request.id === id && request.name === name);
+                 if (!requestExists) {
+                    classroom.request.push({ id: id, name: name });
+                    await this.classroomrepository.update(classroom._id as string, classroom);
+                    return {
+                         message: "Inivitation to join send to the admin"
+                    }
+                  } else {
+                    this.errorHandler.userInputerror("Already requested to this classroom");
+                  }
+                    }else{
+                         classroom.request = classroom.request.filter((request) => !(request.id === id && request.name === name));
+          await this.classroomrepository.update(classroom._id as string, classroom);
+          return {
+               message: "Removed the request"
+          }
+                    }
+                    classroom.request.push({ id: id, name: name });
+                    
+               }else{
+                    this.errorHandler.userInputerror("No such classroom")
+               }
+          }catch(err){
+               this.errorHandler.apolloError(err)
+          }
+     }
+
      //to get the classroom details using the code of the classroom
      async getClassroom({code}:{code:string}){
           try{
@@ -183,14 +217,6 @@ export class Classroomusecase{
      async getAllClassroomparticipants({id}:{id:string}){
           try{
             const classroom=await this.classroomrepository.getAllparticipants(id);
-          //   //to exchange the admin and userId to auth service and collect the data of the users from the auth service
-          //   await this.publish.publish("classroomExchange","details",{adminId:classroom?.admins, studentId:classroom?.students_enrolled});
-          
-          //    const data= await this.listen.listen("authExchange", "participants",'studentDetail',(data) => {
-          //      });
-          //      console.log(data)
-          //    return data
-          // await this.rabbitmqClient.produce({adminId:classroom?.admins, studentId:classroom?.students_enrolled})
           const data=await this.requester.publishWithReply('classroomExchange','studentDetails',{adminId:classroom?.admins, studentId:classroom?.students_enrolled})
            return data     
      }catch(err){
