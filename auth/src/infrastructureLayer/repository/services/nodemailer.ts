@@ -23,8 +23,8 @@ class Nodemailer implements INodemailer {
         secure: false,
         requireTLS: false,
         auth: {
-          user: process.env.EMAILID,
-          pass: process.env.PASSWORD,
+          user: 'testingjobee007@gmail.com',
+          pass: 'glpwhvaizrtykorv',
         },
       });
 
