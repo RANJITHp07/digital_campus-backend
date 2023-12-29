@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../../../../classroom/src/infrastructureLayer/middleware/error/userErrorhandler";
+import { ErrorHandler } from "../../middleware/error/userErrorhandler";
 import { CommentAdapter } from "../../../adapterLayer/commentAdapter";
 import { Commentusecase } from "../../../usecaseLayer/usecase/commentusecase";
 import { CommentRepository } from "../../repository/queries/commentRepository";
