@@ -12,4 +12,9 @@ export interface ISubmission{
     },
     points:number
     submission: Submit[]
+    attachment: {
+        type: string;
+        content: string;
+      };
+    username:string
 }

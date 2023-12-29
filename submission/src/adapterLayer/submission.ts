@@ -8,7 +8,7 @@ export class Submission{
             const assignment=new Assignment()
             if(req.body.pollingAnswers){
                 await submissionModel.create(req.body)
-                const a=await assignment.find(req.body.assignment_id)
+                const a=await assignment.findAssignment(req.body.assignment_id)
                 if(a){
                     a.polling.answers.indexOf(req.body.pollingAnswers);
                     

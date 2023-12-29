@@ -21,7 +21,7 @@ export class Assignment{
         }
     }
 
-    async find(id:string){
+    async findAssignment(id:string){
         try{
            const assignment= await AssignmentModel.findById(id)
            return assignment

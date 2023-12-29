@@ -13,7 +13,7 @@ interface Iassignment extends Document {
     type: string;
     content: string;
   };
-  assignment: ISubmit;
+  submission: ISubmit;
   username: string;
 }
 
@@ -40,7 +40,7 @@ const assignmentSchema = new Schema<Iassignment>({
       
     },
   },
-  assignment: {
+  submission: {
     type: {
       status: {
         type: String,

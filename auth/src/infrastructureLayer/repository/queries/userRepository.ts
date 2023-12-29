@@ -59,6 +59,7 @@ export class UserRepository implements IUserRepository {
                 Object.assign(user, update);
                 await this.usersModel.save(user);
                 await redis.set(user.email, JSON.stringify(user));
+                await redis.expire(user.email, 3600);
                 return user;
             }
 
