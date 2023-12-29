@@ -1,15 +1,14 @@
 import { ClassroomController } from "../../../adapterLayer/classroomController"
-import { IClassroom } from "../../../domainLayer/classroom"
 import { Classroomusecase } from "../../../usecaseLayer/classRoomusecase"
 import { ErrorHandler } from "../../middleware/error/userErrorhandler"
 import classroomModel from "../../models/classroom"
-import { ClassRoomRepository } from "../../repository/classroomRepository"
-import Requester from "../../repository/client"
-import Listener from "../../repository/listenrepository"
-import Nodemailer from "../../repository/nodemailerRepository"
-import Publisher from "../../repository/publishrepository"
-import { RandomNumber } from "../../repository/uniqueNumberRepository"
-import RequestValidator from "../../repository/validatorRepository"
+import { ClassRoomRepository } from "../../repository/queries/classroomRepository"
+import Requester from "../../repository/rabbitmq/client"
+import Listener from "../../repository/rabbitmq/listenrepository"
+import Nodemailer from "../../repository/services/nodemailerRepository"
+import Publisher from "../../repository/rabbitmq/publishrepository"
+import { RandomNumber } from "../../repository/services/uniqueNumberRepository"
+import RequestValidator from "../../repository/services/validatorRepository"
 
 
 //factory method

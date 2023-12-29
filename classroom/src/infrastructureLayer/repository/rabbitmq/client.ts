@@ -1,5 +1,5 @@
 import { Channel, Connection } from "amqplib";
-import connect from "../config/rabbitmq";
+import connect from "../../config/rabbitmq";
 
 
 export class Requester {

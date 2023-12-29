@@ -1,6 +1,6 @@
 import { Channel, Connection } from "amqplib";
-import connect from "../config/rabbitmq";
-import IPublish from "../../usecaseLayer/interface/publishRepository";
+import connect from "../../config/rabbitmq";
+import IPublish from "../../../usecaseLayer/interface/publishRepository";
 
 class Publisher implements IPublish{
   private channel: Channel | undefined;

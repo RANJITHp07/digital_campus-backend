@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import INodemailer from '../../usecaseLayer/interface/nodemailerRepository';
+import INodemailer from '../../../usecaseLayer/interface/nodemailerRepository';
 
 class Nodemailer implements INodemailer {
 

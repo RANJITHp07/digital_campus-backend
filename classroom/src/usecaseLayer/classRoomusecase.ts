@@ -1,12 +1,12 @@
 import { IClassroom,} from "../domainLayer/classroom";
 import { ErrorHandler } from "../infrastructureLayer/middleware/error/userErrorhandler";
-import { ClassRoomRepository } from "../infrastructureLayer/repository/classroomRepository";
-import { RandomNumber } from "../infrastructureLayer/repository/uniqueNumberRepository";
-import Publisher from "../infrastructureLayer/repository/publishrepository";
-import Listener from "../infrastructureLayer/repository/listenrepository";
-import Nodemailer from "../infrastructureLayer/repository/nodemailerRepository";
-import RequestValidator from "../infrastructureLayer/repository/validatorRepository";
-import Requester from "../infrastructureLayer/repository/client";
+import { ClassRoomRepository } from "../infrastructureLayer/repository/queries/classroomRepository";
+import { RandomNumber } from "../infrastructureLayer/repository/services/uniqueNumberRepository";
+import Publisher from "../infrastructureLayer/repository/rabbitmq/publishrepository";
+import Listener from "../infrastructureLayer/repository/rabbitmq/listenrepository";
+import Nodemailer from "../infrastructureLayer/repository/services/nodemailerRepository";
+import RequestValidator from "../infrastructureLayer/repository/services/validatorRepository";
+import Requester from "../infrastructureLayer/repository/rabbitmq/client";
 
 export class Classroomusecase{
  
@@ -14,8 +14,6 @@ export class Classroomusecase{
      private readonly randomGenerator: RandomNumber
      private readonly errorHandler:ErrorHandler
      private readonly nodemailer:Nodemailer
-     private readonly publish:Publisher
-     private readonly listen:Listener
      private readonly requestValidator:RequestValidator
      private readonly requester:Requester
 
@@ -24,8 +22,6 @@ export class Classroomusecase{
          this.classroomrepository = classroomrepository;
          this.randomGenerator = randomGenerator;
          this.errorHandler=errorHandler;
-         this.publish=publish;
-         this.listen=listen;
          this.nodemailer=nodemailer
          this.requestValidator=requestValidator
          this.requester=requester

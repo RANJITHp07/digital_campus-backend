@@ -1,5 +1,5 @@
-import Listener from "../../repository/listenrepository";
-import { ClassRoomRepository } from "../../repository/classroomRepository";
+import Listener from "../../repository/rabbitmq/listenrepository";
+import { ClassRoomRepository } from "../../repository/queries/classroomRepository";
 
 
 const repository=new ClassRoomRepository('');

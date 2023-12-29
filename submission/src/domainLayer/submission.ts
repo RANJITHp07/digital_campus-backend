@@ -1,20 +1,16 @@
-interface Submit{
+interface ISubmit{
     status:"Late Submission"| "Submitted" | "Not Submitted",
     grade:number
 }
 
 export interface ISubmission{
-    assignment_id:string,
-    dueDate:{
-        day:string,
-        time:string,
-        timer:string[]
-    },
-    points:number
-    submission: Submit[]
-    attachment: {
-        type: string;
-        content: string;
-      };
-    username:string
+    quizAnswers: string[]; // You may need to specify the correct type for quizAnswers
+  pollingAnswers: string;
+  assignment_id: string;
+  attachment: {
+    type: string;
+    content: string;
+  };
+  submission: ISubmit;
+  username: string;
 }

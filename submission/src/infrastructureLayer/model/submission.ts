@@ -28,7 +28,7 @@ const assignmentSchema = new Schema<Iassignment>({
   },
   assignment_id: {
     type: String,
-    
+    required:true
   },
   attachment: {
     type: {
@@ -45,7 +45,7 @@ const assignmentSchema = new Schema<Iassignment>({
       status: {
         type: String,
         enum: ['Late assignment', 'Submitted', 'Not Submitted'],
-        
+        default:'Not Submitted'
       },
       grade: {
         type: Number,

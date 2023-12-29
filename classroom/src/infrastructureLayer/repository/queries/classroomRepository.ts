@@ -1,7 +1,7 @@
-import { IClassroom } from "../../domainLayer/classroom"
-import { IClassroomReository } from "../../usecaseLayer/interface/classroomRepository";
-import classroomModel from "../models/classroom"
-import { redis } from "../config/redis";
+import { IClassroom } from "../../../domainLayer/classroom"
+import { IClassroomReository } from "../../../usecaseLayer/interface/classroomRepository";
+import classroomModel from "../../models/classroom"
+import { redis } from "../../config/redis";
 
 
 export class ClassRoomRepository implements IClassroomReository{
@@ -93,6 +93,7 @@ export class ClassRoomRepository implements IClassroomReository{
             return JSON.parse(cachedClassroom)
           }
             const classroom=await classroomModel.findById(id);
+            
            //caching the classroom details in redis
           await redis.set(id,JSON.stringify(classroom))
             return classroom

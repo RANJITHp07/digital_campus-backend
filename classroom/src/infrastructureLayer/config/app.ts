@@ -18,8 +18,16 @@ export const  createServer = async() => {
 
     dotenv.config()
     app.use(express.json());
-    app.use(cors());
-    app.use(morgan("dev"));
+      
+      // CORS setup
+     const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'PATCH', 'PUT','POST','DELETE'], 
+    optionsSuccessStatus: 204, 
+  };
+  
+  app.use(cors(corsOptions));
+  app.use(morgan('dev'));
 
     return app as Express;
   
