@@ -24,13 +24,8 @@ class Nodemailer implements INodemailer {
         secure: false,
         requireTLS: false,
         auth: {
-<<<<<<< HEAD
           user: process.env.EMAILID,
           pass: process.env.PASSWORD,
-=======
-          user: 'testingjobee007@gmail.com',
-          pass: 'ztuxfbtmllnwyvii',
->>>>>>> 2f27e311a4f04f5dfe52ae6957405524aa7e3cac
         },
       });
 
@@ -56,7 +51,6 @@ class Nodemailer implements INodemailer {
       await transporter.sendMail(mailOptions);
       return  'Email sent'
     } catch (error) {
-      console.log(process.env.EMAILID,process.env.PASSWORD)
       throw new Error(`Unable to send email verification email to ${email}: ${error}`);
     }
   }
