@@ -6,7 +6,7 @@ interface IQuestion {
     type: string;
 }
 
-interface IAssignment extends Document {
+export interface IAssignmentModel extends Document {
     assignmentType: "Assignment" | "Quiz" | "Announcement" | "Question" | "Material" | "Polling";
     mainTopic: string;
     dueDate: {
@@ -32,7 +32,7 @@ interface IAssignment extends Document {
 
 }
 
-const assignmentSchema = new Schema<IAssignment>({
+const assignmentSchema = new Schema<IAssignmentModel>({
     assignmentType: {
         type: String,
         enum: ["Assignment", "Quiz", "Announcement", "Question", "Material", "Polling"],
@@ -113,6 +113,6 @@ const assignmentSchema = new Schema<IAssignment>({
 }
 );
 
-const Assignment = mongoose.model<IAssignment>('Assignment', assignmentSchema);
+const Assignment = mongoose.model<IAssignmentModel>('Assignment', assignmentSchema);
 
 export default Assignment;
