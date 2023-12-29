@@ -51,7 +51,6 @@ class Nodemailer implements INodemailer {
       await transporter.sendMail(mailOptions);
       return  'Email sent'
     } catch (error) {
-      console.log(process.env.EMAILID,process.env.PASSWORD)
       throw new Error(`Unable to send email verification email to ${email}: ${error}`);
     }
   }
