@@ -25,6 +25,7 @@ export class  UserAdapter{
           }
     }
 
+    //to login user
     async loginUser(req:Req,res:Res,next:Next){
         try{
              const user=await this.userusecase.loginUser(req.body);
@@ -40,7 +41,7 @@ export class  UserAdapter{
 
 
 
-
+    //to get a particular user
     async getUser(req:Req,res:Res,next:Next){
        try{
           const getUser=await this.userusecase.getUser(req.params.email);
@@ -54,6 +55,8 @@ export class  UserAdapter{
        }
     }
 
+
+    //to update the user
     async updateUser(req:Req,res:Res,next:Next){
       try{
          const updateUser=await this.userusecase.updateUser(req.body)
@@ -67,6 +70,7 @@ export class  UserAdapter{
       }
     }
 
+    //to send the email or verification
     async sendEmail(req:Req,res:Res,next:Next){
       try{
         const user=await this.userusecase.verifyEmail(req.body)
@@ -93,6 +97,7 @@ export class  UserAdapter{
      }
     }
 
+    //to reset the password
     async resetPassword(req:Req,res:Res,next:Next){
       try{
         const user=await this.userusecase.checkPassword(req.body.bcryptPassword,req.body.oldpassword,req.body.update.password,req.body.id)
@@ -120,7 +125,7 @@ export class  UserAdapter{
       }
     }
 
-
+    //to search a user
     async searchUser(req:Req,res:Res,next:Next){
       try{
          let query=req.query.search as string
