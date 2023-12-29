@@ -4,11 +4,6 @@ import UserRepository from "./userRepository";
 import MessageRepository from "./messageRespository";
 import IMessage from "../../../domainLayer/message";
 
-interface ClassRoom {
-  [classRoomId: string]: {
-    sockets: string[];
-  };
-}
 
 export class SocketManager {
   private httpServer: HttpServer;
@@ -27,14 +22,15 @@ export class SocketManager {
     this.io.on("connection", this.handleConnection);
   }
 
+  //to create a room of all the students with particular classRoomId
   private handleConnection = (socket: Socket): void => {
-
     socket.on("join-room",(classRoomId)=>{
       console.log("a user connected.");
       socket.join(classRoomId);
     })
 
 
+    //to send the message to the room since it is a broadcast message
     socket.on("sendMessage", async ({ classId, message }: { classId: string; message: IMessage }) => {
       let user = await this.userRepository.finduser(message.sender as string);
       if(user){
@@ -46,15 +42,14 @@ export class SocketManager {
       }
     });
 
+    //to listen while typing
     socket.on("typing-started",({ classId, name }: { classId: string;name: string;})=>{
         socket.broadcast.to(classId).emit("typing-started-from-server",name)
-      
   })
 
+  // to listen when stopped typing
   socket.on("typing-stoped",({ classId,name }: { classId:string;name: string;})=>{
-        socket.broadcast.to(classId).emit("typing-stoped-from-server")
-
-      
+         socket.broadcast.to(classId).emit("typing-stoped-from-server")
   })
 
     socket.on("disconnect", () => {

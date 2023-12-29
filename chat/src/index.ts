@@ -9,6 +9,8 @@ const startServer = async (): Promise<void> => {
     
     //db connection
     await connectDB();
+
+    //to listen to the rabbitmq queue
     await RabbitmquserCreate()
     await RabbitmquserUpdate()
 

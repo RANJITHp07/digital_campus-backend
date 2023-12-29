@@ -8,7 +8,7 @@ enum MessageType {
   PHOTO='photo'
 }
 
-interface IMessage extends Document {
+export interface IMessageModel extends Document {
   classId: string;
   sender: Schema.Types.ObjectId;
   text: {
@@ -20,7 +20,7 @@ interface IMessage extends Document {
   updatedAt: Date;
 }
 
-const MessageSchema = new mongoose.Schema<IMessage>(
+const MessageSchema = new mongoose.Schema<IMessageModel>(
   {
     classId: {
       type: String,
@@ -49,6 +49,6 @@ const MessageSchema = new mongoose.Schema<IMessage>(
   { timestamps: true }
 );
 
-const MessageModel = mongoose.model<IMessage>("Message", MessageSchema);
+const MessageModel = mongoose.model<IMessageModel>("Message", MessageSchema);
 
 export default MessageModel;

@@ -4,19 +4,28 @@ import http from 'http';
 import morgan from 'morgan';
 import { SocketManager } from "../repository/queries/socketRepository";
 import MessageRoute from "../routes/messageRoute"
-import UserRepository from "../repository/queries/userRepository";
+import { userrepository } from "../routes/injection/injection";
 
 
 
   const app: Express = express();
   app.use(express.json());
-  app.use(cors());
-  app.use(morgan("dev"));
+
+
+  // CORS setup
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'PATCH', 'PUT','POST'], 
+  optionsSuccessStatus: 204, 
+};
+
+app.use(cors(corsOptions));
+app.use(morgan('dev'));
 
   const httpServer = http.createServer(app);
+
 //socket.io connection
-const repository=new UserRepository('')
-const socket=new SocketManager(httpServer,repository)
+const socket=new SocketManager(httpServer,userrepository)
 
 //routes
 app.use("/v1/api/chat",MessageRoute)
