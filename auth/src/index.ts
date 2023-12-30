@@ -9,12 +9,12 @@ const startServer = async ()=> {
    //db connection
     await db();
 
-    // // doing rabbitmq request return pattern
+    // // // doing rabbitmq request return pattern
     await RabbitmquserDetails();
 
     const app = httpServer
 
-    app?.listen(PORT, () => {
+    app?.listen(4000, () => {
       console.log("Connected to the server");
     });
  
