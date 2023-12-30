@@ -10,7 +10,7 @@ const startServer = async () => {
     await db();
 
     //rabbitmq listening to the incoming queue
-    // await RabbitmquserUpdate()
+    await RabbitmquserUpdate()
 
     const app = await createServer()
 
