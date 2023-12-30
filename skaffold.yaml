@@ -27,35 +27,35 @@ build:
         manual: 
         - src: 'src/**/*.ts'
           dest: .
-    - image: ranjithp007/dc_chat
-      context: chat
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual: 
-        - src: 'src/**/*.ts'
-          dest: . 
-    - image: ranjithp007/dc_assignment
-      context: assignment
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual: 
-        - src: 'src/**/*.ts'
-          dest: .   
-    - image: ranjithp007/dc_submission
-      context: submission
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual: 
-        - src: 'src/**/*.ts'
-          dest: . 
-    - image: ranjithp007/dc_payment
-      context: payment
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual: 
-        - src: 'src/**/*.ts'
-          dest: .                   
+    # - image: ranjithp007/dc_chat
+    #   context: chat
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual: 
+    #     - src: 'src/**/*.ts'
+    #       dest: . 
+    # - image: ranjithp007/dc_assignment
+    #   context: assignment
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual: 
+    #     - src: 'src/**/*.ts'
+    #       dest: .   
+    # - image: ranjithp007/dc_submission
+    #   context: submission
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual: 
+    #     - src: 'src/**/*.ts'
+    #       dest: . 
+    # - image: ranjithp007/dc_payment
+    #   context: payment
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual: 
+    #     - src: 'src/**/*.ts'
+    #       dest: .                   

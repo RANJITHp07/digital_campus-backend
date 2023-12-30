@@ -48,6 +48,7 @@ export class Responder  {
             console.error("Error processing message:", err);
           }
         }
+        
       });
     } catch (err) {
       console.error("Error listening for requests:", err);
