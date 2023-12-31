@@ -73,8 +73,8 @@ export class UserRepository implements IUserRepository {
     async paginateUsers(pageNumber: number): Promise<IUser[]> {
         try {
             const users = await this.usersModel.find({
-                skip: (pageNumber - 1) * 1,
-                take: 1,
+                skip: (pageNumber - 1) * 10,
+                take: 10,
             });
             return users;
         } catch (error) {
