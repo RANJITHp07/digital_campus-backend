@@ -32,7 +32,8 @@ export class Submission{
 
     async createSubmission(_:unknown,args:{submission:ISubmission}){
       try{
-        //   const newSubmission=await this
+          const newSubmission=await this.submissionUsecase.createSubmission(args.submission)
+          return newSubmission
       }catch(err){
         throw err
       }

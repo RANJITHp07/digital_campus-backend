@@ -6,7 +6,6 @@ import { Users } from "../../entities/user";
 import jwtPassword from "../../repository/services/jwtRepository";
 import Nodemailer from "../../repository/services/nodemailer";
 import Publisher from "../../repository/rabbitmq/publishrepository";
-import Listener from "../../repository/rabbitmq/listenrepository";
 import RequestValidator from "../../repository/services/validatorRepository";
 
 

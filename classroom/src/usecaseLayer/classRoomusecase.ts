@@ -213,6 +213,7 @@ export class Classroomusecase{
      async getAllClassroomparticipants({id}:{id:string}){
           try{
             const classroom=await this.classroomrepository.getAllparticipants(id);
+            console.log(classroom)
           const data=await this.requester.publishWithReply('classroomExchange','studentDetails',{adminId:classroom?.admins, studentId:classroom?.students_enrolled})
            return data     
      }catch(err){

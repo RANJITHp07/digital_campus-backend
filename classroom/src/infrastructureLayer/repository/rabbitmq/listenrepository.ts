@@ -44,22 +44,6 @@ export class Listener implements IListner {
           }
         }
       });
-      // return new Promise<any>((resolve) => {
-      //   this.channel?.consume(queue.queue, async (data) => {
-      //     if (data) {
-      //       try {
-      //         const parsedData = JSON.parse(data.content.toString());
-      //         // Wait for the callback to complete
-      //         await callback(parsedData);
-      //         this.channel?.ack(data); // Acknowledge successful processing
-      //         resolve(parsedData); // Resolve the Promise when everything is done
-      //       } catch (err) {
-      //         console.error("Error processing message:", err);
-      //         resolve(false); // Resolve with false in case of an error
-      //       }
-      //     }
-      //   });
-      // });
       return true
     } catch (err) {
       console.error("Error listening to queue:", err);

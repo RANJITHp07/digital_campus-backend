@@ -93,7 +93,6 @@ export class ClassRoomRepository implements IClassroomReository{
             return JSON.parse(cachedClassroom)
           }
             const classroom=await classroomModel.findById(id);
-            
            //caching the classroom details in redis
           await redis.set(id,JSON.stringify(classroom))
             return classroom
