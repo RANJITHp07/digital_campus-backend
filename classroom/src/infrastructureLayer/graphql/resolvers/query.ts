@@ -44,8 +44,8 @@ export const classroomQueries = {
 
   async getAllClassroomparticipants(_: unknown, args: { id: string }, context: MyContext) {
     try {
-      const user = authenticate(context);
-      if (user) {
+      // const user = authenticate(context);
+      if (true) {
         const classroom = await controller.getAllparticipants(_, args);
         return classroom;
       }
