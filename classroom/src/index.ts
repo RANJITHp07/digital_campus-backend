@@ -4,7 +4,7 @@ import { db } from "./infrastructureLayer/config/db";
 
 const startServer = async () => {
   try {
-    const port=process.env.PORT || 3000
+    const PORT=process.env.PORT || 3000
 
     //database connection
     await db();
