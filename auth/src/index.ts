@@ -7,14 +7,14 @@ const startServer = async ()=> {
    const PORT = process.env.PORT || 3000; // Specify a default port or use environment variable
 
    //db connection
-    // await db();
+    await db();
 
     // // // doing rabbitmq request return pattern
-    // await RabbitmquserDetails();
+    await RabbitmquserDetails();
 
     const app = httpServer
 
-    app?.listen(4000, () => {
+    app?.listen(PORT, () => {
       console.log("Connected to the server");
     });
  
