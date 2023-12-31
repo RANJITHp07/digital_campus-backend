@@ -89,8 +89,8 @@ export class UserRepository implements IUserRepository {
                 where: [
                     { email: Like(`%${searchQuery}%`) },
                 ],
-                skip: (pageNumber - 1) * 2,
-                take: 2,
+                skip: (pageNumber - 1) * 10,
+                take: 10,
             });
 
             return users;
