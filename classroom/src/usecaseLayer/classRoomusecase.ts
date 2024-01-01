@@ -284,8 +284,9 @@ export class Classroomusecase{
       if (!validation.success) {
           this.errorHandler.userInputerror(validation.message as string)
       }
-
+               console.log(classroomId)
                const classroom=await this.classroomrepository.getClassroom(classroomId)
+               console.log(classroom)
                  if( classroom && classroom.students_enrolled.includes(userId)){
                     classroom.admins.push(userId)
                     classroom.students_enrolled = classroom.students_enrolled.filter((studentId :string) => studentId !== userId);
