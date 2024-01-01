@@ -11,12 +11,12 @@ const startServer = async (): Promise<void> => {
     await connectDB();
 
     //to listen to the rabbitmq queue
-    // await RabbitmquserCreate()
-    // await RabbitmquserUpdate()
+    await RabbitmquserCreate()
+    await RabbitmquserUpdate()
 
     const app = httpServer
 
-    app?.listen(8000, () => {
+    app?.listen(PORT, () => {
       console.log("Connected to the server");
     });
  
