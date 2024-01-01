@@ -286,11 +286,11 @@ export class Classroomusecase{
       }
                console.log(classroomId)
                const classroom=await this.classroomrepository.getClassroom(classroomId)
-               console.log(classroom)
                  if( classroom && classroom.students_enrolled.includes(userId)){
                     classroom.admins.push(userId)
                     classroom.students_enrolled = classroom.students_enrolled.filter((studentId :string) => studentId !== userId);
-                    await this.classroomrepository.create(classroom);
+                  console.log(classroom)
+                    await this.classroomrepository.update(classroom._id as string, classroom);
                      return {
                          message:"Successfully added as admin"
                      }
@@ -319,7 +319,8 @@ export class Classroomusecase{
                  if( classroom && classroom.admins.includes(userId)){
                     classroom.students_enrolled.push(userId)
                     classroom.admins = classroom.admins.filter((adminId:string) => adminId !== userId);
-                    await this.classroomrepository.create(classroom);
+                    console.log(classroom)
+                    await this.classroomrepository.update(classroom._id as string, classroom);
                      return {
                          message:"Successfully removed from admin"
                      }
