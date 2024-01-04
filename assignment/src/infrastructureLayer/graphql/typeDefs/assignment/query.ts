@@ -21,6 +21,7 @@ export const assignmentQuery = gql`
     question:String,
    answers:[String],
    type:String
+   realAnswers:[String]
   }
 
   type Assignment {
@@ -49,10 +50,10 @@ export const assignmentQuery = gql`
   }
 
   type Query {
-    getAllassignment(id: String!): [Assignment]
-    getgroupedAssignment(id: String!): [GroupedAssignment]
-    getOneassignment(id: String!): Assignment
+    getAllassignment(id:  ID!): [Assignment]
+    getgroupedAssignment(id: ID!): [GroupedAssignment]
+    getOneassignment(id:  ID!): Assignment
     getdistinctmainTopic: Distinct
-    getDueDates(id: String!): [Assignment]
+    getDueDates(id:  ID!): [Assignment]
   }
 `;

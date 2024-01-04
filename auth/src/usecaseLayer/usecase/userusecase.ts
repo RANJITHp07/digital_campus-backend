@@ -92,6 +92,7 @@ export class Userusecase{
                if(match){
                
                     const token=this.jwt.createJWT(user.id,user.email,"user",user.username)
+                    
                     return {
                       status:200,
                       success:true,

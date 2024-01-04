@@ -56,7 +56,7 @@ export class Classroomusecase{
      //to update the classroom
      async update({id,update}:{id:string,update:Partial<IClassroom>}):Promise<unknown>{
           try{
-            // Validate required parameters
+          // Validate required parameters
         const validation = this.requestValidator.validateRequiredFields(
           { id,update },
           ['id', 'update']

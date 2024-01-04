@@ -1,6 +1,16 @@
 import { gql } from "apollo-server";
 
 export const assignmentMutation = gql`
+
+  enum AssignmentEnum{
+   Assignment
+   Quiz
+   Announcement
+   Question
+   Material
+   Polling
+  }
+
   input DueDateInput {
     day: String
     time: String
@@ -15,7 +25,8 @@ export const assignmentMutation = gql`
   input QuizInput{
     question:String,
    answers:[String],
-   type:String
+   type:String,
+   realAnswers:[String]
   }
 
   input PollingInput{
@@ -24,7 +35,7 @@ export const assignmentMutation = gql`
   }
 
   input AssignmentInput {
-    assignmentType: String!
+    assignmentType: AssignmentEnum!
     mainTopic: String
     title: String!
     dueDate: DueDateInput
@@ -41,7 +52,7 @@ export const assignmentMutation = gql`
 
   type Assignment {
   _id:String
-  assignmentType: String
+  assignmentType: String!
   mainTopic: String
 title: String
   dueDate: DueDate
@@ -60,7 +71,7 @@ title: String
 
   type Mutation {
     createAssignment(assignment: AssignmentInput): Assignment
-    deleteAssignment(id:String!):Assignment
-    updateAssignment(id:String!,update:AssignmentInput):Assignment
+    deleteAssignment(id:ID!):Assignment
+    updateAssignment(id:ID!,update:AssignmentInput):Assignment
   }
 `;

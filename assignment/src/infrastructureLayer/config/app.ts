@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response ,Request } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
@@ -15,7 +15,9 @@ export const  createServer = async() => {
 
     server.applyMiddleware({ app,path:'/assignment' });
 
-    dotenv.config()
+    dotenv.config({
+        path:".env"
+    })
     app.use(express.json());
     const corsOptions = {
         origin: 'http://localhost:3000',
@@ -26,7 +28,6 @@ export const  createServer = async() => {
     app.use(cors(corsOptions));
     app.use(morgan("dev"));
    
-
 
     return app;
   

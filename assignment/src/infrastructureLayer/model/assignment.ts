@@ -4,6 +4,7 @@ interface IQuestion {
     question: string;
     answers: string[];
     type: string;
+    realAnswers:string[]
 }
 
 export interface IAssignmentModel extends Document {
@@ -105,6 +106,9 @@ const assignmentSchema = new Schema<IAssignmentModel>({
                 type: String,
                 
             },
+            realAnswer:{
+             type:[String]
+            }
         },
     ],
 

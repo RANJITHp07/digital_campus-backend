@@ -2,19 +2,22 @@ import { ErrorHandler } from "../../infrastructureLayer/middleware/error/userErr
 import { IAssigment } from "../../domainLayer/assignment";
 import { AssignmentRepository } from "../../infrastructureLayer/repository/queries/assignmentRepository";
 import Publisher from "../../infrastructureLayer/repository/rabbitmq/publishrepository";
+import RequestValidator from "../../infrastructureLayer/repository/service/validatorRepository";
 
 export class AssignmentUsecase{
      private readonly assignment:AssignmentRepository
      private readonly errorHandler:ErrorHandler
      private readonly publisher:Publisher
+     private requestValidator:RequestValidator
      
-     constructor(assignment:AssignmentRepository,errorHandler:ErrorHandler,publisher:Publisher) {
+     constructor(assignment:AssignmentRepository,errorHandler:ErrorHandler,publisher:Publisher,requestValidator:RequestValidator) {
         this.assignment = assignment;
         this.errorHandler = errorHandler;
         this.publisher = publisher;
+        this.requestValidator = requestValidator;
      }
 
-     async createAssignment(assignment:IAssigment){
+     async createAssignment({assignment}:{assignment:IAssigment}){
         try{
             
             const newAssignment=await this.assignment.create(assignment)
@@ -33,72 +36,132 @@ export class AssignmentUsecase{
              newAssignment.assignmentType!=='Material' && newAssignment.assignmentType!=='Announcement' && await this.publisher.publish("assignmentExchange","createAssignment",exchangeAssignment)
             return newAssignment
         }catch(err){
-            this.errorHandler.apolloError(err)
+            throw err
         }
      }
 
-     async getAllassignments(id:string){
+     async getAllassignments({id}:{id:string}){
         try{
+            // Validate required parameters
+        const validation = this.requestValidator.validateRequiredFields(
+            {id},
+            ['id']
+        );
+
+        if (!validation.success) {
+            this.errorHandler.userInputerror(validation.message as string)
+        }
             const assignmnets=await this.assignment.getAllassignments(id)
             return assignmnets
         }catch(err){
-            this.errorHandler.apolloError(err)
+            throw err
         }
      }
 
-     async getOneAssignment(id:string){
+     async getOneAssignment({id}:{id:string}){
         try{
+            //validating parameters
+            const validation = this.requestValidator.validateRequiredFields(
+                {id},
+                ['id']
+            );
+    
+            if (!validation.success) {
+                this.errorHandler.userInputerror(validation.message as string)
+            }
             const assignmnets=await this.assignment.getOneAssignment(id)
             return assignmnets
         }catch(err){
-            this.errorHandler.apolloError(err)
+            throw err
         }
      }
 
-     async getgroupedAssignment(id:string){
+     async getGroupedAssignment({id}:{id:string}){
         try{
+            //validating parameters
+            const validation = this.requestValidator.validateRequiredFields(
+                {id},
+                ['id']
+            );
+    
+            if (!validation.success) {
+                this.errorHandler.userInputerror(validation.message as string)
+            }
             const assignmnets=await this.assignment.groupedAssignment(id)
             return assignmnets
         }catch(err){
-            this.errorHandler.apolloError(err)
+            throw err
         }
      }
 
      async getDistinctMaintopic(){
         try{
-            const assignmnets=await this.assignment.distinctTopic()
+            const topics=await this.assignment.distinctTopic()
             return {
-                mainTopic:assignmnets
+                mainTopic:topics
             }
         }catch(err){
-            this.errorHandler.apolloError(err)
+            throw err
         }
      }
 
-     async deleteAssignment(id:string){
+     async deleteAssignment({id}:{id:string}){
         try{
+            //validating parameters
+            const validation = this.requestValidator.validateRequiredFields(
+                {id},
+                ['id']
+            );
+    
+            if (!validation.success) {
+                this.errorHandler.userInputerror(validation.message as string)
+            }
             const deletedAssignment=await this.assignment.deleteAssignment(id);
-            return deletedAssignment
+            if(deletedAssignment){
+                return deletedAssignment
+            }
+            this.errorHandler.userInputerror("No such assignment")
         }catch(err){
-            this.errorHandler.apolloError(err)
+            throw err
         }
      }
 
-     async updateAssignment(id:string,update:Partial<IAssigment>){
+     async updateAssignment({id,update}:{id:string,update:Partial<IAssigment>}){
         try{
+            //validating parameters
+            const validation = this.requestValidator.validateRequiredFields(
+                {id,update},
+                ['id','update']
+            );
+    
+            if (!validation.success) {
+                this.errorHandler.userInputerror(validation.message as string)
+            }
             const updatedAssignment=await this.assignment.update(id,update);
-            return updatedAssignment
+            if(updatedAssignment){
+                return updatedAssignment
+            }
+            this.errorHandler.userInputerror("No such assignment")
         }catch(err){
-            this.errorHandler.apolloError(err)
+            throw err
         }
      }
 
-     async findAssignment(id:string){
+     async findAssignment({id}:{id:string}){
         try{
+            //validating parameters
+            const validation = this.requestValidator.validateRequiredFields(
+                {id},
+                ['id']
+            );
+    
+            if (!validation.success) {
+                this.errorHandler.userInputerror(validation.message as string)
+            }
             const assignment=await this.assignment.findAssignments(id);
             return assignment
         }catch(err){
-            this.errorHandler.apolloError(err)
+            throw err
         }
      }
 

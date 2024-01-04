@@ -25,6 +25,8 @@ export const resolver={
 
         //comments
         createComment:commentMutation.createComment,
-        deleteComment: commentMutation.deleteComment
+        deleteComment: commentMutation.deleteComment,
+        deleteReply:commentMutation.deleteReply,
+        updateReply:commentMutation.updateReply,
       }
 }

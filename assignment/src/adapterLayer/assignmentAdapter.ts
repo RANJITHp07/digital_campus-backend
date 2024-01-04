@@ -4,45 +4,43 @@ import { AssignmentUsecase } from "../usecaseLayer/usecase/assignmentusecase";
 
 export class AssignmentController{
     private readonly assignmentusecase:AssignmentUsecase
-    private readonly errorHandler:ErrorHandler
     
-    constructor(assignmentusecase:AssignmentUsecase,errorHandler:ErrorHandler){
+    constructor(assignmentusecase:AssignmentUsecase){
         this.assignmentusecase = assignmentusecase;
-        this.errorHandler = errorHandler;
     }
 
     async create(_:unknown,args:{assignment:IAssigment}){
         try{
-           const newAssignment=await this.assignmentusecase.createAssignment(args.assignment)
+           const newAssignment=await this.assignmentusecase.createAssignment(args)
            return newAssignment
         }catch(err){
-            this.errorHandler.apolloError(err)
+           throw err
         }
     }
 
     async getAllassignments(_:unknown,args:{id:string}){
         try{
-            const newAssignment=await this.assignmentusecase.getAllassignments(args.id)
+            const newAssignment=await this.assignmentusecase.getAllassignments(args)
             return newAssignment
          }catch(err){
-             this.errorHandler.apolloError(err)
+            throw err
          }
     }
     async getOneassignments(_:unknown,args:{id:string}){
         try{
-            const assignment=await this.assignmentusecase.getOneAssignment(args.id)
+            const assignment=await this.assignmentusecase.getOneAssignment(args)
             return assignment
          }catch(err){
-             this.errorHandler.apolloError(err)
+            throw err
          }
     }
 
     async getgroupedAssignments(_:unknown,args:{id:string}){
         try{
-            const assignment=await this.assignmentusecase.getgroupedAssignment(args.id)
+            const assignment=await this.assignmentusecase.getGroupedAssignment(args)
             return assignment
          }catch(err){
-             this.errorHandler.apolloError(err)
+            throw err
          }
     }
 
@@ -51,34 +49,34 @@ export class AssignmentController{
             const assignment=await this.assignmentusecase.getDistinctMaintopic()
             return assignment
          }catch(err){
-             this.errorHandler.apolloError(err)
+            throw err
          }
     }
 
     async deleteAssignment(_:unknown,args:{id:string}){
         try{
-            const assignment=await this.assignmentusecase.deleteAssignment(args.id)
+            const assignment=await this.assignmentusecase.deleteAssignment(args)
             return assignment
          }catch(err){
-             this.errorHandler.apolloError(err)
+            throw err
          }
     }
 
     async updateAssignment(_:unknown,args:{id:string,update:Partial<IAssigment>}){
         try{
-            const updatedAssignment=await this.assignmentusecase.updateAssignment(args.id,args.update)
+            const updatedAssignment=await this.assignmentusecase.updateAssignment(args)
             return updatedAssignment
          }catch(err){
-             this.errorHandler.apolloError(err)
+            throw err
          }
     }
 
     async findAssignment(_:unknown,args:{id:string}){
         try{
-            const assignment=await this.assignmentusecase.findAssignment(args.id)
+            const assignment=await this.assignmentusecase.findAssignment(args)
             return assignment
          }catch(err){
-             this.errorHandler.apolloError(err)
+            throw err
          }
     }
 }

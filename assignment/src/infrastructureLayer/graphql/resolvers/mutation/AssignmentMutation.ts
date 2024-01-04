@@ -1,12 +1,16 @@
 import { IAssigment } from "../../../../domainLayer/assignment"
 import { controller,errorHandler } from "../../injection/assignment"
+import { authenticate } from "@auth-middlewares/common"
 
 export const assignmentMutations={
 
-    async createAssignment(_:unknown,args:{assignment:IAssigment}){
+    async createAssignment(_:unknown,args:{assignment:IAssigment},context:any){
         try{
-           const newAssignment = await controller.create(_,args)
-           return newAssignment
+            // const user=authenticate(context)
+            if(true){
+                const newAssignment = await controller.create(_,args)
+                return newAssignment
+            }
         }catch(err){
           errorHandler.apolloError(err)
         }

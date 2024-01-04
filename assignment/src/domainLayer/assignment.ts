@@ -1,7 +1,8 @@
 interface Quiz{
-        question:string,
-        answers:string[]
-
+    question: string;
+    answers: string[];
+    type: string;
+    realAnswers:string[]
 }
 
 export interface IAssigment {

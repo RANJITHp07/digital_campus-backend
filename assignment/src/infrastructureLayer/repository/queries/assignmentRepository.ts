@@ -1,7 +1,7 @@
-import { Types } from "mongoose";
 import Assignment, {IAssignmentModel } from "../../model/assignment";
 import { IAssigmentRepository } from "../../../usecaseLayer/interface/assignmentRepository";
 import { IAssigment } from "../../../domainLayer/assignment";
+import { redis } from "../../config/redis";
 
 
 
@@ -29,8 +29,18 @@ export class AssignmentRepository implements IAssigmentRepository{
     //to get the details of a single classroom
     async getOneAssignment(id:string):Promise<IAssignmentModel | null>{
         try{
-            const assignments=await Assignment.findById(id)as IAssignmentModel | null
-            return assignments
+
+            const cachedAssignment=await redis.get(id);
+            if(cachedAssignment){
+              return JSON.parse(cachedAssignment)
+            }
+
+            const assignment=await Assignment.findById(id)as IAssignmentModel | null
+            if(assignment){
+              await redis.set(assignment._id,JSON.stringify(assignment))
+              await redis.expire(assignment._id, 3600);
+            }
+            return assignment
         }catch(err){
             throw err
         }
@@ -78,6 +88,9 @@ export class AssignmentRepository implements IAssigmentRepository{
         try{
            const deletedAssignment=await Assignment.findByIdAndDelete(id)
            if (deletedAssignment instanceof Assignment && deletedAssignment !== null) {
+            
+            //deleting the cached assignment
+            redis.del(deletedAssignment._id)
             return deletedAssignment as IAssignmentModel;
           } else {
             return null;
@@ -92,6 +105,11 @@ export class AssignmentRepository implements IAssigmentRepository{
         try{
           const updateAssignment=await Assignment.findByIdAndUpdate(id,{$set:update})as IAssignmentModel
           if (updateAssignment && updateAssignment instanceof Assignment) {
+            
+            //caching the updated assignment
+            redis.set(updateAssignment._id,JSON.stringify(updateAssignment))
+            await redis.expire(updateAssignment._id, 3600);
+
             return updateAssignment as IAssignmentModel;
           } else {
             return null;
