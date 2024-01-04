@@ -61,14 +61,14 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: chat-srv
+                name: auth-srv
                 port:
                   number: 3000   
           - path: /socket-chat/?(.*)
             pathType: Prefix
             backend:
               service:
-                name: auth-srv
+                name: chat-srv
                 port:
                   number: 3000                      
 ---
