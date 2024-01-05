@@ -6,7 +6,7 @@ interface ISubmit {
 }
 
 interface Iassignment extends Document {
-  quizAnswers: string[]; // You may need to specify the correct type for quizAnswers
+  quizAnswers: string[]; 
   pollingAnswers: string;
   assignment_id: string;
   attachment: {
@@ -17,9 +17,9 @@ interface Iassignment extends Document {
   username: string;
 }
 
-const assignmentSchema = new Schema<Iassignment>({
+const submissionSchema = new Schema<Iassignment>({
   quizAnswers: {
-    type: [String], // Adjust the type accordingly based on the actual type of quizAnswers
+    type: [String], 
     
   },
   pollingAnswers: {
@@ -60,6 +60,6 @@ const assignmentSchema = new Schema<Iassignment>({
   },
 });
 
-const submissionModel = mongoose.model<Iassignment>('assignment', assignmentSchema);
+const submissionModel = mongoose.model<Iassignment>('Submission', submissionSchema);
 
 export default submissionModel ;

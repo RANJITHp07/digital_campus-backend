@@ -22,7 +22,7 @@ export interface IAssignmentModel extends Document {
   points: number;
 }
 
-const submissionSchema = new Schema<IAssignmentModel>({
+const assignmentSchema = new Schema<IAssignmentModel>({
   assignment_id: {
     type: String,
   },
@@ -62,6 +62,6 @@ const submissionSchema = new Schema<IAssignmentModel>({
   },
 });
 
-const AssignmentModel = mongoose.model<IAssignmentModel>('Submission', submissionSchema);
+const AssignmentModel = mongoose.model<IAssignmentModel>('Assignment', assignmentSchema);
 
 export default AssignmentModel;
