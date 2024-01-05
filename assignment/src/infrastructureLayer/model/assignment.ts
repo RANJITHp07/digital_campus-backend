@@ -106,7 +106,7 @@ const assignmentSchema = new Schema<IAssignmentModel>({
                 type: String,
                 
             },
-            realAnswer:{
+            realAnswers:{
              type:[String]
             }
         },
