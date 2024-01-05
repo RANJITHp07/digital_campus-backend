@@ -7,7 +7,6 @@ interface IQuiz {
 }
 
 export interface IAssignmentModel extends Document {
-  assignment_id: string;
   students:string[],
   dueDate: {
     day: string;
@@ -23,9 +22,9 @@ export interface IAssignmentModel extends Document {
 }
 
 const assignmentSchema = new Schema<IAssignmentModel>({
-  assignment_id: {
-    type: String,
-  },
+  students:{
+    type:[String]
+  }
   dueDate: {
     day: {
       type: String,
