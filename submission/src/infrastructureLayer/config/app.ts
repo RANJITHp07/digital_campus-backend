@@ -2,16 +2,32 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import { server } from "./graphql";
 
-export const  createServer = () => {
+
+
+export const  createServer = async() => {
   
     // Config
-    const app = express();
+    const app:any= express();
 
-    dotenv.config()
+    await server.start();
+
+    server.applyMiddleware({ app,path:'/submission' });
+
+    dotenv.config({
+        path:".env"
+    })
     app.use(express.json());
-    app.use(cors());
+    const corsOptions = {
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'PATCH', 'PUT','POST','DELETE'], 
+        optionsSuccessStatus: 204, 
+    };
+    
+    app.use(cors(corsOptions));
     app.use(morgan("dev"));
+   
 
     return app;
   

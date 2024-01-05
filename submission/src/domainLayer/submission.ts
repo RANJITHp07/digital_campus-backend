@@ -4,13 +4,13 @@ interface ISubmit{
 }
 
 export interface ISubmission{
-    quizAnswers: string[]; // You may need to specify the correct type for quizAnswers
-  pollingAnswers: string;
+  quizAnswers?: string[];
+  pollingAnswers?: string;
   assignment_id: string;
-  attachment: {
+  attachment?: {
     type: string;
     content: string;
   };
-  submission: ISubmit;
+  submission?: ISubmit;
   username: string;
 }

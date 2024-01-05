@@ -1,9 +1,10 @@
-// import { any } from "../../domainLayer/submission";
+import { ISubmission } from "../../domainLayer/submission";
+import { ISubmissionRepository } from "../../usecaseLayer/interface/submission";
 import submissionModel from "../model/submission";
 
-export class SubmissionRepository{
+export class SubmissionRepository implements ISubmissionRepository{
 
-    async create(submission:any):Promise<string>{
+    async create(submission:ISubmission):Promise<string>{
         try{
            await submissionModel.create(submission);
            return 'successfully submitted'
@@ -12,7 +13,7 @@ export class SubmissionRepository{
         }
     }
 
-    async update({id,update}:{id:string,update:Partial<any>}):Promise<boolean>{
+    async update({id,update}:{id:string,update:Partial<ISubmission>}):Promise<boolean>{
         try{
            const updatedSubmission=await submissionModel.findByIdAndUpdate(id,{$set:update})
            if(updatedSubmission){

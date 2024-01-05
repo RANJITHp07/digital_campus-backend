@@ -6,7 +6,7 @@ interface IQuiz {
   answers: string[];
 }
 
-export interface IAssignment extends Document {
+export interface IAssignmentModel extends Document {
   assignment_id: string;
   students:string[],
   dueDate: {
@@ -16,12 +16,13 @@ export interface IAssignment extends Document {
   };
   polling: {
     answers: string[];
+    polling:number[]
   };
   quiz: IQuiz[];
   points: number;
 }
 
-const submissionSchema = new Schema<IAssignment>({
+const submissionSchema = new Schema<IAssignmentModel>({
   assignment_id: {
     type: String,
   },
@@ -40,6 +41,9 @@ const submissionSchema = new Schema<IAssignment>({
     answers: {
       type: [String],
     },
+    polling: {
+      type: [String],
+    }
   },
   quiz: {
     type: [
@@ -48,7 +52,7 @@ const submissionSchema = new Schema<IAssignment>({
           type: String,
         },
         answers: {
-          type: [String],
+          type: [Number],
         },
       },
     ],
@@ -58,6 +62,6 @@ const submissionSchema = new Schema<IAssignment>({
   },
 });
 
-const AssignmentModel = mongoose.model<IAssignment>('Submission', submissionSchema);
+const AssignmentModel = mongoose.model<IAssignmentModel>('Submission', submissionSchema);
 
 export default AssignmentModel;

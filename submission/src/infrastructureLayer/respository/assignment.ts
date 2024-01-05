@@ -1,6 +1,8 @@
-import AssignmentModel from "../model/assignment"
+import { IAssignment } from "../../domainLayer/assignment"
+import { IAssignmentRepository } from "../../usecaseLayer/interface/assignment"
+import AssignmentModel, { IAssignmentModel } from "../model/assignment"
 
-export class Assignment{
+export class AssignmentRepository implements IAssignmentRepository{
 
     async create(assignment:any):Promise<string>{
         try{
@@ -11,7 +13,7 @@ export class Assignment{
         }
     }
 
-    async update(id:string,update:any){
+    async update(id:string,update:Partial<IAssignment>):Promise<string | null>{
         try{
            const updateAssignment=await AssignmentModel.findByIdAndUpdate(id,{$set:update})
            return updateAssignment ? 'assignment updated' :  null
@@ -21,7 +23,7 @@ export class Assignment{
         }
     }
 
-    async findAssignment(id:string){
+    async findAssignment(id:string):Promise<IAssignmentModel | null>{
         try{
            const assignment= await AssignmentModel.findById(id)
            return assignment
