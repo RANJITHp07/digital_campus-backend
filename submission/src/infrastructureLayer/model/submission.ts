@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 interface ISubmit {
-  status: 'Late assignment' | 'Submitted' | 'Not Submitted';
+  status: 'Late submitted' | 'Submitted' | 'Not Submitted';
   grade: number;
 }
 

@@ -3,7 +3,7 @@ import { NextFunction,Request,Response } from "express"
 import { ISubmission } from "../domainLayer/submission"
 import { Submissionusecase } from "../usecaseLayer/usecase/submissionusecase"
 
-export class Submission{
+export class SubmissionController{
 
     private readonly submissionUsecase:Submissionusecase
 

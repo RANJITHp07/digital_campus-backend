@@ -1,20 +1,34 @@
-import {createServer} from "./infrastructureLayer/config/app";
-import { db } from "./infrastructureLayer/config/db";
-import { RabbitmqassignmentCreate } from "./middleware/rabbitmqMiddleware";
+import cluster from 'cluster';
+import os from 'os';
+import { createServer } from './infrastructureLayer/config/app';
+import { db } from './infrastructureLayer/config/db';
+import { RabbitmqassignmentCreate } from './middleware/rabbitmqMiddleware';
 
+const bootstrap = async () => {
+  const PORT = process.env.PORT || 3000;
 
+  if (cluster.isMaster) {
+    // Fork workers
+    const numCPUs = os.cpus().length;
 
-const startServer = async (): Promise<void> => {
-  const port=process.env.PORT || 3000
-    await db();
-    await RabbitmqassignmentCreate()
+    for (let i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    }
 
-    const app = createServer()
-
-    app?.listen(port, () => {
-      console.log("Connected to the server");
+    cluster.on('exit', (worker, code, signal) => {
+      console.log(`Worker ${worker.process.pid} died`);
     });
- 
+  } else {
+    // Worker processes share the same port
+    const app = await createServer();
+    // await RabbitmqassignmentCreate()
+
+    db().then(() => {
+      app?.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      });
+    });
+  }
 };
 
-startServer();
+bootstrap();
