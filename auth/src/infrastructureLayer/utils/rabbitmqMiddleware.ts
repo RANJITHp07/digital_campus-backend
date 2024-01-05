@@ -12,7 +12,7 @@ const responder=new Responder()
 
 async function RabbitmquserDetails(){
 responder.listenForRequests('classroomExchange','studentDetails', "participant", async (data:Data) => {
-        console.log(data)
+     try{
         if(data.adminId && data.studentId){
                 const admin=await repository.getAllParticipants(data.adminId);
                 const user=await repository.getAllParticipants(data.studentId);
@@ -21,6 +21,10 @@ responder.listenForRequests('classroomExchange','studentDetails', "participant",
         }
 
         return {admin:[],user:[]}
+     }catch(err){
+        return {admin:[],user:[]}
+     }
+        
 })
 }
 
