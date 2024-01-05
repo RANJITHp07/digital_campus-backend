@@ -21,7 +21,7 @@ const bootstrap = async () => {
   } else {
     // Worker processes share the same port
     const app = await createServer();
-    // await RabbitmqassignmentCreate()
+    await RabbitmqassignmentCreate()
 
     db().then(() => {
       app?.listen(PORT, () => {
