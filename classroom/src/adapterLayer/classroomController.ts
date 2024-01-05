@@ -168,7 +168,7 @@ export class ClassroomController{
         }
     }
 
-    async addRequest(_:unknown,args:{request:{id:string,name:string,code:string}}){
+    async addRequest(_:unknown,args:{request:{id:string,name:string,code:string,email:string}}){
         try{
          const addUserRequest=await this.classroomusecase.addRequest({...args.request,type:true})
          return addUserRequest
@@ -177,7 +177,7 @@ export class ClassroomController{
         }
     }
 
-    async removeRequest(_:unknown,args:{request:{id:string,name:string,code:string}}){
+    async removeRequest(_:unknown,args:{request:{id:string,name:string,code:string,email:string}}){
         try{
             const removeUserRequest=await this.classroomusecase.addRequest({...args.request,type:false})
             return removeUserRequest
