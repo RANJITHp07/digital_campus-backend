@@ -17,6 +17,7 @@ interface IClassroom extends Document {
   request: Array<{
     id: string;
     name: string;
+    email:string
   }>;
   reported?: boolean;
   reason?: Array<{
@@ -88,6 +89,9 @@ const classroomSchema = new Schema<IClassroom>({
       name: {
         type: String,
       },
+      email: {
+        type: String,
+      }
     },
   ],
   reason: [

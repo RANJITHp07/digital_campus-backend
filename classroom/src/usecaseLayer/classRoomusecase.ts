@@ -142,7 +142,7 @@ export class Classroomusecase{
      }
 
      //to add a student into the request
-     async addRequest({id,name,code,type}:{id:string,name:string,code:string,type:boolean}){
+     async addRequest({id,name,email,code,type}:{id:string,name:string,email:string,code:string,type:boolean}){
           try{
                const classroom=await this.classroomrepository.getClassroom(code)
                if(classroom){
@@ -150,7 +150,7 @@ export class Classroomusecase{
                       // Check if the request already exists based on id and name
                  const requestExists = classroom.request.some((request) => request.id === id && request.name === name);
                  if (!requestExists) {
-                    classroom.request.push({ id: id, name: name });
+                    classroom.request.push({ id: id, name: name,email:email });
                     await this.classroomrepository.update(classroom._id as string, classroom);
                     return {
                          message: "Inivitation to join send to the admin"
@@ -165,7 +165,7 @@ export class Classroomusecase{
                message: "Removed the request"
           }
                     }
-                    classroom.request.push({ id: id, name: name });
+                    classroom.request.push({ id: id, name: name,email:email });
                     
                }else{
                     this.errorHandler.userInputerror("No such classroom")

@@ -11,6 +11,7 @@ export const classroomQuery=gql`
   type Request{
     id:String!
     name:String!
+    email:String!
     _id:ID!
   }  
 

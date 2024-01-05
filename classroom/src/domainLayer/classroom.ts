@@ -6,7 +6,8 @@ interface Report{
 
 interface Request{
    id:string,
-   name:string
+   name:string,
+   email:string
 }
 
 export interface IClassroom {

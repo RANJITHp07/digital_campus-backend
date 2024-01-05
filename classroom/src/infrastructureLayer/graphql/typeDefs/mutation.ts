@@ -53,6 +53,7 @@ export const classRoomMutation=gql`
    input RequestInput{
      id:String!,
      name:String!,
+     email:String!
      code:String!
    }
 
