@@ -15,6 +15,7 @@ interface Iassignment extends Document {
   };
   submission: ISubmit;
   username: string;
+  user_id:string
 }
 
 const submissionSchema = new Schema<Iassignment>({
@@ -58,6 +59,10 @@ const submissionSchema = new Schema<Iassignment>({
     type: String,
     
   },
+  user_id:{
+    type:String,
+    required:true
+  }
 });
 
 const submissionModel = mongoose.model<Iassignment>('Submission', submissionSchema);

@@ -9,11 +9,12 @@ export class SubmissionRepository implements ISubmissionRepository{
            await submissionModel.create(submission);
            return 'successfully submitted'
         }catch(err){
+     
             throw err
         }
     }
 
-    async update({id,update}:{id:string,update:Partial<ISubmission>}):Promise<boolean>{
+    async update({id,update}:{id:string,update:any}):Promise<boolean>{
         try{
            const updatedSubmission=await submissionModel.findByIdAndUpdate(id,{$set:update})
            if(updatedSubmission){
@@ -23,5 +24,14 @@ export class SubmissionRepository implements ISubmissionRepository{
         }catch(err){
             throw err
         }
+    }
+
+    async find(id:string,userId:string){
+       try{
+           const findAssignment=await submissionModel.find({id:id,user_id:userId})
+           return findAssignment
+       }catch(err){
+        throw err
+       }
     }
 }

@@ -14,7 +14,7 @@ export interface IAssignment{
     };
     polling: {
       answers: string[];
-      polling:number[]
+      polling:string[]
     };
     quiz: IQuiz[];
     points: number;

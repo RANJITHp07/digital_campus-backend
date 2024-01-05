@@ -1,15 +1,18 @@
 import { ISubmission } from "../../domainLayer/submission"
 import { AssignmentRepository } from "../../infrastructureLayer/respository/assignment"
 import { SubmissionRepository } from "../../infrastructureLayer/respository/submission"
+import { ErrorHandler } from "../../middleware/error/userErrorhandler"
 
 export class Submissionusecase{
   
     private readonly submissionRepository:SubmissionRepository
     private readonly assignmentRepository:AssignmentRepository
+    private readonly errorHandler:ErrorHandler
 
-    constructor(submissionRepository:SubmissionRepository,assignmentRepository:AssignmentRepository){
+    constructor(submissionRepository:SubmissionRepository,assignmentRepository:AssignmentRepository,errorHandler:ErrorHandler) {
         this.submissionRepository = submissionRepository
         this.assignmentRepository = assignmentRepository
+        this.errorHandler = errorHandler
     }
   
     async createSubmission({submission}:{submission:ISubmission}){
@@ -19,26 +22,29 @@ export class Submissionusecase{
 
           }else if(submission.pollingAnswers){
                 const assignment=await this.assignmentRepository.findAssignment(submission.assignment_id);
-                if(assignment){
+                if(assignment && assignment.students.includes(submission.user_id)){
                   const index=assignment.polling.answers.indexOf(submission.pollingAnswers);
                   if(assignment.polling.polling){
                     assignment.polling.polling=assignment.polling.polling.map((m,i)=>{
                       if(index==i){
-                        return m+1
+                        return (parseInt(m)+1).toString()
                       }
                       return m
                     })
-                  }else{
-                    assignment.polling.polling=assignment.polling.answers.map((m,i)=>{
-                      if(index==i){
-                        return 1
-                      }
-                      return 0
-                    })
                   }
-                  const update=await this.submissionRepository.update(assignment._id);
-                  return update
+                  const update=await this.assignmentRepository.update(assignment._id,assignment);
+                  await this.submissionRepository.create(submission)
+                  if(update){
+                    return {
+                      message:"successfully updated"
+                    }
+                  }
+
+                  this.errorHandler.userInputerror("assignment id is wrong")
+                  
                 }
+
+                this.errorHandler.userInputerror("Not a participant of this assignment")
                 
           }else if(submission.attachment){
              newSubmission=await this.submissionRepository.create(submission)

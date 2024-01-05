@@ -15,7 +15,7 @@ export interface IAssignmentModel extends Document {
   };
   polling: {
     answers: string[];
-    polling:number[]
+    polling:string[]
   };
   quiz: IQuiz[];
   points: number;
@@ -24,7 +24,7 @@ export interface IAssignmentModel extends Document {
 const assignmentSchema = new Schema<IAssignmentModel>({
   students:{
     type:[String]
-  }
+  },
   dueDate: {
     day: {
       type: String,
