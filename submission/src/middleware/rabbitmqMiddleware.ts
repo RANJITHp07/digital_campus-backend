@@ -1,7 +1,7 @@
-import { Assignment } from "../infrastructureLayer/respository/assignment";
+import {AssignmentRepository } from "../infrastructureLayer/respository/assignment";
 import Listener from "../infrastructureLayer/respository/listenrepository";
 
-const repository=new Assignment();
+const repository=new AssignmentRepository();
 const listener=new Listener()
 
 async function RabbitmqassignmentCreate(){
