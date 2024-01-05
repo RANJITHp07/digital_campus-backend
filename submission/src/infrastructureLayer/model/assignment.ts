@@ -24,7 +24,7 @@ export interface IAssignmentModel extends Document {
 const assignmentSchema = new Schema<IAssignmentModel>({
   students:{
     type:[String]
-  }
+  },
   dueDate: {
     day: {
       type: String,
