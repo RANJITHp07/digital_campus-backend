@@ -14,6 +14,7 @@ export class SocketManager {
       cors: {
         origin: "http://localhost:3000",
       },
+      path: "/socket-auth/"
     });
 
     this.io.on("connection", this.handleConnection);

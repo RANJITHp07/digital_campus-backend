@@ -3,11 +3,16 @@ kind: Ingress
 metadata:
   name: ingress-service
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/websocket-services: "chat-srv,auth-srv"
 spec:
+  tls:
+    - hosts:
+      - jobee.dev
   rules:
-    - host: jobee.dev
+    - host: www.digitalcampus.shop
       http:
         paths:
           - path: /v3/api/auth/?(.*)
@@ -51,4 +56,18 @@ spec:
               service:
                 name: submission-srv
                 port:
-                  number: 3000                 
+                  number: 3000    
+          - path: /socket-auth/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3000   
+          - path: /socket-chat/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: chat-srv
+                port:
+                  number: 3000  

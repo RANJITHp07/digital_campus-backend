@@ -19,14 +19,14 @@ build:
         manual: 
         - src: 'src/**/*.ts'
           dest: .
-    - image: ranjithp007/dc_classroom
-      context: classroom
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual: 
-        - src: 'src/**/*.ts'
-          dest: .
+    # - image: ranjithp007/dc_classroom
+    #   context: classroom
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual: 
+    #     - src: 'src/**/*.ts'
+    #       dest: .
     # - image: ranjithp007/dc_chat
     #   context: chat
     #   docker:
