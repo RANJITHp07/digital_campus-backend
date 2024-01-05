@@ -17,6 +17,7 @@ export class SocketManager {
       cors: {
         origin: "http://localhost:3000",
       },
+      path:"/socket-chat/"
     });
 
     this.io.on("connection", this.handleConnection);
