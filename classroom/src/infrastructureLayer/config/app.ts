@@ -21,7 +21,7 @@ export const  createServer = async() => {
       
       // CORS setup
      const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'https://digital-campus-9dqcqf3i9-ranjithp07s-projects.vercel.app/',
     methods: ['GET', 'PATCH', 'PUT','POST','DELETE'], 
     optionsSuccessStatus: 204, 
   };
