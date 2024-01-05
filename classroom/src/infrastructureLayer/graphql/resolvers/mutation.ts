@@ -101,7 +101,7 @@ export const classroomMutation={
            }
      },
 
-     async addRequest(_:unknown,args:{request:{id:string,name:string,code:string}},context:any){
+     async addRequest(_:unknown,args:{request:{id:string,name:string,code:string,email:string}},context:any){
          try{
             const user=authenticate(context)
           if(user){
@@ -113,7 +113,7 @@ export const classroomMutation={
          }
      },
 
-     async removeRequest(_:unknown,args:{request:{id:string,name:string,code:string}},context:any){
+     async removeRequest(_:unknown,args:{request:{id:string,name:string,code:string,email:string}},context:any){
       try{
          const user=authenticate(context)
          if(user){
