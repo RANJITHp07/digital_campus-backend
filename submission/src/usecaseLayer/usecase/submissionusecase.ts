@@ -22,6 +22,11 @@ export class Submissionusecase{
 
           }else if(submission.pollingAnswers){
                 const assignment=await this.assignmentRepository.findAssignment(submission.assignment_id);
+                const submissionExist=await this.submissionRepository.find(submission.assignment_id,submission.user_id)
+                if(submissionExist){
+                  this.errorHandler.userInputerror("Already submitted");
+                  return
+                }
                 if(assignment && assignment.students.includes(submission.user_id)){
                   const index=assignment.polling.answers.indexOf(submission.pollingAnswers);
                   if(assignment.polling.polling){

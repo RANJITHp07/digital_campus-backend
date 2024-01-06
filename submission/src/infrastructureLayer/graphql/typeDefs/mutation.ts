@@ -23,6 +23,7 @@ export const submissionMutation = gql`
     quizAnswers: [String]
     pollingAnswers: String
     username: String!
+    user_id:String!
     submission: Submission
     attachment: AttachmentInput
   }
