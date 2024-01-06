@@ -1,5 +1,9 @@
-interface IPublish{
-    publish(exchange: string, routingKey: string, data: unknown): Promise<boolean>
+interface IPublish {
+  publish(
+    exchange: string,
+    routingKey: string,
+    data: unknown
+  ): Promise<boolean>;
 }
 
-export default IPublish
+export default IPublish;

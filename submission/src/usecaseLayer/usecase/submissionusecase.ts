@@ -18,17 +18,24 @@ export class Submissionusecase{
     async createSubmission({submission}:{submission:ISubmission}){
         try{
           let newSubmission
+          const submissionExist=await this.submissionRepository.find(submission.assignment_id,submission.user_id)
           if(submission.quizAnswers){
+
+
 
           }else if(submission.pollingAnswers){
                 const assignment=await this.assignmentRepository.findAssignment(submission.assignment_id);
-                const submissionExist=await this.submissionRepository.find(submission.assignment_id,submission.user_id)
                 if(submissionExist){
                   this.errorHandler.userInputerror("Already submitted");
                   return
                 }
+                
                 if(assignment && assignment.students.includes(submission.user_id)){
                   const index=assignment.polling.answers.indexOf(submission.pollingAnswers);
+                  if(index==-1){
+                    this.errorHandler.userInputerror("No such answer");
+                    return 
+                  }
                   if(assignment.polling.polling){
                     assignment.polling.polling=assignment.polling.polling.map((m,i)=>{
                       if(index==i){
@@ -52,14 +59,48 @@ export class Submissionusecase{
                 this.errorHandler.userInputerror("Not a participant of this assignment")
                 
           }else if(submission.attachment){
-             newSubmission=await this.submissionRepository.create(submission)
+            const assignment=await this.assignmentRepository.findAssignment(submission.assignment_id);
+            console.log(assignment)
+              if(assignment && !assignment.students.includes(submission.user_id)){
+                this.errorHandler.userInputerror("Not a participant of this assignment")
+              }
+            if(submissionExist && submission.attachment){
+                const updateSubmission=await this.submissionRepository.update({id:submissionExist._id,update:submission})
+                return{
+                  message:"Resubmitted the assignment"
+                }
+              
+            }else{
+              newSubmission=await this.submissionRepository.create(submission)
+              return{
+                message:"Submitted the assignment"
+              }
+            }
+             
           }
-          return { 
-            message:newSubmission
-          }
+          
         }catch(err){
             throw err
         }
+    }
+
+
+    async getAllSubmission(id:string){
+       try{ 
+             const submission=await this.submissionRepository.findAll(id);
+             return submission
+       }catch(err){
+        throw err 
+       }
+    }
+
+    async getPolling(id:string){
+      try{
+        const submission=await this.assignmentRepository.findAssignment(id)
+        return submission
+      }catch(err){
+        throw err
+      }
     }
 
 }

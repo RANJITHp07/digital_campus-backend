@@ -3,32 +3,28 @@ import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import { server } from "./graphql";
-import {Express} from 'express'
+import { Express } from "express";
 
+export const createServer = async () => {
+  // Config
+  const app: Express | any = express();
 
+  await server.start();
 
-export const  createServer = async() => {
-  
-    // Config
-    const app:Express | any= express();
+  server.applyMiddleware({ app, path: "/classroom" });
 
-    await server.start();
+  dotenv.config();
+  app.use(express.json());
 
-    server.applyMiddleware({ app,path:'/classroom' });
-
-    dotenv.config()
-    app.use(express.json());
-      
-      // CORS setup
-     const corsOptions = {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'PATCH', 'PUT','POST','DELETE'], 
-    optionsSuccessStatus: 204, 
+  // CORS setup
+  const corsOptions = {
+    origin: "http://localhost:3000",
+    methods: ["GET", "PATCH", "PUT", "POST", "DELETE"],
+    optionsSuccessStatus: 204,
   };
-  
-  app.use(cors(corsOptions));
-  app.use(morgan('dev'));
 
-    return app as Express;
-  
+  app.use(cors(corsOptions));
+  app.use(morgan("dev"));
+
+  return app as Express;
 };

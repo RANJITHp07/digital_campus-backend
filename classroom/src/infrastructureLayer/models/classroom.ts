@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
 // Mongoose interface for the classroom
 interface IClassroom extends Document {
@@ -17,7 +17,7 @@ interface IClassroom extends Document {
   request: Array<{
     id: string;
     name: string;
-    email:string
+    email: string;
   }>;
   reported?: boolean;
   reason?: Array<{
@@ -64,14 +64,14 @@ const classroomSchema = new Schema<IClassroom>({
   },
   themeColor: {
     type: String,
-    default: '#3b6a87',
+    default: "#3b6a87",
   },
   category: {
     type: String,
   },
   profile: {
     type: String,
-    default: '',
+    default: "",
   },
   block: {
     type: Boolean,
@@ -91,7 +91,7 @@ const classroomSchema = new Schema<IClassroom>({
       },
       email: {
         type: String,
-      }
+      },
     },
   ],
   reason: [
@@ -113,6 +113,6 @@ const classroomSchema = new Schema<IClassroom>({
   },
 });
 
-const classroomModel = mongoose.model<IClassroom>('Classroom', classroomSchema);
+const classroomModel = mongoose.model<IClassroom>("Classroom", classroomSchema);
 
 export default classroomModel;

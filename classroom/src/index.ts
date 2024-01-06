@@ -1,26 +1,34 @@
-import { RabbitmquserUpdate } from "./infrastructureLayer/middleware/utils/rabbitmqMiddleware";
+import cluster from "cluster";
+import os from "os";
 import { createServer } from "./infrastructureLayer/config/app";
 import { db } from "./infrastructureLayer/config/db";
+import { RabbitmquserUpdate } from "./infrastructureLayer/middleware/utils/rabbitmqMiddleware";
 
-const startServer = async () => {
-  try {
-    const PORT=process.env.PORT || 3000
+const bootstrap = async () => {
+  const PORT = process.env.PORT || 3000;
 
-    //database connection
-    await db();
+  if (cluster.isMaster) {
+    // Fork workers
+    const numCPUs = os.cpus().length;
 
-    //rabbitmq listening to the incoming queue
+    for (let i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    }
+
+    cluster.on("exit", (worker, code, signal) => {
+      console.log(`Worker ${worker.process.pid} died`);
+    });
+  } else {
+    // Worker processes share the same port
+    const app = await createServer();
     await RabbitmquserUpdate()
 
-    const app = await createServer()
-
-    app?.listen(PORT, () => {
-      console.log("Connected to the server");
+    db().then(() => {
+      app?.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      });
     });
-    
-  } catch (err) {
-    console.error("Error starting the server:", err);
   }
 };
 
-startServer();
+bootstrap();

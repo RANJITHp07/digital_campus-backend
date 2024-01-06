@@ -18,4 +18,23 @@ export class SubmissionController{
         throw err
       }
     }
+
+
+    async getAllSubmission(_:unknown,args:{id:string}){
+      try{
+        const submission=await this.submissionUsecase.getAllSubmission(args.id);
+        return submission
+      }catch(err){
+        throw err
+      }
+    }
+
+    async getPolling(_:unknown,args:{id:string}){
+      try{
+        const submission=await this.submissionUsecase.getPolling(args.id);
+        return submission
+      }catch(err){
+        throw err
+      }
+    }
 }

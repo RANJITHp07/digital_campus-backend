@@ -1,4 +1,4 @@
-import { Channel, Connection,ConsumeMessage } from "amqplib";
+import { Channel, Connection, ConsumeMessage } from "amqplib";
 import connect from "../../config/rabbitmq";
 import IListner from "../../../usecaseLayer/interface/listenRepository";
 
@@ -12,10 +12,10 @@ export class Listener implements IListner {
   }
 
   async listen(
-    exchange: string, 
+    exchange: string,
     routingKey: string,
-    queueName:string,
-    callback: (data: any) => void 
+    queueName: string,
+    callback: (data: any) => void
   ): Promise<any> {
     await this.ensureConnection();
 
@@ -24,10 +24,9 @@ export class Listener implements IListner {
     }
 
     try {
-      await this.channel.assertExchange(exchange, "direct",{durable:true});
-      const queue = await this.channel.assertQueue(queueName)
+      await this.channel.assertExchange(exchange, "direct", { durable: true });
+      const queue = await this.channel.assertQueue(queueName);
 
-      
       await this.channel.bindQueue(queue.queue, exchange, routingKey);
 
       // Consume messages from the queue
@@ -37,23 +36,23 @@ export class Listener implements IListner {
             const parsedData = JSON.parse(data.content.toString());
             await callback(parsedData);
             this.channel?.ack(data); // Acknowledge successful processing
-            return data
+            return data;
           } catch (err) {
             console.error("Error processing message:", err);
-            return false
+            return false;
           }
         }
       });
-      return true
+      return true;
     } catch (err) {
       console.error("Error listening to queue:", err);
-      return false
+      return false;
     }
   }
 
-   private async ensureConnection() {
+  private async ensureConnection() {
     if (!this.channel) {
-      const {channel,connection}=await connect();
+      const { channel, connection } = await connect();
       this.channel = channel;
       this.connection = connection;
     }
@@ -61,4 +60,3 @@ export class Listener implements IListner {
 }
 
 export default Listener;
-

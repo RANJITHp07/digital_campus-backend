@@ -8,7 +8,7 @@ export const submissionMutation = gql`
     NotSubmitted
   }
   
-  input Submission {
+  input SubmitInput {
     status: StatusEnum
     grade: Int
   }
@@ -24,7 +24,7 @@ export const submissionMutation = gql`
     pollingAnswers: String
     username: String!
     user_id:String!
-    submission: Submission
+    submission: SubmitInput
     attachment: AttachmentInput
   }
 

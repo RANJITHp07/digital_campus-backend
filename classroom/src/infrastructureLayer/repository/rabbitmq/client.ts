@@ -1,7 +1,6 @@
 import { Channel, Connection } from "amqplib";
 import connect from "../../config/rabbitmq";
 
-
 export class Requester {
   private channel: Channel | undefined;
   private connection: Connection | undefined;

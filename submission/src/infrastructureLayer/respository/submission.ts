@@ -28,10 +28,19 @@ export class SubmissionRepository implements ISubmissionRepository{
 
     async find(id:string,userId:string){
        try{
-           const findAssignment=await submissionModel.find({assignment_id:id,user_id:userId})
+           const findAssignment=await submissionModel.findOne({assignment_id:id,user_id:userId})
            return findAssignment
        }catch(err){
         throw err
        }
+    }
+
+    async findAll(id:string){
+        try{
+            const findAssignment=await submissionModel.find({assignment_id:id})
+            return findAssignment
+        }catch(err){
+            throw err
+        }
     }
 }

@@ -45,7 +45,7 @@ const submissionSchema = new Schema<Iassignment>({
     type: {
       status: {
         type: String,
-        enum: ['Late assignment', 'Submitted', 'Not Submitted'],
+        enum: ['Late submitted', 'Submitted', 'Not Submitted'],
         default:'Not Submitted'
       },
       grade: {

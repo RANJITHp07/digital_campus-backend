@@ -7,19 +7,15 @@ export class ErrorHandler {
     throw new GraphQLError(message, {
       extensions: {
         code: code,
-        
-      }
+      },
     });
   }
 
-  userInputerror(message:string){
+  userInputerror(message: string) {
     throw new UserInputError(message);
   }
-
 
   apolloError(err: any) {
     throw new ApolloError(err);
   }
-
-
 }

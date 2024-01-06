@@ -2,7 +2,7 @@ import { authenticate } from "@auth-middlewares/common";
 import { errorHandler, controller } from "../injection/injection";
 
 interface MyContext {
-  user: any; 
+  user: any;
 }
 
 export const classroomQueries = {
@@ -31,7 +31,11 @@ export const classroomQueries = {
     }
   },
 
-  async getCreatorClassroom(_: unknown, args: { id: string }, context: MyContext) {
+  async getCreatorClassroom(
+    _: unknown,
+    args: { id: string },
+    context: MyContext
+  ) {
     try {
       const user = authenticate(context);
       if (user) {
@@ -43,7 +47,11 @@ export const classroomQueries = {
     }
   },
 
-  async getAllClassroomparticipants(_: unknown, args: { id: string }, context: MyContext) {
+  async getAllClassroomparticipants(
+    _: unknown,
+    args: { id: string },
+    context: MyContext
+  ) {
     try {
       // const user = authenticate(context);
       if (true) {
@@ -79,7 +87,11 @@ export const classroomQueries = {
     }
   },
 
-  async getClassroomDetails(_: unknown, args: { id: string }, context: MyContext) {
+  async getClassroomDetails(
+    _: unknown,
+    args: { id: string },
+    context: MyContext
+  ) {
     try {
       const user = authenticate(context);
       if (user) {
@@ -91,7 +103,11 @@ export const classroomQueries = {
     }
   },
 
-  async getAllTheClassroom(_: unknown, args: { id: string }, context: MyContext) {
+  async getAllTheClassroom(
+    _: unknown,
+    args: { id: string },
+    context: MyContext
+  ) {
     try {
       const user = authenticate(context);
       if (user) {
@@ -103,7 +119,11 @@ export const classroomQueries = {
     }
   },
 
-  async getFilteredClassroom(_: unknown, args: { id: string, category: string[] }, context: MyContext) {
+  async getFilteredClassroom(
+    _: unknown,
+    args: { id: string; category: string[] },
+    context: MyContext
+  ) {
     try {
       const user = authenticate(context);
       if (user) {
