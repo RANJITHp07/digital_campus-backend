@@ -47,31 +47,36 @@ export class AssignmentRepository implements IAssigmentRepository{
     }
 
     //to get the assignment in groups
-    async groupedAssignment(id: string):Promise<unknown> {
-        const assignment = await Assignment.aggregate([
-          {
-            $match: {
-              class_id: { $in: [id] },
-            },
+    async groupedAssignment(id: string): Promise<unknown> {
+      const assignment = await Assignment.aggregate([
+        {
+          $match: {
+            class_id: { $in: [id] },
           },
-          {
-            $group: {
-              _id: {
-                $ifNull: ["$mainTopic", null],
-              },
-              assignments: { $push: "$$ROOT" },
-            },
+        },
+        {
+          $sort: {
+            createdAt: -1, 
           },
-          {
-            $sort: {
-              _id: 1, 
+        },
+        {
+          $group: {
+            _id: {
+              $ifNull: ["$mainTopic", null],
             },
+            assignments: { $push: "$$ROOT" },
           },
-        ]);
-      
-        return assignment;
-      }
-
+        },
+        {
+          $sort: {
+            "_id": 1,
+          },
+        },
+      ]);
+    
+      return assignment;
+    }
+    
 
       //to get the details of the mainTopic
       async distinctTopic():Promise<string[]>{
