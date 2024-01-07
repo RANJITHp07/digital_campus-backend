@@ -1,25 +1,44 @@
+import cluster from 'cluster';
+import os from 'os';
 import { httpServer } from "./infrastructureLayer/config/app";
 import { connectDB } from "./infrastructureLayer/config/connectdb";
-import { RabbitmquserCreate, RabbitmquserUpdate } from "./infrastructureLayer/utils/rabbitmqMiddleware";
-
-
+import {
+  RabbitmquserCreate,
+  RabbitmquserUpdate,
+} from "./infrastructureLayer/utils/rabbitmqMiddleware";
 
 const startServer = async (): Promise<void> => {
-   const PORT=process.env.PORT || 3000
-    
-    //db connection
+  const PORT = process.env.PORT || 3000;
+
+  // Check if the current process is the master
+  if (cluster.isMaster) {
+    const numCPUs = require("os").cpus().length;
+    for (let i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    }
+
+    // Listen for worker exit event and respawn a new worker
+    cluster.on("exit", (worker, code, signal) => {
+      console.log(`Worker ${worker.process.pid} died`);
+      cluster.fork();
+    });
+  } else {
+    // Connect to the database
     await connectDB();
 
-    //to listen to the rabbitmq queue
-    await RabbitmquserCreate()
-    await RabbitmquserUpdate()
+    // Listen to the RabbitMQ queues
+    await RabbitmquserCreate();
+    await RabbitmquserUpdate();
 
-    const app = httpServer
+    // Start the HTTP server
+    const app = httpServer;
 
     app?.listen(PORT, () => {
-      console.log("Connected to the server");
+      console.log(
+        `connected to the server on port ${PORT}`
+      );
     });
- 
+  }
 };
 
 startServer();

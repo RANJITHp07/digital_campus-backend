@@ -5,7 +5,7 @@ enum MessageType {
   Audio = "audio",
   Video = "vedio",
   PDF = "pdf",
-  PHOTO='photo'
+  PHOTO = "photo",
 }
 
 export interface IMessageModel extends Document {
@@ -34,15 +34,14 @@ const MessageSchema = new mongoose.Schema<IMessageModel>(
       type: {
         type: String,
         enum: Object.values(MessageType),
-        required:true
+        required: true,
       },
       text: {
         type: String,
-        required:true
+        required: true,
       },
       desc: {
         type: String,
-
       },
     },
   },

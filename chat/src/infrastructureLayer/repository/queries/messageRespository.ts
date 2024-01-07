@@ -3,12 +3,14 @@ import IMessageRepository from "../../../usecaseLayer/interface/messageConversat
 import MessageModel, { IMessageModel } from "../../model/message";
 
 export default class MessageRepository implements IMessageRepository {
-  constructor(private readonly messageModel:unknown) {}
+  constructor(private readonly messageModel: unknown) {}
 
   //to create the message
-  async create(newMessageData: IMessage ): Promise<IMessageModel> {
+  async create(newMessageData: IMessage): Promise<IMessageModel> {
     try {
-      const newMessage = (await MessageModel.create(newMessageData)).populate('sender');
+      const newMessage = (await MessageModel.create(newMessageData)).populate(
+        "sender"
+      );
       return newMessage;
     } catch (error) {
       throw error;
@@ -16,15 +18,18 @@ export default class MessageRepository implements IMessageRepository {
   }
 
   //to getConversation of a particular classroom
-  async getConversation(classId: string, skip: number): Promise<IMessageModel[]> {
+  async getConversation(
+    classId: string,
+    skip: number
+  ): Promise<IMessageModel[]> {
+  
     try {
-      const conversation = await MessageModel
-        .find({ classId })
-        .populate('sender')
+      const conversation = (await MessageModel.find({ classId })
+        .populate("sender")
         .sort({ createdAt: -1 })
         .limit(10)
-        .skip(skip) as IMessageModel[];
-  
+        .skip(skip)) as IMessageModel[];
+
       return conversation;
     } catch (error) {
       throw error;

@@ -1,36 +1,30 @@
 import express, { Express } from "express";
 import cors from "cors";
-import http from 'http';
-import morgan from 'morgan';
+import http from "http";
+import morgan from "morgan";
 import { SocketManager } from "../repository/queries/socketRepository";
-import MessageRoute from "../routes/messageRoute"
+import MessageRoute from "../routes/messageRoute";
 import { userrepository } from "../routes/injection/injection";
 
+const app: Express = express();
+app.use(express.json());
 
-
-  const app: Express = express();
-  app.use(express.json());
-
-
-  // CORS setup
+// CORS setup
 const corsOptions = {
-  origin: 'https://digital-campus-9dqcqf3i9-ranjithp07s-projects.vercel.app/',
-  methods: ['GET', 'PATCH', 'PUT','POST'], 
-  optionsSuccessStatus: 204, 
+  origin: "https://digital-campus-9dqcqf3i9-ranjithp07s-projects.vercel.app/",
+  methods: ["GET", "PATCH", "PUT", "POST"],
+  optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
-  const httpServer = http.createServer(app);
+const httpServer = http.createServer(app);
 
 //socket.io connection
-const socket=new SocketManager(httpServer,userrepository)
+const socket = new SocketManager(httpServer, userrepository);
 
 //routes
-app.use("/v1/api/chat",MessageRoute)
+app.use("/v1/api/chat", MessageRoute);
 
-
-
-  export {httpServer}
-
+export { httpServer };

@@ -4,7 +4,6 @@ import UserRepository from "./userRepository";
 import MessageRepository from "./messageRespository";
 import IMessage from "../../../domainLayer/message";
 
-
 export class SocketManager {
   private httpServer: HttpServer;
   private io: Server;
@@ -15,9 +14,10 @@ export class SocketManager {
     this.httpServer = httpServer;
     this.io = new Server(httpServer, {
       cors: {
-        origin: "https://digital-campus-9dqcqf3i9-ranjithp07s-projects.vercel.app",
+        origin:
+          "https://digital-campus-9dqcqf3i9-ranjithp07s-projects.vercel.app",
       },
-      path:"/socket-chat/"
+      path: "/socket-chat/",
     });
 
     this.io.on("connection", this.handleConnection);
@@ -25,33 +25,41 @@ export class SocketManager {
 
   //to create a room of all the students with particular classRoomId
   private handleConnection = (socket: Socket): void => {
-    socket.on("join-room",(classRoomId)=>{
+    socket.on("join-room", (classRoomId) => {
       console.log("a user connected.");
       socket.join(classRoomId);
-    })
-
-
-    //to send the message to the room since it is a broadcast message
-    socket.on("sendMessage", async ({ classId, message }: { classId: string; message: IMessage }) => {
-      let user = await this.userRepository.finduser(message.sender as string);
-      if(user){
-        const m={...message,sender:user._id}
-        const repository = new MessageRepository('');
-        const newMessage=await repository.create(m);
-        console.log(newMessage);
-        socket.broadcast.to(classId).emit("getMessage", newMessage);
-      }
     });
 
-    //to listen while typing
-    socket.on("typing-started",({ classId, name }: { classId: string;name: string;})=>{
-        socket.broadcast.to(classId).emit("typing-started-from-server",name)
-  })
+    //to send the message to the room since it is a broadcast message
+    socket.on(
+      "sendMessage",
+      async ({ classId, message }: { classId: string; message: IMessage }) => {
+        let user = await this.userRepository.finduser(message.sender as string);
+        if (user) {
+          const m = { ...message, sender: user._id };
+          const repository = new MessageRepository("");
+          const newMessage = await repository.create(m);
+          console.log(newMessage);
+          socket.broadcast.to(classId).emit("getMessage", newMessage);
+        }
+      }
+    );
 
-  // to listen when stopped typing
-  socket.on("typing-stoped",({ classId,name }: { classId:string;name: string;})=>{
-         socket.broadcast.to(classId).emit("typing-stoped-from-server")
-  })
+    //to listen while typing
+    socket.on(
+      "typing-started",
+      ({ classId, name }: { classId: string; name: string }) => {
+        socket.broadcast.to(classId).emit("typing-started-from-server", name);
+      }
+    );
+
+    // to listen when stopped typing
+    socket.on(
+      "typing-stoped",
+      ({ classId, name }: { classId: string; name: string }) => {
+        socket.broadcast.to(classId).emit("typing-stoped-from-server");
+      }
+    );
 
     socket.on("disconnect", () => {
       console.log("a user disconnected!");

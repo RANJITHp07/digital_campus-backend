@@ -1,9 +1,8 @@
-export default interface IMessage{
-    classId: string;
-    sender?: string;
-    text:{
-      type:string,
-      text:string
-    };
-  }
-  
+export default interface IMessage {
+  classId: string;
+  sender?: string;
+  text: {
+    type: string;
+    text: string;
+  };
+}
