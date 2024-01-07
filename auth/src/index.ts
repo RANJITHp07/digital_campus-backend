@@ -1,23 +1,37 @@
-import { db } from "./infrastructureLayer/config/db"
+import cluster from 'cluster';
+import os from 'os';
+import { db } from "./infrastructureLayer/config/db";
 import { RabbitmquserDetails } from "./infrastructureLayer/utils/rabbitmqMiddleware";
 import { httpServer } from "./infrastructureLayer/config/app";
 
+const startServer = async () => {
+  const PORT = process.env.PORT || 3000;
 
-const startServer = async ()=> {
-   const PORT = process.env.PORT || 3000; // Specify a default port or use environment variable
+  if (cluster.isMaster) {
+    const numCPUs = os.cpus().length;
+    for (let i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    }
 
-   //db connection
+    // Listen for worker exit event and respawn a new worker
+    cluster.on("exit", (worker, code, signal) => {
+      console.log(`Worker ${worker.process.pid} died`);
+      cluster.fork();
+    });
+  } else {
+    // Connect to the database
     await db();
 
-    // // // doing rabbitmq request return pattern
+    // Perform RabbitMQ request-return pattern
     await RabbitmquserDetails();
 
-    const app = httpServer
+    // Start the HTTP server
+    const app = httpServer;
 
     app?.listen(PORT, () => {
-      console.log("Connected to the server");
+      console.log(` connected to the server on port ${PORT}`);
     });
- 
+  }
 };
 
 startServer();

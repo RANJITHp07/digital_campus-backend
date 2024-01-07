@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import {  Server as HttpServer } from "http";
+import { Server as HttpServer } from "http";
 import { UserRepository } from "../queries/userRepository";
 
 export class SocketManager {
@@ -12,16 +12,16 @@ export class SocketManager {
     this.userRepository = userRepository;
     this.io = new Server(httpServer, {
       cors: {
-        origin: "https://digital-campus-9dqcqf3i9-ranjithp07s-projects.vercel.app",
+        origin:
+          "https://digital-campus-9dqcqf3i9-ranjithp07s-projects.vercel.app",
       },
-      path: "/socket-auth/"
+      path: "/socket-auth/",
     });
 
     this.io.on("connection", this.handleConnection);
   }
 
   private handleConnection = (socket: Socket): void => {
-    
     socket.on("join-room", (email) => {
       console.log("A user connected.");
       socket.join(email);
@@ -32,7 +32,9 @@ export class SocketManager {
       try {
         const user = await this.userRepository.findUser(email);
         if (user && user.id) {
-          this.io.to(email).emit("responseIsBlocked", { isBlocked: user.blocked });
+          this.io
+            .to(email)
+            .emit("responseIsBlocked", { isBlocked: user.blocked });
         }
       } catch (error) {
         console.error("Error checking if user is blocked:", error);

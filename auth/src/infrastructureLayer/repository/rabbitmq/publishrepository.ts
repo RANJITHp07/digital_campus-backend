@@ -2,7 +2,7 @@ import { Channel, Connection, ConsumeMessage } from "amqplib";
 import connect from "../../config/rabbitmq";
 import IPublish from "../../../usecaseLayer/interface/publishRepository";
 
-class Publisher implements IPublish{
+class Publisher implements IPublish {
   private channel: Channel | undefined;
   private connection: Connection | undefined;
 
@@ -12,7 +12,11 @@ class Publisher implements IPublish{
   }
 
   //to publish in a queue
-  async publish(exchange: string, routingKey: string, data: unknown): Promise<boolean> {
+  async publish(
+    exchange: string,
+    routingKey: string,
+    data: unknown
+  ): Promise<boolean> {
     await this.ensureConnection();
 
     if (!this.channel || !this.connection) {
@@ -20,13 +24,13 @@ class Publisher implements IPublish{
     }
 
     try {
-      await this.channel.assertExchange(exchange, "direct",{durable:true});
-       await this.channel.publish(
-          exchange,
-          routingKey,
-          Buffer.from(JSON.stringify(data)),
-          { persistent: true },      
-        )
+      await this.channel.assertExchange(exchange, "direct", { durable: true });
+      await this.channel.publish(
+        exchange,
+        routingKey,
+        Buffer.from(JSON.stringify(data)),
+        { persistent: true }
+      );
       return true;
     } catch (err) {
       console.error("Error in publish:", err);
@@ -34,11 +38,9 @@ class Publisher implements IPublish{
     }
   }
 
-  
-
   private async ensureConnection() {
     if (!this.channel) {
-      const {channel,connection}=await connect();
+      const { channel, connection } = await connect();
       this.channel = channel;
       this.connection = connection;
     }
@@ -46,5 +48,3 @@ class Publisher implements IPublish{
 }
 
 export default Publisher;
-
-

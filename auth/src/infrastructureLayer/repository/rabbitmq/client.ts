@@ -1,7 +1,7 @@
 import { Channel, Connection } from "amqplib";
 import connect from "../../config/rabbitmq";
 
-export class Responder  {
+export class Responder {
   private channel: Channel | undefined;
   private connection: Connection | undefined;
 
@@ -48,7 +48,6 @@ export class Responder  {
             console.error("Error processing message:", err);
           }
         }
-        
       });
     } catch (err) {
       console.error("Error listening for requests:", err);

@@ -5,11 +5,10 @@ import { AdminRepository } from "../../repository/queries/adminRepository";
 import Encrypt from "../../repository/services/bcryptRepository";
 import jwtPassword from "../../repository/services/jwtRepository";
 
+const repository = new AdminRepository(Admin);
+const bcrypt = new Encrypt();
+const jwt = new jwtPassword();
+const usecase = new Adminusecase(repository, bcrypt, jwt);
+const adapter = new Adminadapter(usecase);
 
-const repository=new AdminRepository(Admin)
-const bcrypt=new Encrypt()
-const jwt=new jwtPassword()
-const usecase=new Adminusecase(repository,bcrypt,jwt)
-const adapter=new Adminadapter(usecase);
-
-export default adapter
+export default adapter;

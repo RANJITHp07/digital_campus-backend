@@ -1,13 +1,13 @@
-import nodemailer from 'nodemailer';
-import INodemailer from '../../../usecaseLayer/interface/nodemailerRepository';
+import nodemailer from "nodemailer";
+import INodemailer from "../../../usecaseLayer/interface/nodemailerRepository";
 
 class Nodemailer implements INodemailer {
   private otps: Map<string, string> = new Map();
 
   //to generate otp
-  generateOTP():string {
-    const digits = '0123456789';
-    let otp = '';
+  generateOTP(): string {
+    const digits = "0123456789";
+    let otp = "";
     for (let i = 0; i < 6; i++) {
       otp += digits[Math.floor(Math.random() * 10)];
     }
@@ -15,11 +15,14 @@ class Nodemailer implements INodemailer {
   }
 
   //to send email for verification
-  async sendEmailVerification(email: string, username: string):Promise<string> {
+  async sendEmailVerification(
+    email: string,
+    username: string
+  ): Promise<string> {
     try {
-      console.log(email,username)
+      console.log(email, username);
       const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         port: 587,
         secure: false,
         requireTLS: false,
@@ -31,11 +34,11 @@ class Nodemailer implements INodemailer {
 
       const otp = this.generateOTP();
       this.otps.set(email, otp);
-    
+
       const mailOptions = {
-        from: 'testingjobee007@gmail.com',
+        from: "testingjobee007@gmail.com",
         to: email,
-        subject: 'Email Verification',
+        subject: "Email Verification",
         html: `
         <div>
           <div style="margin-bottom: 10px">
@@ -45,18 +48,20 @@ class Nodemailer implements INodemailer {
             <strong style="text">${otp}</strong>
           </div>
         </div>
-      ` 
+      `,
       };
 
       await transporter.sendMail(mailOptions);
-      return  'Email sent'
+      return "Email sent";
     } catch (error) {
-      throw new Error(`Unable to send email verification email to ${email}: ${error}`);
+      throw new Error(
+        `Unable to send email verification email to ${email}: ${error}`
+      );
     }
   }
- 
+
   //to verfiy the email to check if it is crct or not
-  async verifyEmail(enteredOTP: string, email: string):Promise<boolean> {
+  async verifyEmail(enteredOTP: string, email: string): Promise<boolean> {
     try {
       const expectedOTP = this.otps.get(email);
       if (expectedOTP === enteredOTP) {

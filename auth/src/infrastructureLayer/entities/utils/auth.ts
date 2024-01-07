@@ -1,22 +1,27 @@
-import {Entity,PrimaryGeneratedColumn,Column,BaseEntity,CreateDateColumn} from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  CreateDateColumn,
+} from "typeorm";
 
 @Entity()
 export class Auth extends BaseEntity {
-    @PrimaryGeneratedColumn('uuid')
-	id: number;
-    
-	@Column({
-        unique:true,
-        nullable:false
-    })
-	email: string;
+  @PrimaryGeneratedColumn("uuid")
+  id: number;
 
-    @Column({
-        nullable:false
-    })
-    password: string;
+  @Column({
+    unique: true,
+    nullable: false,
+  })
+  email: string;
 
-    @CreateDateColumn()
-	created_at: Date;
+  @Column({
+    nullable: false,
+  })
+  password: string;
 
+  @CreateDateColumn()
+  created_at: Date;
 }

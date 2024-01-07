@@ -8,15 +8,21 @@ import Nodemailer from "../../repository/services/nodemailer";
 import Publisher from "../../repository/rabbitmq/publishrepository";
 import RequestValidator from "../../repository/services/validatorRepository";
 
-
-// factory pattern 
+// factory pattern
 const userRepository = new UserRepository(Users);
-const bcrypt=new Encrypt()
-const jwt=new jwtPassword()
-const nodemailer=new Nodemailer()
-const publisher=new Publisher()
-const requestValidator=new RequestValidator()
-const userusecase=new Userusecase(userRepository,bcrypt,jwt,nodemailer,publisher,requestValidator);
-const userAdapter=new UserAdapter(userusecase);
+const bcrypt = new Encrypt();
+const jwt = new jwtPassword();
+const nodemailer = new Nodemailer();
+const publisher = new Publisher();
+const requestValidator = new RequestValidator();
+const userusecase = new Userusecase(
+  userRepository,
+  bcrypt,
+  jwt,
+  nodemailer,
+  publisher,
+  requestValidator
+);
+const userAdapter = new UserAdapter(userusecase);
 
-export {userAdapter,userRepository}
+export { userAdapter, userRepository };

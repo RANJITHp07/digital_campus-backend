@@ -1,7 +1,7 @@
-interface INodemailerRepository{
-    generateOTP(email:string):string
-    sendEmailVerification(email: string, username: string):Promise<string>
-    verifyEmail(enteredOTP: string, email: string):Promise<boolean>
+interface INodemailerRepository {
+  generateOTP(email: string): string;
+  sendEmailVerification(email: string, username: string): Promise<string>;
+  verifyEmail(enteredOTP: string, email: string): Promise<boolean>;
 }
 
-export default INodemailerRepository
+export default INodemailerRepository;

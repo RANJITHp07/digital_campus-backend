@@ -1,12 +1,12 @@
-import express, { Express } from 'express';
-import cors from 'cors';
-import http from 'http';
-import morgan from 'morgan';
-import userRoute from '../route/userRoute';
-import errorMiddleware from '../../usecaseLayer/handler/errorHandler';
-import adminRoute from '../route/adminRoute';
-import { SocketManager } from '../repository/services/socketRepository';
-import { userRepository } from '../route/injection/userInjection';
+import express, { Express } from "express";
+import cors from "cors";
+import http from "http";
+import morgan from "morgan";
+import userRoute from "../route/userRoute";
+import errorMiddleware from "../../usecaseLayer/handler/errorHandler";
+import adminRoute from "../route/adminRoute";
+import { SocketManager } from "../repository/services/socketRepository";
+import { userRepository } from "../route/injection/userInjection";
 
 const app: Express = express();
 
@@ -15,13 +15,13 @@ app.use(express.json());
 
 // CORS setup
 const corsOptions = {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'PATCH', 'PUT','POST'], 
-    optionsSuccessStatus: 204, 
+  origin: "http://localhost:3000",
+  methods: ["GET", "PATCH", "PUT", "POST"],
+  optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 // HTTP server setup
 const httpServer = http.createServer(app);
@@ -30,8 +30,8 @@ const httpServer = http.createServer(app);
 const socket = new SocketManager(httpServer, userRepository);
 
 // Routes
-app.use('/v3/api/auth/user', userRoute);
-app.use('/v3/api/auth/admin', adminRoute);
+app.use("/v3/api/auth/user", userRoute);
+app.use("/v3/api/auth/admin", adminRoute);
 
 // Error handling middleware
 app.use(errorMiddleware);
