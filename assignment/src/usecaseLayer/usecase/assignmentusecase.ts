@@ -118,6 +118,8 @@ export class AssignmentUsecase{
             }
             const deletedAssignment=await this.assignment.deleteAssignment(id);
             if(deletedAssignment){
+                
+                await this.publisher.publish("assignmentExchange","deleteAssignment",{id})
                 return deletedAssignment
             }
             this.errorHandler.userInputerror("No such assignment")
@@ -138,7 +140,18 @@ export class AssignmentUsecase{
                 this.errorHandler.userInputerror(validation.message as string)
             }
             const updatedAssignment=await this.assignment.update(id,update);
+            const updateSubmission:any={}
             if(updatedAssignment){
+                if(update.polling){
+                    updateSubmission.polling=update.polling
+                 }else if(update.quiz){
+                    updateSubmission.quiz=update.quiz
+                 }else if(update.points){
+                    updateSubmission.points=update.points
+                 }else if(update.dueDate){
+                    updateSubmission.dueDateupdate.dueDate
+                 }
+                await this.publisher.publish("assignmentExchange","updateAssignment",{id,updateSubmission})
                 return updatedAssignment
             }
             this.errorHandler.userInputerror("No such assignment")
