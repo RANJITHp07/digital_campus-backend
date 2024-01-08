@@ -22,12 +22,12 @@ const bootstrap = async () => {
   } else {
     // Worker processes share the same port
     const app = await createServer();
-    // await RabbitmqassignmentCreate()
-    // await RabbitmqassignmentUpdate()
-    // await RabbitmqassignmentDelete()
+    await RabbitmqassignmentCreate()
+    await RabbitmqassignmentUpdate()
+    await RabbitmqassignmentDelete()
 
     db().then(() => {
-      app?.listen(4000, () => {
+      app?.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`)
       });
     });
