@@ -2,7 +2,7 @@ import cluster from 'cluster';
 import os from 'os';
 import { createServer } from './infrastructureLayer/config/app';
 import { db } from './infrastructureLayer/config/db';
-import { RabbitmqassignmentCreate } from './infrastructureLayer/middleware/rabbitmqMiddleware';
+import { RabbitmqassignmentCreate, RabbitmqassignmentDelete, RabbitmqassignmentUpdate } from './infrastructureLayer/middleware/rabbitmqMiddleware';
 
 
 const bootstrap = async () => {
@@ -22,10 +22,12 @@ const bootstrap = async () => {
   } else {
     // Worker processes share the same port
     const app = await createServer();
-    // await RabbitmqassignmentCreate()
+    await RabbitmqassignmentCreate()
+    await RabbitmqassignmentUpdate()
+    await RabbitmqassignmentDelete()
 
     db().then(() => {
-      app?.listen(4000, () => {
+      app?.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`)
       });
     });

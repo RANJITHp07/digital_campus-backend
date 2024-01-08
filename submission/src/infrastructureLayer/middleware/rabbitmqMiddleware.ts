@@ -8,7 +8,7 @@ const listener=new Listener()
 async function RabbitmqassignmentCreate(){
     try{
         await listener.listen("assignmentExchange","createAssignment",'createAssignment',async (data:any)=>{
-            // console.log(data)
+            console.log(data)
              let d={_id:data.id,...data}
             await repository.create(d)
     })

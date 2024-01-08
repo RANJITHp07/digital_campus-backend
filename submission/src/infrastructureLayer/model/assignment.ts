@@ -4,6 +4,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 interface IQuiz {
   question: string;
   answers: string[];
+  realAnswers:string[]
+  type:string
 }
 
 export interface IAssignmentModel extends Document {
@@ -53,6 +55,13 @@ const assignmentSchema = new Schema<IAssignmentModel>({
         answers: {
           type: [String],
         },
+        type:{
+          type:String
+        },
+        realAnswers:{
+          type:[String]
+        }
+        
       },
     ],
   },
