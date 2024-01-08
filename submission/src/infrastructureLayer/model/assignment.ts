@@ -51,7 +51,7 @@ const assignmentSchema = new Schema<IAssignmentModel>({
           type: String,
         },
         answers: {
-          type: [Number],
+          type: [String],
         },
       },
     ],

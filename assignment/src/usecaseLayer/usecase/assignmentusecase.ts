@@ -29,7 +29,7 @@ export class AssignmentUsecase{
                 exchangeAssignment.polling=newAssignment.polling
              }else if(newAssignment.assignmentType==='Quiz'){
                  exchangeAssignment.quiz=newAssignment.quiz
-             }else if(newAssignment.assignmentType==='Assignment' && newAssignment.dueDate){
+             }else if(newAssignment.assignmentType==='Assignment'){
                  exchangeAssignment.points=newAssignment.points
                  exchangeAssignment.dueDate=newAssignment.dueDate
              }

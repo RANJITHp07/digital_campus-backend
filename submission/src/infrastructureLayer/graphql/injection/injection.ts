@@ -1,6 +1,7 @@
 import { SubmissionController } from "../../../adapterLayer/submission";
-import { ErrorHandler } from "../../../middleware/error/userErrorhandler";
+
 import { Submissionusecase } from "../../../usecaseLayer/usecase/submissionusecase";
+import { ErrorHandler } from "../../middleware/error/userErrorhandler";
 import { AssignmentRepository } from "../../respository/assignment";
 import { SubmissionRepository } from "../../respository/submission";
 
