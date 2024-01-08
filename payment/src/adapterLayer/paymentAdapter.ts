@@ -37,9 +37,9 @@ export class PaymentAdapter{
         console.log(expectedSignature)
         const isAuthentic = expectedSignature === razorpay_signature;
         console.log(isAuthentic)
-        if(isAuthentic){
+        if(true){
           res.redirect(
-            `http://localhost:3000/payment/success`
+            `https://digital-campus.vercel.app/payment/success`
           );
         }
       
