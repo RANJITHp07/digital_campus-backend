@@ -2,7 +2,8 @@ import cluster from 'cluster';
 import os from 'os';
 import { createServer } from './infrastructureLayer/config/app';
 import { db } from './infrastructureLayer/config/db';
-import { RabbitmqassignmentCreate } from './middleware/rabbitmqMiddleware';
+import { RabbitmqassignmentCreate } from './infrastructureLayer/middleware/rabbitmqMiddleware';
+
 
 const bootstrap = async () => {
   const PORT = process.env.PORT || 3000;
