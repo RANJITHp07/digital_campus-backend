@@ -25,7 +25,7 @@ export const  createServer = async() => {
         optionsSuccessStatus: 204, 
     };
     
-    app.use(cors(corsOptions));
+    app.use(cors());
     app.use(morgan("dev"));
    
 
