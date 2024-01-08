@@ -15,7 +15,7 @@ export class AssignmentRepository implements IAssignmentRepository{
 
     async update(id:string,update:Partial<IAssignment>):Promise<string | null>{
         try{
-           const updateAssignment=await AssignmentModel.findByIdAndUpdate(id,{$set:update})
+           const updateAssignment=await AssignmentModel.findByIdAndUpdate(id,update)
            return updateAssignment ? 'assignment updated' :  null
            
         }catch(err){

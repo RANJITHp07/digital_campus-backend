@@ -2,6 +2,8 @@
 interface IQuiz {
     question: string;
     answers: string[];
+    realAnswers:string[],
+    type:string
   }
   
 export interface IAssignment{

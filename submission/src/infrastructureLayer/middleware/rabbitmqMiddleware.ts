@@ -32,7 +32,7 @@ async function RabbitmqassignmentDelete(){
 
 async function RabbitmqassignmentUpdate(){
    try{
-    await listener.listen("assignmentExchange","deleteAssignment",'updateAssignment',async (data:any)=>{
+    await listener.listen("assignmentExchange","updateAssignment",'updateAssignment',async (data:any)=>{
     await repository.update(data.id,data.updateSubmissio)
     })
    }catch(err){
