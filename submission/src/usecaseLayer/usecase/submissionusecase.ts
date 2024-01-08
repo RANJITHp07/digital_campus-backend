@@ -19,15 +19,20 @@ export class Submissionusecase{
   
     async createSubmission({submission}:{submission:ISubmission}){
         try{
-          console.log(submission)
           let newSubmission
-          const submissionExist=await this.submissionRepository.find(submission.assignment_id,submission.user_id)
+          const submissionExist:any=await this.submissionRepository.find(submission.assignment_id,submission.user_id)
+          if(submissionExist){
+            this.errorHandler.userInputerror("Already submitted");
+            return
+          }
           if(submission.quizAnswers){
             let mark=0
             const assignment=await this.assignmentRepository.findAssignment(submission.assignment_id);
+            
             if(assignment && assignment.students.includes(submission.user_id)){
-               for(let i=0;i<assignment.quiz.length;i++){
-                if(submission.quizAnswers[i].length===1 && submission.quizAnswers[i][0]===assignment.quiz[i].realAnswers[0]){
+               for(let i=0;i<submission.quizAnswers.length;i++){
+               
+                if( assignment.quiz[i].type==='radio' && submission.quizAnswers[i][0]===assignment.quiz[i].realAnswers[0]){
                     mark=mark+1
                 }else{
                    let pass=true
@@ -37,11 +42,21 @@ export class Submissionusecase{
                          break;
                      }
                   }
-
-                  if(pass) mark=mark+1;
+                  if(pass && assignment.quiz[i].realAnswers.length===submission.quizAnswers[i].length) mark=mark+1;
                 }
                }
-               console.log(mark)
+               
+               const s=await this.submissionRepository.create({
+                ...submission,
+                submission:{
+                  status:"Submitted",
+                  grade:mark
+                }
+               })
+               console.log(s)
+               return{
+                marks: mark
+               }
             }
             this.errorHandler.userInputerror("Not a participant of this assignment")
 
@@ -142,4 +157,13 @@ export class Submissionusecase{
       }
     }
 
+    async getSubmission({assignment_id,userId}:{assignment_id: string, userId: string}){
+
+      try{
+           const submission=await this.submissionRepository.find(assignment_id,userId);
+           return submission
+      }catch(err){
+        throw err
+      }
+    }
 }

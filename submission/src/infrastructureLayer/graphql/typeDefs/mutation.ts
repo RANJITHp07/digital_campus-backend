@@ -16,7 +16,7 @@ export const submissionMutation = gql`
 
   input SubmissionInput {
     assignment_id: ID!
-    quizAnswers: [String]
+    quizAnswers: [[String]]
     pollingAnswers: String
     username: String!
     user_id:String!
@@ -31,11 +31,12 @@ export const submissionMutation = gql`
   }
 
   type Output {
-    message: String!
+    message: String
+    marks:Int
   }
 
   type Mutation {
     createSubmission(submission: SubmissionInput): Output
-    updateGrade(update:GradeInput):Output!
+    updateGrade(update:GradeInput):Output
   }
 `;

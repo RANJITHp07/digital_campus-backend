@@ -40,7 +40,7 @@ type Attachment {
 }
 
 type Submission {
-  quizAnswers: [String]
+  quizAnswers: [[String]]
   pollingAnswers: String
   assignment_id: String
   attachment: Attachment

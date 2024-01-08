@@ -6,7 +6,7 @@ interface ISubmit {
 }
 
 interface Iassignment extends Document {
-  quizAnswers: string[]; 
+  quizAnswers: string[][]; 
   pollingAnswers: string;
   assignment_id: string;
   attachment: {
@@ -20,7 +20,7 @@ interface Iassignment extends Document {
 
 const submissionSchema = new Schema<Iassignment>({
   quizAnswers: {
-    type: [String], 
+    type: [[String]],
     
   },
   pollingAnswers: {
