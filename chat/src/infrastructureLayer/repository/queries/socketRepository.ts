@@ -15,7 +15,7 @@ export class SocketManager {
     this.io = new Server(httpServer, {
       cors: {
         origin:
-          "https://digital-campus-9dqcqf3i9-ranjithp07s-projects.vercel.app",
+          "https://digital-campus.vercel.app",
       },
       path: "/socket-chat/",
     });
