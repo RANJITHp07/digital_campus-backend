@@ -21,10 +21,8 @@ async function RabbitmqassignmentCreate(){
 
 async function RabbitmqassignmentDelete(){
     try{
-        await listener.listen("assignmentExchange","createAssignment",'createAssignment',async (data:any)=>{
-            // console.log(data)
-             let d={_id:data.id,...data}
-            await repository.create(d)
+        await listener.listen("assignmentExchange","deleteAssignment",'deleteAssignment',async (data:any)=>{
+        await repository.delete(data.id)
     })
     }catch(err){
         throw err
@@ -32,4 +30,15 @@ async function RabbitmqassignmentDelete(){
     
 }
 
-export {RabbitmqassignmentCreate}
+async function RabbitmqassignmentUpdate(){
+   try{
+    await listener.listen("assignmentExchange","deleteAssignment",'updateAssignment',async (data:any)=>{
+    await repository.update(data.id,data.updateSubmissio)
+    })
+   }catch(err){
+    throw err
+   }
+
+}    
+
+export {RabbitmqassignmentCreate,RabbitmqassignmentDelete,RabbitmqassignmentUpdate}

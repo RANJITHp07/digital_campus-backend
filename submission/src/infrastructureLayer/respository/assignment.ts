@@ -23,6 +23,15 @@ export class AssignmentRepository implements IAssignmentRepository{
         }
     }
 
+    async delete(id:string){
+        try{
+            const deleteAssignment=await AssignmentModel.findByIdAndDelete(id)
+            return deleteAssignment ? 'assignment deleted' : null
+        }catch(err){
+            throw err
+        }
+    }
+
     async findAssignment(id:string):Promise<IAssignmentModel | null>{
         try{
            const assignment= await AssignmentModel.findById(id)
