@@ -45,13 +45,13 @@ router.get(
 //routes for admin
 router.get(
   "/pagination/page",
-  adminverify,
+
   (req: Request, res: Response, next: NextFunction) =>
     userAdapter.paginateUsers(req, res, next)
 );
 router.get(
   "/searchUser/page",
-  adminverify,
+
   (req: Request, res: Response, next: NextFunction) =>
     userAdapter.searchUser(req, res, next)
 );
