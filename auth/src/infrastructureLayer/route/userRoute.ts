@@ -19,7 +19,6 @@ router.post("/login", (req: Request, res: Response, next: NextFunction) =>
 
 router.put(
   "/updateUser",
-  signinverify,
   (req: Request, res: Response, next: NextFunction) =>
     userAdapter.updateUser(req, res, next)
 );
