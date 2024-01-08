@@ -35,4 +35,13 @@ export class SubmissionController{
         throw err
       }
     }
+
+    async updateGrade(_:unknown,args:{update:{assignment_id: string, userId: string, grade: number}}){
+       try{ 
+        const submission=await this.submissionUsecase.updateGrade(args.update)
+        return submission
+       }catch(err){
+        throw err
+       }
+    }
 }

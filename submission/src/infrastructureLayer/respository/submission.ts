@@ -43,4 +43,22 @@ export class SubmissionRepository implements ISubmissionRepository{
             throw err
         }
     }
+
+    async updateGrade(assignmentId: string, userId: string, newGrade: number){
+        try {
+            console.log(assignmentId,userId)
+          const filter = { assignment_id: assignmentId, user_id: userId };
+          const update = { 'submission.grade': newGrade };
+      
+          
+          const result = await submissionModel.findOneAndUpdate(filter, {$set:update});
+         console.log(result)
+          if (result) {
+            return true
+          }
+          return false
+        } catch (err) {
+          throw err
+        }
+      };
 }

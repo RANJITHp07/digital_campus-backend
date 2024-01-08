@@ -2,14 +2,10 @@ import { gql } from "apollo-server-express";
 
 export const submissionMutation = gql`
 
-  enum StatusEnum {
-    LateSubmitted 
-    Submitted
-    NotSubmitted
-  }
+  
   
   input SubmitInput {
-    status: StatusEnum
+    status: String
     grade: Int
   }
 
@@ -28,11 +24,18 @@ export const submissionMutation = gql`
     attachment: AttachmentInput
   }
 
+  input GradeInput{
+    assignment_id: ID!
+    userId:ID!
+    grade:Int
+  }
+
   type Output {
     message: String!
   }
 
   type Mutation {
     createSubmission(submission: SubmissionInput): Output
+    updateGrade(update:GradeInput):Output!
   }
 `;

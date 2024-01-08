@@ -8,7 +8,8 @@ export const resolver={
     },
 
     Mutation:{
-        createSubmission:submissionMutation.createSubmission
+        createSubmission:submissionMutation.createSubmission,
+        updateGrade:submissionMutation.updateGrade
     }
 
 }  

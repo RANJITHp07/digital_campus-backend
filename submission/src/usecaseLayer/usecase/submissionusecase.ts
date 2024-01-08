@@ -1,5 +1,6 @@
 import { ISubmission } from "../../domainLayer/submission"
 import { ErrorHandler } from "../../infrastructureLayer/middleware/error/userErrorhandler"
+import submissionModel from "../../infrastructureLayer/model/submission"
 import { AssignmentRepository } from "../../infrastructureLayer/respository/assignment"
 import { SubmissionRepository } from "../../infrastructureLayer/respository/submission"
 
@@ -18,6 +19,7 @@ export class Submissionusecase{
   
     async createSubmission({submission}:{submission:ISubmission}){
         try{
+          console.log(submission)
           let newSubmission
           const submissionExist=await this.submissionRepository.find(submission.assignment_id,submission.user_id)
           if(submission.quizAnswers){
@@ -64,8 +66,10 @@ export class Submissionusecase{
             console.log(assignment)
               if(assignment && !assignment.students.includes(submission.user_id)){
                 this.errorHandler.userInputerror("Not a participant of this assignment")
+                return ;
               }
             if(submissionExist && submission.attachment){
+              console.log(submission)
                 const updateSubmission=await this.submissionRepository.update({id:submissionExist._id,update:submission})
                 return{
                   message:"Resubmitted the assignment"
@@ -99,6 +103,21 @@ export class Submissionusecase{
       try{
         const submission=await this.assignmentRepository.findAssignment(id)
         return submission
+      }catch(err){
+        throw err
+      }
+    }
+
+    async updateGrade({assignment_id,userId,grade}:{assignment_id: string, userId: string, grade: number}){
+      try{
+         const update=await this.submissionRepository.updateGrade(assignment_id,userId,grade)
+         return update?
+         {
+          message:"Changed the mark"
+         }:
+         {
+          message:"No change"
+         }
       }catch(err){
         throw err
       }

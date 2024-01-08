@@ -9,5 +9,17 @@ export const submissionMutation={
         }catch(err){
             throw err
         }
+    },
+
+    async updateGrade(_:unknown,args:{update:{assignment_id: string, userId: string, grade: number}}){
+        try{
+            
+           const submission=await controller.updateGrade(_,args);
+           return submission
+      
+        }catch(err){
+            console.log(err)
+            throw err
+        }
     }
 }
