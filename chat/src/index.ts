@@ -10,19 +10,6 @@ import {
 const startServer = async (): Promise<void> => {
   const PORT = process.env.PORT || 3000;
 
-  // Check if the current process is the master
-  if (cluster.isMaster) {
-    const numCPUs = require("os").cpus().length;
-    for (let i = 0; i < numCPUs; i++) {
-      cluster.fork();
-    }
-
-    // Listen for worker exit event and respawn a new worker
-    cluster.on("exit", (worker, code, signal) => {
-      console.log(`Worker ${worker.process.pid} died`);
-      cluster.fork();
-    });
-  } else {
     // Connect to the database
     await connectDB();
 
@@ -38,7 +25,6 @@ const startServer = async (): Promise<void> => {
         `connected to the server on port ${PORT}`
       );
     });
-  }
 };
 
 startServer();
