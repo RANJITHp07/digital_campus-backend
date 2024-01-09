@@ -1,3 +1,4 @@
+import Razorpay from "razorpay";
 import { Next, Req, Res } from "../infrastructureLayer/types/expressTypes";
 import { PaymentUsecase } from "../usecaseLayer/usecase/paymentusecase";
 import crypto from "crypto";
@@ -24,14 +25,16 @@ export class PaymentAdapter{
 
     async paymentVerification(req:Req,res:Res,next:Next){
         console.log(req.body)
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+        const { razorpay_subscription_id, razorpay_payment_id, razorpay_signature } =
           req.body;
       
-        const body = razorpay_order_id + "|" + razorpay_payment_id;
+        const body = razorpay_subscription_id + "|" + razorpay_payment_id;
       
+        const isValid = Razorpay.validateWebhookSignature(body,razorpay_signature, 'J0KIUV5vkI8KZ1xW7CFWu0y9');
+        console.log(isValid)
         const expectedSignature = crypto
-          .createHmac("sha256",'yze5eVVwqu4HcpTWr51Vm76A')
-          .update(body.toString())
+          .createHmac("sha256",'J0KIUV5vkI8KZ1xW7CFWu0y9')
+          .update(body,'utf-8')
           .digest("hex");
       
         console.log(expectedSignature)

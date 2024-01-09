@@ -37,4 +37,27 @@ export class PaymentUsecase{
             throw err
         }
     }
+
+    // async paymentVerification(){
+    //     console.log(req.body)
+    //     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+    //       req.body;
+      
+    //     const body = razorpay_order_id + "|" + razorpay_payment_id;
+      
+    //     const expectedSignature = crypto
+    //       .createHmac("sha256",'yze5eVVwqu4HcpTWr51Vm76A')
+    //       .update(body.toString())
+    //       .digest("hex");
+      
+    //     console.log(expectedSignature)
+    //     const isAuthentic = expectedSignature === razorpay_signature;
+    //     console.log(isAuthentic)
+    //     if(true){
+    //       res.redirect(
+    //         `https://digital-campus.vercel.app/payment/success`
+    //       );
+    //     }
+      
+    //   };
 }
