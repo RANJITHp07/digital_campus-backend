@@ -5,7 +5,7 @@ interface Quiz{
     realAnswers:string[]
 }
 
-export interface IAssigment {
+export interface IAssignment {
     assignmentType: "Assignment" | "Quiz" | "Announcement" | "Question" | "Material" | "Polling";
     mainTopic: string;
     title: string;

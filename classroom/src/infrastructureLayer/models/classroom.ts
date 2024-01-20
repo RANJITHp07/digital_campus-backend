@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 // Mongoose interface for the classroom
-interface IClassroom extends Document {
+export interface IClassroomModel extends Document {
   className: string;
   classSection: string;
   classSubject: string;
@@ -28,7 +28,7 @@ interface IClassroom extends Document {
   blockClassroom: boolean;
 }
 
-const classroomSchema = new Schema<IClassroom>({
+const classroomSchema = new Schema<IClassroomModel>({
   className: {
     type: String,
     required: true,
@@ -57,6 +57,7 @@ const classroomSchema = new Schema<IClassroom>({
   ],
   classCode: {
     type: String,
+    required:true,
     unique: true,
   },
   backgroundPicture: {
@@ -98,6 +99,7 @@ const classroomSchema = new Schema<IClassroom>({
     {
       title: {
         type: String,
+        required:true
       },
       description: {
         type: String,
@@ -113,6 +115,6 @@ const classroomSchema = new Schema<IClassroom>({
   },
 });
 
-const classroomModel = mongoose.model<IClassroom>("Classroom", classroomSchema);
+const classroomModel = mongoose.model<IClassroomModel>("Classroom", classroomSchema);
 
 export default classroomModel;

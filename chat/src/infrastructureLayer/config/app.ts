@@ -5,6 +5,7 @@ import morgan from "morgan";
 import { SocketManager } from "../repository/queries/socketRepository";
 import MessageRoute from "../routes/messageRoute";
 import { userrepository } from "../routes/injection/injection";
+import errorMiddleware from "../../usecaseLayer/handler/errorHandler"
 
 const app: Express = express();
 app.use(express.json());
@@ -26,5 +27,7 @@ const socket = new SocketManager(httpServer, userrepository);
 
 //routes
 app.use("/v1/api/chat", MessageRoute);
+
+app.use(errorMiddleware)
 
 export { httpServer };

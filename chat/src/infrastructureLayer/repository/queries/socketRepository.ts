@@ -3,6 +3,7 @@ import { createServer as createHttpServer, Server as HttpServer } from "http";
 import UserRepository from "./userRepository";
 import MessageRepository from "./messageRespository";
 import IMessage from "../../../domainLayer/message";
+import MessageModel from "../../model/message";
 
 export class SocketManager {
   private httpServer: HttpServer;
@@ -37,7 +38,7 @@ export class SocketManager {
         let user = await this.userRepository.finduser(message.sender as string);
         if (user) {
           const m = { ...message, sender: user._id };
-          const repository = new MessageRepository("");
+          const repository = new MessageRepository(MessageModel);
           const newMessage = await repository.create(m);
           console.log(newMessage);
           socket.broadcast.to(classId).emit("getMessage", newMessage);

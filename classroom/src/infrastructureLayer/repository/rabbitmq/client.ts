@@ -1,7 +1,8 @@
 import { Channel, Connection } from "amqplib";
 import connect from "../../config/rabbitmq";
+import { IRequester } from "../../../usecaseLayer/interface/requester";
 
-export class Requester {
+export class Requester implements IRequester{
   private channel: Channel | undefined;
   private connection: Connection | undefined;
   private callbackQueue: string;

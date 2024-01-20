@@ -1,4 +1,5 @@
 import { ISubmission } from "../domainLayer/submission"
+import { getAssignment } from "../usecaseLayer/usecase/submission"
 import { Submissionusecase } from "../usecaseLayer/usecase/submissionusecase"
 
 export class SubmissionController{
@@ -27,9 +28,9 @@ export class SubmissionController{
       }
     }
 
-    async getPolling(_:unknown,args:{id:string}){
+    async getAssignment(_:unknown,args:{id:string}){
       try{
-        const submission=await this.submissionUsecase.getPolling(args.id);
+        const submission=await this.submissionUsecase.getAssignment(args.id);
         return submission
       }catch(err){
         throw err

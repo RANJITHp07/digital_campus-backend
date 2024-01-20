@@ -1,8 +1,10 @@
-import { AssignmentRepository } from "../respository/assignment";
-import Listener from "../respository/listenrepository";
+
+import AssignmentModel from "../model/assignment";
+import { AssignmentRepository } from "../respository/queries/assignmentRepository";
+import Listener from "../respository/rabbitmq/listenrepository";
 
 
-const repository=new AssignmentRepository();
+const repository=new AssignmentRepository(AssignmentModel);
 const listener=new Listener()
 
 async function RabbitmqassignmentCreate(){

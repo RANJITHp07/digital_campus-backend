@@ -15,12 +15,12 @@ app.use(express.json());
 
 // CORS setup
 const corsOptions = {
-  origin: "https://digital-campus.vercel.app",
+  origin: ["https://digital-campus.vercel.app","http://localhost:3000"],
   methods: ["GET", "PATCH", "PUT", "POST"],
   optionsSuccessStatus: 204,
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 
 // HTTP server setup

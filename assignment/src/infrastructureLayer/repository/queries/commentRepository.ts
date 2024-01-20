@@ -1,60 +1,35 @@
+import { Model, Types } from "mongoose"
 import { IComment, IReply } from "../../../domainLayer/comments"
 import { ICommentRepository } from "../../../usecaseLayer/interface/commentRepository"
-import CommentModel from "../../model/comment"
+import CommentModel, { ICommentModel } from "../../model/comment"
+import  {createComment,deleteComment, deleteReply, getComments, updateReply} from './comment/index'
 
 export class CommentRepository implements ICommentRepository{
 
+   constructor(private readonly commentModel:Model<ICommentModel>){}
+
     //to create the comments
     async create(comment:IComment):Promise<string>{
-        try{
-          await CommentModel.create(comment)
-          return 'successfully created comment'
-        }catch(err){
-            throw err
-        }
+        return createComment(this.commentModel,comment);
     }
 
     //to delete the comments
     async delete(id:string):Promise<boolean>{
-        try{
-           const deletedComment=await CommentModel.findByIdAndDelete(id)
-           return deletedComment ?true :false
-        }catch(err){
-            throw err
-        }
+      return deleteComment(this.commentModel,new Types.ObjectId(id))
     }
 
     //to give reply to the comment
     async updateReply(id:string,reply:IReply):Promise<boolean>{
-       try{
-         const updatedReply=await CommentModel.findByIdAndUpdate(id,{$set:{$addToset:reply}})
-         return updatedReply ? true :false
-       }catch(err){
-        throw err
-       }
+       return updateReply(this.commentModel,new Types.ObjectId(id),reply)
     }
 
     //to delete the reply
     async deleteReply(id:string,reply:IReply):Promise<boolean>{
-       try{
-        const deletedReply=await CommentModel.findByIdAndUpdate(id,{$set:{$pull:reply}})
-        return deletedReply ? true :false
-       }catch(err){
-        throw err
-       }
+       return deleteReply(this.commentModel,new Types.ObjectId(id),reply)
     }
 
     // to get the private and public reply seperately
-    async  getMessagesByAssignmentId(assignmentId: string): Promise<{ publicMessages: IComment[], privateMessages: IComment[] }> {
-        try {
-          const allMessages = await CommentModel.find({ assignment_id: assignmentId });
-      
-          const publicMessages = allMessages.filter((message) => message.type === 'public');
-          const privateMessages = allMessages.filter((message) => message.type === 'private');
-      
-          return { publicMessages, privateMessages };
-        } catch (err) {
-          throw err;
-        }
+    async  getComments(assignmentId: string): Promise<{ publicMessages: IComment[], privateMessages: IComment[] }> {
+        return getComments(this.commentModel,new Types.ObjectId(assignmentId));
       }
 }

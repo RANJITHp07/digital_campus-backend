@@ -50,8 +50,8 @@ export const classroomQuery = gql`
     getClassroomDetails(id: String!): ClassRoom
     getCreatorClassroom(id: String!): [ClassRoom]
     getAllClassroomparticipants(id: String!): GetallParticipants
-    getclassroom: [ClassRoom]
-    reportedClassroom: [ClassRoom]
+    getAllUsersClassrooms(page:Int): [ClassRoom]
+    reportedClassroom(page:Int): [ClassRoom]
     getAllTheClassroom(id: String!): [ClassRoom]
     getFilteredClassroom(id: String!, category: [String]): [ClassRoom]
   }

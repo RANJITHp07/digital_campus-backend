@@ -1,11 +1,12 @@
 import { isValidObjectId } from 'mongoose';
+import { IRequestValidator } from '../../../usecaseLayer/interface/validateRepository';
 
 interface ValidationResult {
     success: boolean;
     message?: string;
 }
 
-export class RequestValidator {
+export class RequestValidator implements IRequestValidator {
 
 
     validateRequiredFields(data: Record<string, any>, requiredFields: string[]): ValidationResult {

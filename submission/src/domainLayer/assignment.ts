@@ -1,5 +1,5 @@
 
-interface IQuiz {
+export interface IQuiz {
     question: string;
     answers: string[];
     realAnswers:string[],
@@ -7,6 +7,7 @@ interface IQuiz {
   }
   
 export interface IAssignment{
+    _id:string,
     assignment_id: string;
     students:string[],
     dueDate: {

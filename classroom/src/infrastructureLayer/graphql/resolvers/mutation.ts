@@ -1,9 +1,14 @@
 import { IClassroom } from "../../../domainLayer/classroom";
 import { errorHandler, controller } from "../injection/injection";
 import { authenticate } from "@auth-middlewares/common";
+import {Request} from 'express'
+
+interface MyContext {
+  user: Request;
+}
 
 export const classroomMutation = {
-  async createClass(_: unknown, args: { classroom: IClassroom }, context: any) {
+  async createClass(_: unknown, args: { classroom: IClassroom }, context: MyContext) {
     try {
       const user = authenticate(context);
       if (user) {
@@ -18,7 +23,7 @@ export const classroomMutation = {
   async updateClass(
     _: unknown,
     args: { id: string; update: Partial<IClassroom> },
-    context: any
+    context: MyContext
   ) {
     try {
       const user = authenticate(context);
@@ -31,7 +36,7 @@ export const classroomMutation = {
     }
   },
 
-  async deleteClass(_: unknown, args: { id: string }, context: any) {
+  async deleteClass(_: unknown, args: { id: string }, context: MyContext) {
     try {
       const user = authenticate(context);
       if (user) {
@@ -46,7 +51,7 @@ export const classroomMutation = {
   async addStudent(
     _: unknown,
     args: { addstudent: { code: string; userId: string } },
-    context: any
+    context: MyContext
   ) {
     try {
       const user = authenticate(context);
@@ -62,7 +67,7 @@ export const classroomMutation = {
   async deleteStudent(
     _: unknown,
     args: { deletedstudent: { code: string; userId: string } },
-    context: any
+    context: MyContext
   ) {
     try {
       const user = authenticate(context);
@@ -78,7 +83,7 @@ export const classroomMutation = {
   async addToAdmin(
     _: unknown,
     args: { id: string; classroomId: string },
-    context: any
+    context: MyContext
   ) {
     try {
       const user = authenticate(context);
@@ -94,7 +99,7 @@ export const classroomMutation = {
   async removeFromAdmin(
     _: unknown,
     args: { id: string; classroomId: string },
-    context: any
+    context: MyContext
   ) {
     try {
       const user = authenticate(context);
@@ -118,7 +123,7 @@ export const classroomMutation = {
         code: string;
       };
     },
-    context: any
+    context: MyContext
   ) {
     try {
       const user = authenticate(context);
@@ -136,7 +141,7 @@ export const classroomMutation = {
     args: {
       request: { id: string; name: string; code: string; email: string };
     },
-    context: any
+    context: MyContext
   ) {
     try {
       const user = authenticate(context);
@@ -154,7 +159,7 @@ export const classroomMutation = {
     args: {
       request: { id: string; name: string; code: string; email: string };
     },
-    context: any
+    context: MyContext
   ) {
     try {
       const user = authenticate(context);

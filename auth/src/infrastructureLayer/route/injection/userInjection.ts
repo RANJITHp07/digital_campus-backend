@@ -1,12 +1,13 @@
 import { UserRepository } from "../../repository/queries/userRepository";
 import { Userusecase } from "../../../usecaseLayer/usecase/userusecase";
 import Encrypt from "../../repository/services/bcryptRepository";
-import { UserAdapter } from "../../../adapterLayer/userAdapter";
+import { UserAdapter } from "../../../controllerLayer/userAdapter";
 import { Users } from "../../entities/user";
 import jwtPassword from "../../repository/services/jwtRepository";
 import Nodemailer from "../../repository/services/nodemailer";
 import Publisher from "../../repository/rabbitmq/publishrepository";
 import RequestValidator from "../../repository/services/validatorRepository";
+import { getRepository } from "typeorm";
 
 // factory pattern
 const userRepository = new UserRepository(Users);

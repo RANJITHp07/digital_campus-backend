@@ -1,12 +1,13 @@
 import { SubmissionController } from "../../../adapterLayer/submission";
-
 import { Submissionusecase } from "../../../usecaseLayer/usecase/submissionusecase";
 import { ErrorHandler } from "../../middleware/error/userErrorhandler";
-import { AssignmentRepository } from "../../respository/assignment";
-import { SubmissionRepository } from "../../respository/submission";
+import AssignmentModel from "../../model/assignment";
+import submissionModel from "../../model/submission";
+import { AssignmentRepository } from "../../respository/queries/assignmentRepository";
+import { SubmissionRepository } from "../../respository/queries/submissionRepository";
 
-const assignmentRepository=new AssignmentRepository();
-const submissionRepository=new SubmissionRepository();
+const assignmentRepository=new AssignmentRepository(AssignmentModel);
+const submissionRepository=new SubmissionRepository(submissionModel);
 const errorHandler=new ErrorHandler()
 const usecase=new Submissionusecase(submissionRepository,assignmentRepository,errorHandler);
 const controller=new SubmissionController(usecase);

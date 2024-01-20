@@ -1,169 +1,51 @@
+import { IAssignment, IQuiz } from "../../domainLayer/assignment"
 import { ISubmission } from "../../domainLayer/submission"
-import { ErrorHandler } from "../../infrastructureLayer/middleware/error/userErrorhandler"
-import submissionModel from "../../infrastructureLayer/model/submission"
-import { AssignmentRepository } from "../../infrastructureLayer/respository/assignment"
-import { SubmissionRepository } from "../../infrastructureLayer/respository/submission"
+import { IAssignmentRepository } from "../interface/assignment"
+import { IErrorHandler } from "../interface/errorHandler"
+import { ISubmissionRepository } from "../interface/submission"
+import { calculateQuizGrade, createSubmission, getAllSubmission, getAssignment, getSubmission, handlePollingAnswers, updateGrade } from "./submission/index"
 
 
 export class Submissionusecase{
   
-    private readonly submissionRepository:SubmissionRepository
-    private readonly assignmentRepository:AssignmentRepository
-    private readonly errorHandler:ErrorHandler
+    private readonly submissionRepository:ISubmissionRepository
+    private readonly assignmentRepository:IAssignmentRepository
+    private readonly errorHandler:IErrorHandler
 
-    constructor(submissionRepository:SubmissionRepository,assignmentRepository:AssignmentRepository,errorHandler:ErrorHandler) {
+    constructor(submissionRepository:ISubmissionRepository,assignmentRepository:IAssignmentRepository,errorHandler:IErrorHandler) {
         this.submissionRepository = submissionRepository
         this.assignmentRepository = assignmentRepository
         this.errorHandler = errorHandler
     }
+
+    //private methods
+    private calculateQuizGrades(quizAnswers: string[][], quiz: IQuiz[]):number{
+      return calculateQuizGrade(quizAnswers,quiz)
+    }
+
+    private handlePollingAnswers(submission: ISubmission, assignment:IAssignment){
+      handlePollingAnswers(this.assignmentRepository,this.submissionRepository,this.errorHandler,submission,assignment)
+    }
   
+    
     async createSubmission({submission}:{submission:ISubmission}){
-        try{
-          let newSubmission
-          const submissionExist:any=await this.submissionRepository.find(submission.assignment_id,submission.user_id)
-          if(submissionExist){
-            this.errorHandler.userInputerror("Already submitted");
-            return
-          }
-          if(submission.quizAnswers){
-            let mark=0
-            const assignment=await this.assignmentRepository.findAssignment(submission.assignment_id);
-            
-            if(assignment && assignment.students.includes(submission.user_id)){
-               for(let i=0;i<submission.quizAnswers.length;i++){
-               
-                if( assignment.quiz[i].type==='radio' && submission.quizAnswers[i][0]===assignment.quiz[i].realAnswers[0]){
-                    mark=mark+1
-                }else{
-                   let pass=true
-                  for(let j=0;j<submission.quizAnswers[i].length;j++){
-                     if(!assignment.quiz[i].realAnswers.includes(submission.quizAnswers[i][j])){
-                         pass=false;
-                         break;
-                     }
-                  }
-                  if(pass && assignment.quiz[i].realAnswers.length===submission.quizAnswers[i].length) mark=mark+1;
-                }
-               }
-               
-               const s=await this.submissionRepository.create({
-                ...submission,
-                submission:{
-                  status:"Submitted",
-                  grade:mark
-                }
-               })
-               console.log(s)
-               return{
-                marks: mark
-               }
-            }
-            this.errorHandler.userInputerror("Not a participant of this assignment")
-
-          }else if(submission.pollingAnswers){
-                const assignment=await this.assignmentRepository.findAssignment(submission.assignment_id);
-                if(submissionExist){
-                  this.errorHandler.userInputerror("Already submitted");
-                  return
-                }
-                
-                if(assignment && assignment.students.includes(submission.user_id)){
-                  const index=assignment.polling.answers.indexOf(submission.pollingAnswers);
-                  if(index==-1){
-                    this.errorHandler.userInputerror("No such answer");
-                    return 
-                  }
-                  if(assignment.polling.polling){
-                    assignment.polling.polling=assignment.polling.polling.map((m,i)=>{
-                      if(index==i){
-                        return (parseInt(m)+1).toString()
-                      }
-                      return m
-                    })
-                  }
-                  const update=await this.assignmentRepository.update(assignment._id,assignment);
-                  await this.submissionRepository.create(submission)
-                  if(update){
-                    return {
-                      message:"successfully updated"
-                    }
-                  }
-
-                  this.errorHandler.userInputerror("assignment id is wrong")
-                  
-                }
-
-                this.errorHandler.userInputerror("Not a participant of this assignment")
-                
-          }else if(submission.attachment){
-            const assignment=await this.assignmentRepository.findAssignment(submission.assignment_id);
-            console.log(assignment)
-              if(assignment && !assignment.students.includes(submission.user_id)){
-                this.errorHandler.userInputerror("Not a participant of this assignment")
-                return ;
-              }
-            if(submissionExist && submission.attachment){
-              console.log(submission)
-                const updateSubmission=await this.submissionRepository.update({id:submissionExist._id,update:submission})
-                return{
-                  message:"Resubmitted the assignment"
-                }
-              
-            }else{
-              newSubmission=await this.submissionRepository.create(submission)
-              return{
-                message:"Submitted the assignment"
-              }
-            }
-             
-          }
-          
-        }catch(err){
-            throw err
-        }
+      return createSubmission(this.calculateQuizGrades,this.handlePollingAnswers,this.assignmentRepository,this.submissionRepository,this.errorHandler,submission)
     }
 
-
+    
     async getAllSubmission(id:string){
-       try{ 
-             const submission=await this.submissionRepository.findAll(id);
-             return submission
-       }catch(err){
-        throw err 
-       }
+      return getAllSubmission(this.submissionRepository,id)
     }
 
-    async getPolling(id:string){
-      try{
-        const submission=await this.assignmentRepository.findAssignment(id)
-        return submission
-      }catch(err){
-        throw err
-      }
+    async getAssignment(id:string){
+      return getAssignment(this.assignmentRepository,this.errorHandler,id)
     }
 
     async updateGrade({assignment_id,userId,grade}:{assignment_id: string, userId: string, grade: number}){
-      try{
-         const update=await this.submissionRepository.updateGrade(assignment_id,userId,grade)
-         return update?
-         {
-          message:"Changed the mark"
-         }:
-         {
-          message:"No change"
-         }
-      }catch(err){
-        throw err
-      }
+      return updateGrade(this.submissionRepository,assignment_id,userId,grade)
     }
 
     async getSubmission({assignment_id,userId}:{assignment_id: string, userId: string}){
-
-      try{
-           const submission=await this.submissionRepository.find(assignment_id,userId);
-           return submission
-      }catch(err){
-        throw err
-      }
+          return getSubmission(this.submissionRepository,this.errorHandler,assignment_id,userId);
     }
 }

@@ -1,4 +1,4 @@
-interface INodemailerRepository {
+export interface INodemailerRepository {
   sendEmailInvitation(
     fromEmail: string,
     toEmail: string,

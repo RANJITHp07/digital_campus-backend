@@ -1,5 +1,3 @@
-import cluster from 'cluster';
-import os from 'os';
 import { db } from "./infrastructureLayer/config/db";
 import { RabbitmquserDetails } from "./infrastructureLayer/utils/rabbitmqMiddleware";
 import { httpServer } from "./infrastructureLayer/config/app";
@@ -7,19 +5,18 @@ import { httpServer } from "./infrastructureLayer/config/app";
 const startServer = async () => {
   const PORT = process.env.PORT || 3000;
 
-    // Connect to the database
-    await db();
+  // Connect to the database
+  await db();
 
-    // Perform RabbitMQ request-return pattern
-    await RabbitmquserDetails();
+  // Perform RabbitMQ request-return pattern
+  await RabbitmquserDetails();
 
-    // Start the HTTP server
-    const app = httpServer;
+  // Start the HTTP server
+  const app = httpServer;
 
-    app?.listen(PORT, () => {
-      console.log(` connected to the server on port ${PORT}`);
-    });
-  
+  app?.listen(PORT, () => {
+    console.log(` connected to the server on port ${PORT}`);
+  });
 };
 
 startServer();

@@ -1,9 +1,11 @@
+import { IRequestValidator } from "../../../usecaseLayer/interface/validateRepository";
+
 interface ValidationResult {
   success: boolean;
   message?: string;
 }
 
-export class RequestValidator {
+export class RequestValidator implements IRequestValidator {
   private validateEmail(email: string): ValidationResult {
     // Basic email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

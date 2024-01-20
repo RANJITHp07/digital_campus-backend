@@ -4,10 +4,8 @@ import { Classroomusecase } from "../usecaseLayer/classRoomusecase";
 
 export class ClassroomController {
   private readonly classroomusecase: Classroomusecase;
-  private readonly errorHandler: ErrorHandler;
-  constructor(classroomusecase: Classroomusecase, errorHandler: ErrorHandler) {
+  constructor(classroomusecase: Classroomusecase) {
     this.classroomusecase = classroomusecase;
-    this.errorHandler = errorHandler;
   }
 
   async createClass(
@@ -82,9 +80,9 @@ export class ClassroomController {
     }
   }
 
-  async reportedClassroom(_: unknown, args: unknown) {
+  async reportedClassroom(_: unknown, args:{page:number}) {
     try {
-      const deletedStudent = await this.classroomusecase.getReportedClassroom();
+      const deletedStudent = await this.classroomusecase.getReportedClassroom(args);
       return deletedStudent;
     } catch (err) {
       throw err;
@@ -138,9 +136,9 @@ export class ClassroomController {
     
   }
 
-  async getclassroom(_: unknown, args: unknown) {
+  async getAllUsersClassrooms(_: unknown, args:{page:number}) {
     try {
-      const classroom = await this.classroomusecase.getclassroom();
+      const classroom = await this.classroomusecase.getAllUsersClassrooms(args);
       return classroom;
     } catch (err) {
       throw err;

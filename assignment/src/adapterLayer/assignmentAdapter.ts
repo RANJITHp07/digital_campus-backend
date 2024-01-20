@@ -1,5 +1,5 @@
 import { ErrorHandler } from "../infrastructureLayer/middleware/error/userErrorhandler";
-import { IAssigment } from "../domainLayer/assignment";
+import { IAssignment } from "../domainLayer/assignment";
 import { AssignmentUsecase } from "../usecaseLayer/usecase/assignmentusecase";
 
 export class AssignmentController{
@@ -9,7 +9,7 @@ export class AssignmentController{
         this.assignmentusecase = assignmentusecase;
     }
 
-    async create(_:unknown,args:{assignment:IAssigment}){
+    async create(_:unknown,args:{assignment:IAssignment}){
         try{
            const newAssignment=await this.assignmentusecase.createAssignment(args)
            return newAssignment
@@ -44,9 +44,9 @@ export class AssignmentController{
          }
     }
 
-    async getdistinctmainTopic(_:unknown,args:unknown){
+    async getdistinctmainTopic(_:unknown,args:{id:string}){
         try{
-            const assignment=await this.assignmentusecase.getDistinctMaintopic()
+            const assignment=await this.assignmentusecase.getDistinctMaintopic(args.id)
             return assignment
          }catch(err){
             throw err
@@ -62,7 +62,7 @@ export class AssignmentController{
          }
     }
 
-    async updateAssignment(_:unknown,args:{id:string,update:Partial<IAssigment>}){
+    async updateAssignment(_:unknown,args:{id:string,update:Partial<IAssignment>}){
         try{
             const updatedAssignment=await this.assignmentusecase.updateAssignment(args)
             return updatedAssignment

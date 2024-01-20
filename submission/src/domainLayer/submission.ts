@@ -4,7 +4,8 @@ interface ISubmit{
 }
 
 export interface ISubmission{
-  quizAnswers?: string[];
+  _id?:string,
+  quizAnswers?:string[][];
   pollingAnswers?: string;
   assignment_id: string;
   attachment?: {

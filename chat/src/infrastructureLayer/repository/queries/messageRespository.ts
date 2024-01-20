@@ -1,20 +1,15 @@
+import { Model } from "mongoose";
 import IMessage from "../../../domainLayer/message";
 import IMessageRepository from "../../../usecaseLayer/interface/messageConversation";
-import MessageModel, { IMessageModel } from "../../model/message";
+import  { IMessageModel } from "../../model/message";
+import { createMessage, getConversation } from "./chat/index";
 
 export default class MessageRepository implements IMessageRepository {
-  constructor(private readonly messageModel: unknown) {}
+  constructor(private readonly messageModel: Model<IMessageModel>) {}
 
   //to create the message
-  async create(newMessageData: IMessage): Promise<IMessageModel> {
-    try {
-      const newMessage = (await MessageModel.create(newMessageData)).populate(
-        "sender"
-      );
-      return newMessage;
-    } catch (error) {
-      throw error;
-    }
+  async create(newMessage: IMessage): Promise<string> {
+    return createMessage(this.messageModel,newMessage)
   }
 
   //to getConversation of a particular classroom
@@ -22,17 +17,6 @@ export default class MessageRepository implements IMessageRepository {
     classId: string,
     skip: number
   ): Promise<IMessageModel[]> {
-  
-    try {
-      const conversation = (await MessageModel.find({ classId })
-        .populate("sender")
-        .sort({ createdAt: -1 })
-        .limit(10)
-        .skip(skip)) as IMessageModel[];
-
-      return conversation;
-    } catch (error) {
-      throw error;
-    }
-  }
+   return getConversation(this.messageModel,classId,skip);
+}
 }

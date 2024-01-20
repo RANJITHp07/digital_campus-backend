@@ -7,7 +7,7 @@ router.use(express.json());
 
 
 router.post('/subscription',(req:Request,res:Response,next:NextFunction) =>RazorpayController.createSubscription(req,res,next))
-router.post('/verification',(req:Request,res:Response,next:NextFunction) =>RazorpayController.paymentVerification(req,res,next))
+router.post('/verification/',(req:Request,res:Response,next:NextFunction) =>RazorpayController.paymentVerification(req,res,next))
 
 
 export default router

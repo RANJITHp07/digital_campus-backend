@@ -1,180 +1,90 @@
 import { IClassroom } from "../../../domainLayer/classroom";
-import { IClassroomReository } from "../../../usecaseLayer/interface/classroomRepository";
-import classroomModel from "../../models/classroom";
-import { redis } from "../../config/redis";
+import { IClassroomRepository } from "../../../usecaseLayer/interface/classroomRepository";
+import { IClassroomModel } from "../../models/classroom";
+import { Model } from "mongoose";
+import {
+  createClassroom,
+  getCreatorClassrooms,
+  findAllClassrooms,
+  findAllparticipants,
+  getReportedClassrooms,
+  findSearchedClassroom,
+  deleteClassroom,
+  updateClassroom,
+  updateProfile,
+  classroomFilter,
+  getAllTheClassroom,
+  findClassroom,
+  findAllUsersClassroom
+} from './classRoom/index';
+import { Types } from "mongoose";
 
-export class ClassRoomRepository implements IClassroomReository {
-  constructor(private readonly classroom: any) {}
+
+export class ClassRoomRepository implements IClassroomRepository {
+  constructor(private readonly classroomModel:Model<IClassroomModel>) {}
 
   //to create classroom
   async create(classroom: IClassroom): Promise<IClassroom> {
-    try {
-      const classRoom = await classroomModel.create({
-        ...classroom,
-        students_enrolled: [],
-      });
-      await redis.set(classRoom._id, JSON.stringify(classRoom));
-      await redis.expire(classRoom._id, 3600);
-      return classRoom;
-    } catch (err) {
-      throw err;
-    }
+    return createClassroom(this.classroomModel,classroom)
   }
 
   //to update the classroom using the id
   async update(id: string, update: Partial<IClassroom>): Promise<boolean> {
-    try {
-      const updatedDocument = await classroomModel.findByIdAndUpdate(
-        id,
-        { $set: update },
-        { new: true }
-      );
-
-      if (!updatedDocument) {
-        return false;
-      }
-      await redis.set(id, JSON.stringify(updatedDocument));
-      return true;
-    } catch (err) {
-      throw err;
-    }
+    return updateClassroom(this.classroomModel,new Types.ObjectId(id),update)
   }
 
   //to delete the classroom using id
   async delete(id: string): Promise<boolean> {
-    try {
-      const deletedDocument = await classroomModel.findByIdAndDelete(id);
-      if (!deletedDocument) {
-        return false;
-      }
-      await redis.del(id);
-      return true;
-    } catch (err) {
-      throw err;
-    }
+    return deleteClassroom(this.classroomModel,new Types.ObjectId(id))
   }
 
   //to get the classroom using
-  async getClassroom(code: string): Promise<IClassroom | null> {
-    try {
-      let classroom = await classroomModel.findOne({ classCode: code });
-      return classroom;
-    } catch (err) {
-      throw err;
-    }
+  async findClassroom(code: string): Promise<IClassroom | null> {
+    return findClassroom(this.classroomModel,code)
   }
 
   //to get the classroom of a particular user
-  async getAllClassroom(code: string): Promise<IClassroom[]> {
-    try {
-      let classroom = await classroomModel.find({ students_enrolled: code });
-      return classroom;
-    } catch (err) {
-      throw err;
-    }
+  async findAllClassrooms(studentId: string): Promise<IClassroom[]> {
+    return findAllClassrooms(this.classroomModel,studentId)
   }
 
   //to get the classroom creator
-  async getCreatorClassrooms(id: string): Promise<IClassroom[]> {
-    try {
-      const classrooms: IClassroom[] = await classroomModel.aggregate([
-        {
-          $match: {
-            $expr: { $eq: [{ $arrayElemAt: ["$admins", 0] }, id] }, // to comapre the 0th index id and argument id to find who created the class.Because the first element in the array will be the person who created the classroom
-          },
-        },
-      ]);
-      return classrooms;
-    } catch (err) {
-      throw err;
-    }
+  async findCreatorClassrooms(id: string): Promise<IClassroom[]> {
+    return getCreatorClassrooms(this.classroomModel,new Types.ObjectId(id))
   }
 
-  async getAllparticipants(id: string): Promise<IClassroom | null> {
-    try {
-      const cachedClassroom = await redis.get(id);
-      if (cachedClassroom) {
-        return JSON.parse(cachedClassroom);
-      }
-      const classroom = await classroomModel.findById(id);
-      await redis.set(id, JSON.stringify(classroom));
-      return classroom;
-    } catch (err) {
-      throw err;
-    }
+  //to find all the participants of a classroom
+  async findAllparticipants(id: string): Promise<IClassroom | null> {
+    return findAllparticipants(this.classroomModel,new Types.ObjectId(id))
   }
 
   //get all the classrooms of a user
-  async getAllTheClassroom(id: string) {
-    try {
-      const classroom = await classroomModel.find({
-        $or: [{ admins: id }, { students_enrolled: id }],
-      });
-
-      return classroom;
-    } catch (err) {
-      throw err;
-    }
+  async getAllClassroom(id: string):Promise<IClassroom[]> {
+    return getAllTheClassroom(this.classroomModel,new Types.ObjectId(id))
   }
 
   //to filter the classroom based on the category
-  async classroomFilter(id: string, category: string[]) {
-    try {
-      const classrooms = await classroomModel.find({
-        $and: [
-          { $or: [{ students_enrolled: id }, { admins: id }] },
-          { category: { $in: category } },
-        ],
-      });
-      return classrooms;
-    } catch (err) {
-      throw err;
-    }
+  async classroomFilter(id: string, category: string[]):Promise<IClassroom[]> {
+     return classroomFilter(this.classroomModel,new Types.ObjectId(id),category);
   }
 
-  async getAllclassroom() {
-    try {
-      const classroom = await classroomModel.find().sort({ createdAt: -1 });
-      return classroom;
-    } catch (err) {
-      throw err;
-    }
+  //get all the classrooms of all the users
+  async findAllUsersClassroom(page: number = 1, pageSize: number = 10):Promise<IClassroom[]> {
+    return findAllUsersClassroom(this.classroomModel,page,pageSize);
   }
+
+  //to find the classroom using search
+async findSearchedClassroom(page: number = 1, pageSize: number = 10, searchQuery: string) {
+   return findSearchedClassroom(this.classroomModel,page,pageSize,searchQuery)
+}
 
   //to update the profile photo of all the classroom where he is admin
   async updateProfile(id: string, update: { profile: string }) {
-    try {
-      const result = await classroomModel.updateOne(
-        {
-          "admins.0": id,
-        },
-        {
-          $set: update,
-        }
-      );
-      if (result) return "updated profile";
-      return "not updated profile";
-    } catch (err) {
-      throw err;
-    }
+    return updateProfile(this.classroomModel,new Types.ObjectId(id),update)
   }
 
-  async getReportedClassrooms() {
-    try {
-      const reportedClassrooms = await classroomModel
-        .find({
-          reported: true,
-          $or: [
-            { blockClassroom: { $exists: false } },
-            { blockClassroom: false },
-          ],
-        })
-        .sort({ _id: -1 });
-
-      return reportedClassrooms;
-    } catch (error) {
-      console.error("Error retrieving non-reported classrooms:", error);
-      throw error;
-    }
+  async getReportedClassrooms(page: number = 1, pageSize: number = 10) {
+    return getReportedClassrooms(this.classroomModel,page,pageSize)
   }
+  
 }

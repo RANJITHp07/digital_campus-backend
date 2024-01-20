@@ -7,7 +7,7 @@ export const resolver = {
     getAllClassroom: classroomQueries.getAllClassroom,
     getCreatorClassroom: classroomQueries.getCreatorClassroom,
     getAllClassroomparticipants: classroomQueries.getAllClassroomparticipants,
-    getclassroom: classroomQueries.getclassroom,
+    getAllUsersClassrooms: classroomQueries.getAllUsersClassrooms,
     getClassroomDetails: classroomQueries.getClassroomDetails,
     getAllTheClassroom: classroomQueries.getAllTheClassroom,
     getFilteredClassroom: classroomQueries.getFilteredClassroom,

@@ -3,13 +3,14 @@ import { db } from "./infrastructureLayer/config/db";
 import { RabbitmquserCreate,} from "./infrastructureLayer/utils/rabbitmqMiddleware";
 
 const startServer = async (): Promise<void> => {
-    const port=process.env.PORT || 3000
+    const PORT=process.env.PORT || 3000
     await db();
-    await RabbitmquserCreate()
+
+    // await RabbitmquserCreate()
 
     const app = createServer()
 
-    app?.listen(port, () => {
+    app?.listen(8000, () => {
       console.log("Connected to the server");
     });
  

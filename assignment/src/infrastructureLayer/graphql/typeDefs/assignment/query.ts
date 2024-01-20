@@ -53,7 +53,7 @@ export const assignmentQuery = gql`
     getAllassignment(id:  ID!): [Assignment]
     getgroupedAssignment(id: ID!): [GroupedAssignment]
     getOneassignment(id:  ID!): Assignment
-    getdistinctmainTopic: Distinct
-    getDueDates(id:  ID!): [Assignment]
+    getdistinctmainTopic(id:ID!): Distinct
+    getDueDates(id: String!): [Assignment]
   }
 `;

@@ -1,6 +1,6 @@
 import IMessage from "../domainLayer/message";
 import { Next, Req, Res } from "../infrastructureLayer/types/expressTypes";
-import { Messageusecase } from "../usecaseLayer/messageusecase";
+import { Messageusecase } from "../usecaseLayer/usecase/messageusecase";
 
 export default class Messageadapter {
   private readonly messageusecase: Messageusecase;

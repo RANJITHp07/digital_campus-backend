@@ -1,7 +1,5 @@
-import IMessage from "../../domainLayer/message";
-
 interface IMessageRepository {
-  create(message: any): Promise<unknown>;
+  create(message: any): Promise<unknown | null>;
   getConversation(id: string, skip: number): Promise<unknown>;
 }
 

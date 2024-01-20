@@ -1,8 +1,9 @@
 import { authenticate } from "@auth-middlewares/common";
 import { errorHandler, controller } from "../injection/injection";
+import {Request} from 'express'
 
 interface MyContext {
-  user: any;
+  user: Request;
 }
 
 export const classroomQueries = {
@@ -53,8 +54,8 @@ export const classroomQueries = {
     context: MyContext
   ) {
     try {
-      // const user = authenticate(context);
-      if (true) {
+      const user = authenticate(context);
+      if (user) {
         const classroom = await controller.getAllparticipants(_, args);
         return classroom;
       }
@@ -63,11 +64,11 @@ export const classroomQueries = {
     }
   },
 
-  async getclassroom(_: unknown, args: any, context: MyContext) {
+  async getAllUsersClassrooms(_: unknown, args:{page:number}, context: MyContext) {
     try {
       const user = authenticate(context);
       if (user) {
-        const classroom = await controller.getclassroom(_, args);
+        const classroom = await controller.getAllUsersClassrooms(_, args);
         return classroom;
       }
     } catch (err) {
@@ -75,7 +76,7 @@ export const classroomQueries = {
     }
   },
 
-  async reportedClassroom(_: unknown, args: any, context: MyContext) {
+  async reportedClassroom(_: unknown, args:{page:number}, context: MyContext) {
     try {
       const user = authenticate(context);
       if (user) {

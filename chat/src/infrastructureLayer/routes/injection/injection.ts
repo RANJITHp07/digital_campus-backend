@@ -1,6 +1,6 @@
 import MessageRepository from "../../repository/queries/messageRespository";
 import MessageModel from "../../model/message";
-import { Messageusecase } from "../../../usecaseLayer/messageusecase";
+import { Messageusecase } from "../../../usecaseLayer/usecase/messageusecase";
 import Messageadapter from "../../../adapterLayer/messageAdapter";
 import UserRepository from "../../repository/queries/userRepository";
 

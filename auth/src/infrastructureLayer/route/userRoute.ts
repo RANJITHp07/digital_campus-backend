@@ -19,6 +19,7 @@ router.post("/login", (req: Request, res: Response, next: NextFunction) =>
 
 router.put(
   "/updateUser",
+  signinverify,
   (req: Request, res: Response, next: NextFunction) =>
     userAdapter.updateUser(req, res, next)
 );
@@ -34,26 +35,28 @@ router.patch(
     userAdapter.resetPassword(req, res, next)
 );
 
-router.get(
-  "/get/getAllusers",
+router.patch(
+  "/forgetPassword",
   signinverify,
   (req: Request, res: Response, next: NextFunction) =>
-    userAdapter.getAllusers(req, res, next)
+    userAdapter.updateForgotPassword(req, res, next)
 );
+
 
 //routes for admin
 router.get(
   "/pagination/page",
-
+  adminverify,
   (req: Request, res: Response, next: NextFunction) =>
     userAdapter.paginateUsers(req, res, next)
 );
 router.get(
   "/searchUser/page",
-
+  adminverify,
   (req: Request, res: Response, next: NextFunction) =>
     userAdapter.searchUser(req, res, next)
 );
+
 
 //routes for email verification
 router.post("/sendEmail", (req: Request, res: Response, next: NextFunction) =>
