@@ -1,7 +1,8 @@
 ## Digital Campus - Learning Management System
 
 ### Overview
-![Uploading image.png…]()
+![image](https://github.com/RANJITHp07/digital_campus-backend/assets/107017062/c27e3830-b93e-43c8-aa45-e0c8d2b00fd2)
+
 
 Digital Campus is a feature-rich Learning Management System (LMS) designed for modern educational needs. It's built using a clean architecture, microservices, and cutting-edge technologies to provide a scalable, secure, and efficient platform for managing educational content and interactions.
 
