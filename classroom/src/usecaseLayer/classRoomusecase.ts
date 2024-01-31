@@ -3,7 +3,7 @@ import { IClassroomRepository } from "./interface/classroomRepository";
 import { IRandomgenerator } from "./interface/uniqueRepositroy";
 import { IErrorHandler } from "./interface/errorHandler";
 import INodemailerRepository from "./interface/nodemailerRepository";
-import { IRequestValidator } from "../../../auth/src/usecaseLayer/interface/validateRepository";
+import { IRequestValidator } from "./interface/validateRepository";
 import { IRequester } from "./interface/requester";
 import { addRequest, addToAdmin, addUser, createClassroom, deleteClassroom, emailInvitation, getAllClassroomParticipants, getAllClassrooms, getAllTheClassroom, getAllUsersClassrooms, getClassroomDetails, getClassroomDetailsWithId, getCreatorClassrooms, getFilteredClassroom, getReportedClassroom, removeFromAdmin, searchClassroom, updateClassroom } from "./classRoom/index";
 
