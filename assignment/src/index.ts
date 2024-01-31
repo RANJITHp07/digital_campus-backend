@@ -22,7 +22,11 @@ const bootstrap = async () => {
     const app = await createServer();
 
     db().then(() => {
+<<<<<<< HEAD
       app?.listen(PORT, () => {
+=======
+      app?.listen(PORT  , () => {
+>>>>>>> 5d01637c7ef26753d9e4a4394d87c2ab5f6cc7b5
         console.log(`Server running on port ${PORT}`);
       });
     });
