@@ -2,7 +2,7 @@ import { Model, Types } from "mongoose";
 import { IClassroom } from "../../../../domainLayer/classroom";
 import { IClassroomModel } from "../../../models/classroom";
 
-export const getCreatorClassrooms=async(classroomModel:Model<IClassroomModel>,id: Types.ObjectId): Promise<IClassroom[]>=>{
+export const getCreatorClassrooms=async(classroomModel:Model<IClassroomModel>,id: string): Promise<IClassroom[]>=>{
     try {
       const classrooms: IClassroom[] = await classroomModel.aggregate([
         {

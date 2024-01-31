@@ -12,7 +12,8 @@ export const db = async (): Promise<void> => {
     if (username && database && password) {
       const connectionOptions: ConnectionOptions = {
         type: "postgres",
-        host: "auth-postgres-srv",
+        // host: "auth-postgres-srv",
+        host:'localhost',
         port: 5432,
         username: username,
         password: password,

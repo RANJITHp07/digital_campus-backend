@@ -115,6 +115,7 @@ const classroomSchema = new Schema<IClassroomModel>({
   },
 });
 
+
 const classroomModel = mongoose.model<IClassroomModel>("Classroom", classroomSchema);
 
 export default classroomModel;

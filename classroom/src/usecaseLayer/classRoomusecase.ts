@@ -5,7 +5,7 @@ import { IErrorHandler } from "./interface/errorHandler";
 import INodemailerRepository from "./interface/nodemailerRepository";
 import { IRequestValidator } from "../../../auth/src/usecaseLayer/interface/validateRepository";
 import { IRequester } from "./interface/requester";
-import { addRequest, addToAdmin, addUser, createClassroom, deleteClassroom, emailInvitation, getAllClassroomParticipants, getAllClassrooms, getAllTheClassroom, getAllUsersClassrooms, getClassroomDetails, getClassroomDetailsWithId, getCreatorClassrooms, getFilteredClassroom, getReportedClassroom, removeFromAdmin, updateClassroom } from "./classRoom/index";
+import { addRequest, addToAdmin, addUser, createClassroom, deleteClassroom, emailInvitation, getAllClassroomParticipants, getAllClassrooms, getAllTheClassroom, getAllUsersClassrooms, getClassroomDetails, getClassroomDetailsWithId, getCreatorClassrooms, getFilteredClassroom, getReportedClassroom, removeFromAdmin, searchClassroom, updateClassroom } from "./classRoom/index";
 
 export class Classroomusecase {
   private readonly classroomrepository: IClassroomRepository;
@@ -167,4 +167,10 @@ export class Classroomusecase {
   async getReportedClassroom({page}:{page:number}) {
     return getReportedClassroom(this.classroomrepository,page)
   }
+
+  async searchClassroom({page,text}:{page:number,text:string}){
+     return searchClassroom(this.classroomrepository,page,text)
+  }
 }
+
+

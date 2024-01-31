@@ -110,8 +110,8 @@ export const classroomQueries = {
     context: MyContext
   ) {
     try {
-      const user = authenticate(context);
-      if (user) {
+      // const user = authenticate(context);
+      if (true) {
         const classroom = await controller.getAllTheClasroom(_, args);
         return classroom;
       }
@@ -130,6 +130,22 @@ export const classroomQueries = {
       if (user) {
         const classroom = await controller.getFilteredclassroom(_, args);
         return classroom;
+      }
+    } catch (err) {
+      errorHandler.apolloError(err);
+    }
+  },
+
+  async searchClassroom(
+    _: unknown,
+    args: { page:number,text:string },
+    context: MyContext
+  ) {
+    try {
+      const user = authenticate(context);
+      if (user) {
+        const classrooms= await controller.searchClassroom(_, args);
+        return classrooms;
       }
     } catch (err) {
       errorHandler.apolloError(err);

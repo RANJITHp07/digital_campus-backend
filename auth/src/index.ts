@@ -14,7 +14,7 @@ const startServer = async () => {
   // Start the HTTP server
   const app = httpServer;
 
-  app?.listen(PORT, () => {
+  app?.listen(4000, () => {
     console.log(` connected to the server on port ${PORT}`);
   });
 };

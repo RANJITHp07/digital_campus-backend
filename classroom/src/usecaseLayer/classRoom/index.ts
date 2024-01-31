@@ -15,6 +15,7 @@ import { getCreatorClassrooms } from "./getCreatorClassroom";
 import { getAllUsersClassrooms } from "./getAllUsersClassrooms";
 import { getReportedClassroom } from "./getReportedClassrooms";
 import { getClassroomDetailsWithId } from "./getClassroomWithId";
+import { searchClassroom } from "./searchClassroom";
 
 
 export {
@@ -34,6 +35,7 @@ export {
     getCreatorClassrooms,
     getAllUsersClassrooms,
     getReportedClassroom,
-    getClassroomDetailsWithId
+    getClassroomDetailsWithId,
+    searchClassroom 
   };
   

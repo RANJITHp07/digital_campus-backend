@@ -27,7 +27,7 @@ const bootstrap = async () => {
     await RabbitmqassignmentDelete()
 
     db().then(() => {
-      app?.listen(5000, () => {
+      app?.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`)
       });
     });

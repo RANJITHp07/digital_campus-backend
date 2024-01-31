@@ -7,7 +7,7 @@ export const getAllTheClassroom = async (
   id: string 
 ): Promise<IClassroom[]> => {
   try {
-    const classroom = await classroomRepository.findAllClassrooms(id);
+    const classroom = await classroomRepository.getAllClassroom(id);
     return classroom;
   } catch (err) {
     throw err;

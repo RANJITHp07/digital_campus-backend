@@ -227,4 +227,14 @@ export class ClassroomController {
     }
     
   }
+
+  async searchClassroom( _: unknown,
+    args: { page:number,text:string }){
+      try{
+          const classrooms=await this.classroomusecase.searchClassroom(args);
+          return classrooms
+      }catch(err){
+        throw err
+      }
+  }
 }

@@ -10,7 +10,7 @@ const startServer = async (): Promise<void> => {
 
     const app = createServer()
 
-    app?.listen(8000, () => {
+    app?.listen(PORT, () => {
       console.log("Connected to the server");
     });
  

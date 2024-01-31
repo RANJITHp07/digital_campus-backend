@@ -1,7 +1,8 @@
 import Listener from "../../repository/rabbitmq/listenrepository";
 import { ClassRoomRepository } from "../../repository/queries/classroomRepository";
+import classroomModel from "../../models/classroom";
 
-const repository = new ClassRoomRepository("");
+const repository = new ClassRoomRepository(classroomModel);
 const listener = new Listener();
 
 async function RabbitmquserUpdate() {

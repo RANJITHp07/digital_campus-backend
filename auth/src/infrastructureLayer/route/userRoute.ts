@@ -31,13 +31,12 @@ router.get("/:email", (req: Request, res: Response, next: NextFunction) =>
 router.patch(
   "/resetPassword",
   signinverify,
-  (req: Request, res: Response, next: NextFunction) =>
+  (req: Request, res: Response, next: NextFunction) => 
     userAdapter.resetPassword(req, res, next)
 );
 
 router.patch(
   "/forgetPassword",
-  signinverify,
   (req: Request, res: Response, next: NextFunction) =>
     userAdapter.updateForgotPassword(req, res, next)
 );

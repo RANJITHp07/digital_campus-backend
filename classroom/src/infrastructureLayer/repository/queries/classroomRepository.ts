@@ -50,7 +50,7 @@ export class ClassRoomRepository implements IClassroomRepository {
 
   //to get the classroom creator
   async findCreatorClassrooms(id: string): Promise<IClassroom[]> {
-    return getCreatorClassrooms(this.classroomModel,new Types.ObjectId(id))
+    return getCreatorClassrooms(this.classroomModel,id)
   }
 
   //to find all the participants of a classroom
@@ -60,12 +60,12 @@ export class ClassRoomRepository implements IClassroomRepository {
 
   //get all the classrooms of a user
   async getAllClassroom(id: string):Promise<IClassroom[]> {
-    return getAllTheClassroom(this.classroomModel,new Types.ObjectId(id))
+    return getAllTheClassroom(this.classroomModel,id)
   }
 
   //to filter the classroom based on the category
   async classroomFilter(id: string, category: string[]):Promise<IClassroom[]> {
-     return classroomFilter(this.classroomModel,new Types.ObjectId(id),category);
+     return classroomFilter(this.classroomModel,id,category);
   }
 
   //get all the classrooms of all the users
