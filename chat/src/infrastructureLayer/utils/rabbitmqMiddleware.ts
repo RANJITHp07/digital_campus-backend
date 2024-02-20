@@ -18,7 +18,7 @@ async function RabbitmquserCreate() {
           profile: data.profile ? data.profile : "",
         };
         const newUser = await repository.create(user);
-        console.log(newUser);
+      
       }
     );
   } catch (err) {

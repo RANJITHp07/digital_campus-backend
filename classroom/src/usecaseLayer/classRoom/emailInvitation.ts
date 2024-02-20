@@ -1,4 +1,3 @@
-// emailInvitation.ts
 import { Response } from "../interface/Response";
 import { IErrorHandler } from "../interface/errorHandler";
 import { INodemailerRepository } from "./../interface/nodemailerRepository";

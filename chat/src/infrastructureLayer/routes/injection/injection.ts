@@ -1,12 +1,13 @@
 import MessageRepository from "../../repository/queries/messageRespository";
 import MessageModel from "../../model/message";
+import UserModel from "../../model/users";
 import { Messageusecase } from "../../../usecaseLayer/usecase/messageusecase";
 import Messageadapter from "../../../adapterLayer/messageAdapter";
 import UserRepository from "../../repository/queries/userRepository";
 
-const model = new MessageModel();
-export const userrepository = new UserRepository("");
-const repository = new MessageRepository(model);
+
+export const userrepository = new UserRepository(UserModel);
+const repository = new MessageRepository(MessageModel);
 const usecase = new Messageusecase(repository);
 const controller = new Messageadapter(usecase);
 

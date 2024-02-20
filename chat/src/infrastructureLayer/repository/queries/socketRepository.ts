@@ -38,9 +38,9 @@ export class SocketManager {
         let user = await this.userRepository.finduser(message.sender as string);
         if (user) {
           const m = { ...message, sender: user._id };
+         
           const repository = new MessageRepository(MessageModel);
           const newMessage = await repository.create(m);
-          console.log(newMessage);
           socket.broadcast.to(classId).emit("getMessage", newMessage);
         }
       }

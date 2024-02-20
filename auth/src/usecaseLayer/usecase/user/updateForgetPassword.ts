@@ -1,8 +1,6 @@
-import { IUser } from "../../../domainLayer/user";
 import ErrorResponse from "../../handler/errorResponse";
 import { Response } from "../../interface/Response";
 import IHashpassword from "../../interface/hashpassword";
-import IPublish from "../../interface/publishRepository";
 import { IUserRepository } from "../../interface/userRepository";
 import { IRequestValidator } from "../../interface/validateRepository";
 
@@ -28,6 +26,7 @@ export const updateForgetPassword = async (
     const update={
       password:hashedPassword
     }
+   
     const updatedUser = await userRepository.updateUser(id, update);
 
     if (updatedUser)

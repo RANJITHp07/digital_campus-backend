@@ -19,6 +19,6 @@ export default class UserRepository implements IUserRepository {
 
   //to find the user
   async finduser(id: string): Promise<IUserModel | null> {
-    return findUser(this.userModel,new Types.ObjectId(id))
+    return findUser(this.userModel,id)
   }
 }
