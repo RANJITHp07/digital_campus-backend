@@ -20,6 +20,7 @@ const bootstrap = async () => {
   } else {
     // Worker processes share the same port
     const app = await createServer();
+    
 
     db().then(() => {
       app?.listen(PORT, () => {
