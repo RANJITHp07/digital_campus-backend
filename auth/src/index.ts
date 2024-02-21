@@ -10,6 +10,7 @@ const startServer = async () => {
 
   // Perform RabbitMQ request-return pattern
   await RabbitmquserDetails();
+  
 
   // Start the HTTP server
   const app = httpServer;
