@@ -8,8 +8,11 @@ export const  handlePollingAnswers=async(
     assignmentRepository:IAssignmentRepository,
     submissionRepository:ISubmissionRepository,
     errorHandler:IErrorHandler,   
-    submission: ISubmission, assignment:IAssignment)=>{
-    const index = assignment.polling.answers.indexOf(submission.pollingAnswers as string);
+    submission: ISubmission, 
+    assignment:IAssignment)=>{
+      try{
+        const index = assignment.polling.answers.indexOf(submission.pollingAnswers as string);
+
   
     if (index === -1) {
       errorHandler.userInputError("No such answer");
@@ -18,9 +21,10 @@ export const  handlePollingAnswers=async(
     if (assignment.polling.polling) {
       assignment.polling.polling = assignment.polling.polling.map((m, i) => (index === i ? (parseInt(m) + 1).toString() : m));
     }
-  
+
+    let s={...submission,assignment:submission.assignment_id}
     const update = await assignmentRepository.update(assignment._id, assignment);
-    await submissionRepository.create(submission);
+    await submissionRepository.create(s);
   
     if (update) {
       return {
@@ -28,5 +32,10 @@ export const  handlePollingAnswers=async(
       };
     }
   
-    errorHandler.userInputError("Assignment id is wrong");
+    throw errorHandler.userInputError("Assignment id is wrong");
+      }catch(err){
+         console.log(err)
+        throw err
+      }
+    
   }

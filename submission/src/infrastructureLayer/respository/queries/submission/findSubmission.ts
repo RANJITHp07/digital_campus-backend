@@ -8,7 +8,7 @@ export const findSubmission=async(submissionModel:Model<ISubmissionModel>,id:Typ
         if(cachedSubmission){
              return JSON.parse(cachedSubmission)
         }
-        const submission=await submissionModel.findOne({assignment_id:id,user_id:userId}).populate('assignment_id')
+        const submission=await submissionModel.findOne({assignment:id,user_id:userId}).populate('assignment')
         if(submission){
             await redis.set(`${id.toString()}:${userId}`,JSON.stringify(submission))
             await redis.expire(`${id.toString()}:${userId}`,3600)

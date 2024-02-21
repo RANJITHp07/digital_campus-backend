@@ -3,7 +3,7 @@ import { ISubmissionModel } from "../../../model/submission";
 
 export const updateGrade=async(submissionModel:Model<ISubmissionModel>,assignmentId:Types.ObjectId, userId: string, newGrade: number):Promise<boolean> => {
     try {
-      const filter = { assignment_id: assignmentId, user_id: userId };
+      const filter = { assignment: assignmentId, user_id: userId };
       const update = { 'submission.grade': newGrade };
   
       

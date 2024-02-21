@@ -19,17 +19,17 @@ export class Submissionusecase{
     }
 
     //private methods
-    private calculateQuizGrades(quizAnswers: string[][], quiz: IQuiz[]):number{
+    calculateQuizGrades(quizAnswers: string[][], quiz: IQuiz[]):number{
       return calculateQuizGrade(quizAnswers,quiz)
     }
 
-    private handlePollingAnswers(submission: ISubmission, assignment:IAssignment){
-      handlePollingAnswers(this.assignmentRepository,this.submissionRepository,this.errorHandler,submission,assignment)
+    handlePollingAnswers(submission: ISubmission, assignment:IAssignment){
+      return handlePollingAnswers(this.assignmentRepository,this.submissionRepository,this.errorHandler,submission,assignment)
     }
   
     
     async createSubmission({submission}:{submission:ISubmission}){
-      return createSubmission(this.calculateQuizGrades,this.handlePollingAnswers,this.assignmentRepository,this.submissionRepository,this.errorHandler,submission)
+      return createSubmission(this.assignmentRepository,this.submissionRepository,this.errorHandler,submission)
     }
 
     
