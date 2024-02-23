@@ -10,10 +10,12 @@ const startServer = async () => {
 
   // Perform RabbitMQ request-return pattern
   await RabbitmquserDetails();
+  
 
   // Start the HTTP server
   const app = httpServer;
 
+  
   app?.listen(PORT, () => {
     console.log(` connected to the server on port ${PORT}`);
   });
