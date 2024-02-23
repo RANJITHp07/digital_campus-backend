@@ -8,7 +8,7 @@ export default class MessageRepository implements IMessageRepository {
   constructor(private readonly messageModel: Model<IMessageModel>) {}
 
   //to create the message
-  async create(newMessage: IMessage): Promise<string> {
+  async create(newMessage: IMessage): Promise<unknown> {
     return createMessage(this.messageModel,newMessage)
   }
 
