@@ -8,7 +8,7 @@ export const createMessage = async (
 ): Promise<string> => {
   try {
     const newMessage = await messageModel.create(message);
-    return "new message created" ;
+    return newMessage ;
 } catch (error) {
     throw error;
   }
